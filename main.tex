@@ -4,6 +4,12 @@
 \documentclass[11pt,a4paper]{article}
 %\usepackage{gentium}
 
+\usepackage[
+backend=biber,
+style=alphabetic,
+sorting=ynt
+]{biblatex}
+\addbibresource{references.bib}
 
 \usepackage[pdftex]{graphicx} % Required for including pictures
 \usepackage[english]{babel} % Swedish translations
@@ -48,15 +54,11 @@ some convolutinal neural network.
 In their nature, these models are not easy to understand and can therefore end up biased without
 the programmer knowing it.
 
-This project focuses on the HAM10000 dataset, which contains images of skin lesions.
+This project focuses on the HAM10000 dataset\cite{DBLP:journals/corr/abs-1803-10417}, which contains images of skin lesions.
 Doctors diagnose these lesions into different classes, some more dangerous than others.
 The challenge on the HAM10000 dataset is to find a model that can predict the class of a given image.
 
 
-
-
-
-
-
+\printbibliography[title={Litterature}]
 
 \end{document}
