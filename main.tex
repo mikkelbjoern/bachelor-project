@@ -54,9 +54,32 @@ some convolutinal neural network.
 In their nature, these models are not easy to understand and can therefore end up biased without
 the programmer knowing it.
 
-This project focuses on the HAM10000 dataset\cite{DBLP:journals/corr/abs-1803-10417}, which contains images of skin lesions.
+This project focuses on the HAM10000 dataset\cite{Tschandl_2018}, which contains images of skin lesions.
 Doctors diagnose these lesions into different classes, some more dangerous than others.
 The challenge on the HAM10000 dataset is to find a model that can predict the class of a given image.
+
+\section{The HAM10000 dataset}
+The HAM10000 dataset contains 10000 images of skin lesions.
+They are divided into seven classes as seen in the Table \ref{table:ham10000}.
+
+\begin{table}[ht]
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|c|}
+\hline
+Label    & Name                          & Severity  & Dataset prevalence \\ \hline
+akiec    & Bowens disease                & malignant & $3.27\%$           \\ \hline
+nv       & Melanocytic nevi              & benign    & $66.94\%$          \\ \hline
+mel      & Melanoma                      & malignant & $11.11\%$          \\ \hline
+bkl      & Benign keratosis-like lesions & benign    & $10.97\%$          \\ \hline
+bcc      & Basal cell carcinoma          & malignant & $5.13\%$           \\ \hline
+vasc     & Vascular lesions              & benign    & $1.41\%$           \\ \hline
+df       & Dermatofibroma                & benign    & $1.14\%$           \\ \hline
+
+\end{tabular}
+\end{center}
+\caption{Overview of the HAM10000 dataset.}
+\label{table:ham10000}
+\end{table}
 
 
 \printbibliography[title={Litterature}]
