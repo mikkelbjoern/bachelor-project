@@ -1,0 +1,62 @@
+%--------------------
+% Packages
+% -------------------
+\documentclass[11pt,a4paper]{article}
+%\usepackage{gentium}
+
+
+\usepackage[pdftex]{graphicx} % Required for including pictures
+\usepackage[english]{babel} % Swedish translations
+\usepackage[pdftex,linkcolor=black,pdfborder={0 0 0}]{hyperref} % Format links for pdf
+\usepackage{calc} % To reset the counter in the document after title page
+\usepackage{enumitem} % Includes lists
+
+\frenchspacing % No double spacing between sentences
+\linespread{1.2} % Set linespace
+\usepackage[a4paper, lmargin=0.1666\paperwidth, rmargin=0.1666\paperwidth, tmargin=0.1111\paperheight, bmargin=0.1111\paperheight]{geometry} %margins
+%\usepackage{parskip}
+
+\usepackage[all]{nowidow} % Tries to remove widows
+\usepackage[protrusion=true,expansion=true]{microtype} % Improves typography, load after fontpackage is selected
+
+\usepackage{lipsum} % Used for inserting dummy 'Lorem ipsum' text into the template
+
+\title{Understanding and checking for bias medical image clasification models}
+\author{Mikkel Bjørn Goldschmidt}
+
+%-----------------------
+% Set pdf information and add title, fill in the fields
+%-----------------------
+\hypersetup{ 	
+pdfsubject = {},
+pdftitle = {Understanding medical image clasification models},
+pdfauthor = {Mikkel Bjørn Goldschmidt}
+}
+
+%-----------------------
+% Begin document
+%-----------------------
+\begin{document}
+\maketitle
+
+\section{Introduction}
+Image analysis can be used in the diagnosis of diseases in different ways.
+A lot of the data used for diagnosing come in the form of images.
+Examples of these are MRI, CT, PET, ultrasound but also just plain images of body parts.
+Understanding these images is often done using machine learning models in the form of
+some convolutinal neural network.
+In their nature, these models are not easy to understand and can therefore end up biased without
+the programmer knowing it.
+
+This project focuses on the HAM10000 dataset, which contains images of skin lesions.
+Doctors diagnose these lesions into different classes, some more dangerous than others.
+The challenge on the HAM10000 dataset is to find a model that can predict the class of a given image.
+
+
+
+
+
+
+
+
+\end{document}
