@@ -27,7 +27,7 @@ sorting=ynt
 
 \usepackage{lipsum} % Used for inserting dummy 'Lorem ipsum' text into the template
 
-\title{Understanding and checking for bias medical image clasification models}
+\title{Understanding and checking for bias in medical image clasification models}
 \author{Mikkel Bjørn Goldschmidt}
 
 %-----------------------
@@ -61,26 +61,31 @@ The challenge on the HAM10000 dataset is to find a model that can predict the cl
 \section{The HAM10000 dataset}
 The HAM10000 dataset contains 10000 images of skin lesions.
 They are divided into seven classes as seen in the Table \ref{table:ham10000}.
+A \textit{severity} has also been assigned each class.
+These indicate if the lesion class benign, malignant or pre-malignant.
+Malignant tumors are those where the cells are replicationg uncontrollably,
+and there is a risk of these cells spreading to the rest of the body.
+Beningn tumors can still hurt the patient, but are much less of a worry,
+as they are not replicationg uncontrollably and hence do not lead to cancer.
 
 \begin{table}[ht]
 \begin{center}
 \begin{tabular}{|c|c|c|c|c|c|c|}
 \hline
-Label    & Name                          & Severity  & Dataset prevalence \\ \hline
-akiec    & Bowens disease                & malignant & $3.27\%$           \\ \hline
-nv       & Melanocytic nevi              & benign    & $66.94\%$          \\ \hline
-mel      & Melanoma                      & malignant & $11.11\%$          \\ \hline
-bkl      & Benign keratosis-like lesions & benign    & $10.97\%$          \\ \hline
-bcc      & Basal cell carcinoma          & malignant & $5.13\%$           \\ \hline
-vasc     & Vascular lesions              & benign    & $1.41\%$           \\ \hline
-df       & Dermatofibroma                & benign    & $1.14\%$           \\ \hline
-
+Label    & Name                          & Severity      & Dataset prevalence \\ \hline
+akiec    & Bowens disease                & pre-malignant & $3.27\%$           \\ \hline
+nv       & Melanocytic nevi              & benign        & $66.94\%$          \\ \hline
+mel      & Melanoma                      & malignant     & $11.11\%$          \\ \hline
+bkl      & Benign keratosis-like lesions & benign        & $10.97\%$          \\ \hline
+bcc      & Basal cell carcinoma          & malignant     & $5.13\%$           \\ \hline
+vasc     & Vascular lesions              & benign        & $1.41\%$           \\ \hline
+df       & Dermatofibroma                & benign        & $1.14\%$           \\ \hline
 \end{tabular}
 \end{center}
+
 \caption{Overview of the HAM10000 dataset.}
 \label{table:ham10000}
 \end{table}
-
 
 \printbibliography[title={Litterature}]
 
