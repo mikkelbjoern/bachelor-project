@@ -49,14 +49,23 @@ pdfauthor = {Mikkel Bjørn Goldschmidt}
 Image analysis can be used in the diagnosis of diseases in different ways.
 A lot of the data used for diagnosing come in the form of images.
 Examples of these are MRI, CT, PET, ultrasound but also just plain images of body parts.
-Understanding these images is often done using machine learning models in the form of
-some convolutinal neural network.
+Understanding these images is often done using machine learning models in different forms.
 In their nature, these models are not easy to understand and can therefore end up biased without
-the programmer knowing it.
+the model designer knowing it.
 
 This project focuses on the HAM10000 dataset\cite{Tschandl_2018}, which contains images of skin lesions.
 Doctors diagnose these lesions into different classes, some more dangerous than others.
 The challenge on the HAM10000 dataset is to find a model that can predict the class of a given image.
+
+\subsection{Biases in the data}
+Many different models have been trained to diagnose lesions based on medical images.
+These images are taken in a real world medical context, which can introduce unknown bias into the models.
+It has even been reported that models trained on medical data where the lesions were masked out,
+could reach an accuracy of $73\%$\cite{DeConstructing_Bias_on_Skin_Lesion_Datasets_2019}, indicating that there are other factors in the data, 
+that can be used to classify the models than the actual lesion.
+Some research has tried to introduce foreign object into the images,
+and found that they changed the classification of the lesions \cite{Towards_Explainable_Classifiers_Using_the_Counterfactual_Approach_2019}.
+These foreign objects included ruler markings, black frames and colored circles.
 
 \section{The HAM10000 dataset}
 The HAM10000 dataset contains 10000 images of skin lesions.
