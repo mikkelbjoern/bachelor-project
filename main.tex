@@ -16,6 +16,8 @@ sorting=ynt
 \usepackage[pdftex,linkcolor=black,pdfborder={0 0 0}]{hyperref} % Format links for pdf
 \usepackage{calc} % To reset the counter in the document after title page
 \usepackage{enumitem} % Includes lists
+\usepackage{caption}
+\usepackage{subcaption}
 
 \frenchspacing % No double spacing between sentences
 \linespread{1.2} % Set linespace
@@ -103,6 +105,49 @@ df       & Dermatofibroma                & benign        & $1.14\%$           \\
 Due to the public nature of the dataset, many different models have been trained on it.
 As of the time of writing, the best performing model published in a scientific paper,
 reaches an accuracy of $93.4\%$\cite{datta2021soft}.
+
+\subsection{Confounding elements in the data}
+The dataset contains images of skin lesions, which are taken in a real world medical context.
+In this context doctors might introduce foreign objects into the images,
+to help in the treatment of the patient.
+Examples of these can be seen on Figure \ref{fig:confounding_objects}.
+
+\begin{figure}[ht]
+    \begin{center}
+        \begin{subfigure}[b]{0.3\textwidth}
+            \includegraphics[width=\textwidth]{./images/ISIC_0024310.jpg}
+            \caption{Image with black frame}
+        \end{subfigure}
+        \begin{subfigure}[b]{0.3\textwidth}
+            \includegraphics[width=\textwidth]{./images/ISIC_0024420.jpg}
+            \caption{Image with ruler}
+        \end{subfigure}
+        \begin{subfigure}[b]{0.3\textwidth}
+            \includegraphics[width=\textwidth]{./images/ISIC_0027514.jpg}
+            \caption{Image with blue ink}
+        \end{subfigure}
+    \end{center}
+    \caption{Images with different confounding objects}
+    \label{fig:confounding_objects}
+\end{figure}
+
+Labeling some of these confounding objects, we see that the rulers occur way more often than the others with a prevalence of roughly $17\%$ (See Table \ref{table:confounding_objects}).
+Due to this higher prevalence, the study done in this project will focus on the ruler markings over the other confounding objects.
+
+\begin{table}
+    \centering
+    \begin{tabular}{|l|r|}
+        % confounding_objects.ipynb
+        \hline 
+        Confounder &  Prevalence \\ \hline
+        ruler   &  0.171842 \\ \hline
+        sticker &  0.000100 \\ \hline
+        ink     &  0.003495 \\ \hline
+    \end{tabular}
+    \caption{Dataset prevalence of confounding objects}
+    \label{table:confounding_objects}
+\end{table}
+
 
 \pagebreak
 
