@@ -29,9 +29,20 @@ sorting=ynt
 
 \usepackage{lipsum} % Used for inserting dummy 'Lorem ipsum' text into the template
 
+% Define a utility function to write vector symbols in bold
+\newcommand{\bm}[1]{\textbf{#1}}
+\newcommand{\vecsym}[1]{\bm{#1}}
+% And a matrix symbol
+\newcommand{\matsym}[1]{\bm{#1}}
+% And a tensor symbol
+\newcommand{\tenssym}[1]{\bm{#1}}
+
+
 \title{Understanding and checking for bias in medical image clasification models}
 \author{Mikkel Bjørn Goldschmidt}
 
+\usepackage{amsfonts}
+\usepackage{amsmath}
 %-----------------------
 % Set pdf information and add title, fill in the fields
 %-----------------------
@@ -151,6 +162,101 @@ Due to this higher prevalence, the study done in this project will focus on the 
 
 \pagebreak
 
-\printbibliography[title={Litterature}]
+\section{Theory}
+This report assumes that the reader is familiar with the basics of machine learning.
+This includes basic linear algebra, data preprocessing and model selection.
+Further a basic understanding of how neural networks function is assumed,
+including the basic concept of gradiant descent used for model training.
 
+
+\subsection{Tensors}
+The following definitions and concepts are heavily based on \textit{Introduction to Convolutional Neural Networks} by J. Wu \cite{tensorIntroduction}.
+In linear algebra, the concept of a vector is introduced.
+Further a 2-dimensional vector is introduced, the \textit{matrix}.
+We will denote a vector as $\vecsym{v}\in \mathbb{F}^n$ and a matrix as $\matsym{M}\in \mathbb{F}^{m\times n}$.
+Here $\mathbb{F}$ is a field.
+For the purpose of this report, a field can be considered a set of element with a defined addition and multiplication operation.
+Especially most of the time the field will be the real numbers, $\mathbb{R}$.
+
+Having defined vectors and matrices, we can now define a tensor as the natural extension of the matrix abstraction,
+by adding more dimensions.
+A $3$-dimensional tensor is can then be defined as $\tenssym{T}\in \mathbb{F}^{m\times n\times c}$.
+Such a tensor is a natural way to represent an image in colors.
+Such a representation of an image of height $h$ and width $w$ could then be represented as an
+element in $\mathbb{F}^{h\times w\times 3}$.
+
+An example of a higher order tensor used in this project, could be a batch of images.
+Such a batch could be represented as a tensor of shape $(h, w, c, b)$ where $b$ is the batch size. 
+That is, the entire batch would be a $4$-dimensional tensor in the tensor-space $\mathbb{F}^{h\times w\times c\times b}$.
+
+\paragraph{Vectorizing tensors}
+As noted in most introductions of linear algebra, matrices are themselves vectors.
+This is to be understood as, any matrix $\matsym{M} \in \mathbb{F}^{m\times n}$ can be represented as a vector $\vecsym{m} \in \mathbb{F}^{m\cdot n}$.
+This is commonly done by stacing the columns of the matrix, e.g.  if 
+\begin{equation}
+\matsym{M} = \begin{bmatrix}
+    m_1 & m_2 & m_3 \\
+    m_4 & m_5 & m_6 \\
+    m_7 & m_8 & m_9
+\end{bmatrix} \in \mathbb{F}^{3 \times 3}
+\end{equation}
+then the vector representation is
+\begin{equation}
+\vecsym{m} = \begin{bmatrix}
+    m_1 & m_4 & m_7 & m_2 & m_5 & m_8 & m_3 & m_6 & m_9
+\end{bmatrix}^T \in \mathbb{F}^{9}
+\end{equation}
+The same concept can be applied to tensors of higher dimensions than the $2$-dimensional matrix,
+by stacking the columns continously.
+
+\paragraph{Partial derivatives over vectors} \label{sec:partial_derivatives_of_scalar_over_vector}
+In multiple setings in training of neural networks, it is neccesarry to figure out what
+parts of the model contributed to the result of the model.
+During training, we for instance want to know what parts of the model contributed to an increase of the loss function,
+so that these parts can be changed thereby hopefully improving the model.
+In this report it is also used for creating saliency maps, and discussing them (see section \ref{sec:gradiant_saliency_maps}).
+
+Defining the partial derivative of a vector $\vecsym{v}\in\mathbb{F}^n$ with respect to a scalar $s$ is done as follows:
+\begin{equation}
+    \left[ \frac{\partial s}{\partial \vecsym{v}} \right] = \frac{\partial s}{\partial \vecsym{v}_i}
+\end{equation}
+
+Note that with this definition, derivatives over matrices can also be done by first vectorizing them,
+and we then get the nice algebraic property that  $\frac{\partial s}{\partial \vecsym{v}}^{T} = \frac{\partial s}{\partial \vecsym{v}^{T}}$ 
+
+
+\paragraph{Partially deriving vector functions}
+Suppose $\vecsym{x} \in \mathbb{F}^n$, 
+$f: \mathbb{F}^n \rightarrow \mathbb{F}^m$ and
+$\vecsym{y} = f(\vecsym{x}) \in \mathbb{F}^m$.
+Then
+\begin{equation}
+    \left[ \frac{\partial \vecsym{y}}{\partial \vecsym{x}^T} \right]_{ij} =
+    \frac{\partial \vecsym{y}_i}{\partial \vecsym{x}_j}
+\end{equation}
+
+Which means that the derivative of a vector function on the form of $f$ will be a matrix/$2$-tensor
+in the tensor-space $\mathbb{F}^{m\times n}$.
+
+
+\subsection{Convolutional neural networks}
+Convolutional neural networks are a fairly modern method of image classification.
+They are based on the idea of a convolutional layer, which is a way of combining pixels in a
+neighbourhood of an image into single features.
+
+\subsection{Gradiants of neural networks}
+
+
+\subsection{Backpropagation}
+
+\subsection{The Resnet architecture}
+
+\subsection{Saliency maps}
+
+\paragraph{Gradiant based saliency maps} \label{sec:gradiant_saliency_maps}
+
+\pagebreak
+
+
+\printbibliography[title={Litterature}]
 \end{document}
