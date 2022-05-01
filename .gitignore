@@ -6,3 +6,4 @@
 *.blg
 *.xml
 *.bbl
+build/

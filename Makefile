@@ -10,3 +10,5 @@ fullpdf: bibliography
 
 clean:
 	rm -f *.aux *.bbl *.blg *.log *.out *.bcf *.xml 2> /dev/null
+dynamic_content:
+	./build_dynamic_content.py
