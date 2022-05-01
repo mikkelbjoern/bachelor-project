@@ -369,8 +369,9 @@ ultimately not very insightful.
 Instead we will make a implementation of the a \verb|convolve| function in Python.
 To define such an algorithm, it is usefull to know the output size of the final matrix.
 Let the width of the original image be $w$, the kernel size be $k$, the padding be $p$, and the stride be $s$.
-Calculating the output width can then be done by first finding the width of the padded image.
-That is $w + 2p$.
+Calculating the output width can then be done by finding all the possible values of $w$ that can be
+used as the left value of the kernel.
+First the padded size of the image is seen to be $w + 2p$.
 Since a kernel is moved over the picture, the last $k-1$ pixels cant be used to place a kernel.
 Hence only $w + 2p - (k - 1) = w + p - k + 1$ pixels can be used to place a kernel.
 Finally only $1/s$ of the pixels are actually used to place a kernel, hence the output width becomes:
