@@ -7,3 +7,5 @@
 *.xml
 *.bbl
 build/
+*__pycache__*
+_minted-main/

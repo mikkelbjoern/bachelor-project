@@ -6,7 +6,7 @@ bibliography: pdf
 	biber main
 
 pdf:
-	pdflatex main.tex
+	pdflatex -shell-escape main.tex
 
 prereqs := dynamic_content bibliography
 fullpdf: $(prereqs)
@@ -18,3 +18,4 @@ clean:
 	rm -f *.aux *.bbl *.blg *.log *.out *.bcf *.xml 2> /dev/null
 	rm main.pdf
 	rm -r build/
+	rm -r _minted-main/

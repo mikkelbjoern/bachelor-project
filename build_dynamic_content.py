@@ -8,8 +8,8 @@ import click
 import os
 import numpy as np
 import matplotlib.pyplot as plt
-from requests import options
-from torch import convolution
+import math
+from src.convolve import convolve
 
 parts = ["convolution_example"]
 
@@ -32,18 +32,21 @@ def main(part):
     else:
         build_part(part)
 
-def bmatrix(a):
+def bmatrix(a, format=None):
     """Returns a LaTeX bmatrix
     Source: https://stackoverflow.com/questions/17129290/numpy-2d-and-1d-array-to-latex-bmatrix
 
     :a: numpy array
     :returns: LaTeX bmatrix as a string
     """
+    if format is None:
+        format = lambda x: x
     if len(a.shape) > 2:
         raise ValueError('bmatrix can at most display two dimensions')
     lines = str(a).replace('[', '').replace(']', '').splitlines()
     rv = [r'\begin{bmatrix}']
-    rv += ['  ' + ' & '.join(l.split()) + r'\\' for l in lines]
+    numbers = [ [ format(x) for x in l.split()] for l in lines ]
+    rv += ['  ' + ' & '.join(n) + r'\\' for n in numbers]
     rv +=  [r'\end{bmatrix}']
     return '\n'.join(rv)
 
@@ -68,7 +71,6 @@ def build_part(part):
 
 
 def build_convolution_example():
-    from scipy import signal
     # Build the convolution example
     print("Building convolution example...")
     I = np.array(
@@ -95,7 +97,7 @@ def build_convolution_example():
     with open("K.tex", "w") as f:
         f.write(bmatrix(K))
 
-    convolution = signal.convolve2d(I, K, mode="valid")
+    convolution = convolve(I, K)
 
     # Save the convolution as a latex file
     with open("convolution.tex", "w") as f:
@@ -126,7 +128,8 @@ def build_convolution_example():
     with open("I_padded.tex", "w") as f:
         f.write(bmatrix(I_padded))
 
-    convolution_padded = signal.convolve2d(I_padded, K, mode="valid")
+    #convolution_padded = signal.convolve2d(I_padded, K, mode="valid")
+    convolution_padded = convolve(I, K, padding=1)
 
     with open("convolution_padded.tex", "w") as f:
         f.write(bmatrix(convolution_padded))
@@ -136,6 +139,29 @@ def build_convolution_example():
     plt.colorbar()
     plt.savefig("convolution_padded.png")
 
+    # Calculate with stride
+    #convolution_stride = strideConv(I_padded,K,2)
+    convolution_stride = convolve(I_padded, K, stride=2)
+
+    with open("convolution_stride.tex", "w") as f:
+        def foratting(x):
+            integer = float(x)
+            integer = int(integer)
+            return str(integer)
+        f.write(bmatrix(convolution_stride, format=foratting))
+
+    print()
+    with open("final_convolution_size.tex", "w") as f:
+        f.write(str(len(convolution_stride) * len(convolution_stride[0])))
+
+    with open("I_size.tex", "w") as f:
+        f.write(str(len(I) * len(I[0])))
+
+    plt.clf()
+    plt.imshow(convolution_stride)
+    plt.axis('off')
+    plt.colorbar()
+    plt.savefig("convolution_stride.png")
 
     
     

@@ -18,6 +18,10 @@ sorting=ynt
 \usepackage{enumitem} % Includes lists
 \usepackage{caption}
 \usepackage{subcaption}
+\usepackage{xcolor}
+\definecolor{LightGray}{gray}{0.9}
+\usepackage{minted}
+\setminted{bgcolor=LightGray, breaklines=true, fontsize=\footnotesize}
 
 \frenchspacing % No double spacing between sentences
 \linespread{1.2} % Set linespace
@@ -43,6 +47,7 @@ sorting=ynt
 
 \usepackage{amsfonts}
 \usepackage{amsmath}
+\usepackage{amssymb}
 %-----------------------
 % Set pdf information and add title, fill in the fields
 %-----------------------
@@ -294,7 +299,7 @@ The current model of moving the kernel over the image, will not prioritize the b
 of the image a lot. 
 To compat this, the image is often padded - usually with zeros. 
 This is done by adding a border of zeros around the image, the width of which is refered to as the size of the padding.
-By default, the padding in libaries like PyTorch  is $0$ (no padding) as in the example before.
+By default, the padding in libaries like PyTorch \cite{PyTorch} is $0$ (no padding) as in the example before.
 
 To continue the example, we will now use a padding of $1$ around the image.
 \begin{equation}
@@ -325,12 +330,65 @@ Note that padding increases the amount of data points in the image, but that
 the effect of this is not as extreme as it seems in the example, since images a usually
 a lot larger than this small example.
 
+\paragraph{Stride}
+To reduce the amount of data points even further, we can use a stride.
+This is done by moving the kernel over the image as before, but moving multiple pixelse each time.
+
+Following the example from before using a stride of $2$ and a padding of $1$, the convolution results in the following matrix:
+\begin{equation}
+    \input{build/convolution_example/convolution_stride.tex}
+\end{equation}
+
+This is again plotted in Figure \ref{fig:convolution_example_stride}.
+
+\begin{figure}[ht]
+\centering
+\begin{subfigure}{0.45\textwidth}
+    \includegraphics[width=\textwidth]{build/convolution_example/I.png}
+    \caption{The original $\matsym{I}$}
+\end{subfigure}
+\begin{subfigure}{0.45\textwidth}
+    \includegraphics[width=\textwidth]{build/convolution_example/convolution_stride.png}
+    \caption{Convolution of $\matsym{I}_{\text{padded}}$ with stride $2$}
+\end{subfigure}
+\caption{Heatmaps of the original $\matsym{I}$ and the convolved $\matsym{I}_{\text{padded}}$}
+\label{fig:convolution_example_stride}
+\end{figure}
+
+It is again clear that the data seems similar to the original image, but the data points
+has been reduced from $\input{build/convolution_example/I_size.tex}$ to $\input{build/convolution_example/final_convolution_size.tex}$.
+
+In convolutions can combine information from data where some kind of \textit{proximity} is important.
+This is very much the case in image analysis (hence the focus in this explanation), but the idea is
+not limited to this field.
+
+\paragraph{Full definition of convolutions}\label{sec:convolution_definition}
+The above is a very simple example of a convolution.
+A full compact formula for making a convolution is left out, as it is not readable and
+ultimately not very insightful. 
+Instead we will make a implementation of the a \verb|convolve| function in Python.
+To define such an algorithm, it is usefull to know the output size of the final matrix.
+Let the width of the original image be $w$, the kernel size be $k$, the padding be $p$, and the stride be $s$.
+Calculating the output width can then be done by first finding the width of the padded image.
+That is $w + 2p$.
+Since a kernel is moved over the picture, the last $k-1$ pixels cant be used to place a kernel.
+Hence only $w + 2p - (k - 1) = w + p - k + 1$ pixels can be used to place a kernel.
+Finally only $1/s$ of the pixels are actually used to place a kernel, hence the output width becomes:
+\begin{equation}
+    w_{out} = \left\lfloor \frac{w + p - k + 1}{s} \right\rfloor
+\end{equation}
+
+And with a completely similar procedure for the height, $h$, we get:
+\begin{equation}
+    h_{out} = \left\lfloor \frac{h + p - k + 1}{s} \right\rfloor
+\end{equation}
+
+Having these values, we can then define a Python function that performs the convolution:
+
+\inputminted[]{python}{src/convolve.py}
 
 
-\paragraph{Full definition of convolutions definition}\label{sec:convolution_definition}
-
-
-\subsection{Gradiants of neural networks}
+\subsection{Gradients of neural networks}
 
 
 \subsection{Backpropagation}
