@@ -239,10 +239,96 @@ Which means that the derivative of a vector function on the form of $f$ will be 
 in the tensor-space $\mathbb{F}^{m\times n}$.
 
 
-\subsection{Convolutional neural networks}
-Convolutional neural networks are a fairly modern method of image classification.
+\subsection{Convolutional neural networks (CCNs)}
+Convolutional neural networks (CNNs) are a fairly modern method used in image classification.
 They are based on the idea of a convolutional layer, which is a way of combining pixels in a
 neighbourhood of an image into single features.
+
+The mathemathical basis is the \textit{convolution} of a matrix.
+During the definition of convolutions, the following matrix will be used as an example:
+\begin{equation}
+    \matsym{I} = \input{build/convolution_example/I.tex}
+\end{equation}
+
+Think of $\matsym{I}$ as an image.
+Sematically there is an area in the \"image\" that has way higher values than the rest
+(the lower right corner).
+A convolution on the image, will reduce this information to a more compact representation.
+To do this, a matrix kernel needs to be defined. It's standard to use a square kernel.
+Here we will use a $3 \times 3$ kernel:
+\begin{equation}
+    \matsym{K} = 
+        \input{build/convolution_example/K.tex}
+\end{equation}
+
+To then convolve $\matsym{I}$ with $\matsym{K}$, we \textit{move} the kernel over the image,
+and multiply each index of the kernel with the index that it is currently \textit{above} in the image
+(a full mathemathical deifintion follows lates in section \ref{sec:convolution_definition}).
+That will in this case result in the matrix:
+\begin{equation}
+    \input{build/convolution_example/convolution.tex}
+\end{equation}
+
+
+On Figure \ref{fig:convolution_example} heatmaps of the original $I$ and the convolved, shows that they look very similar.
+\begin{figure}[h]
+\centering
+\begin{subfigure}{0.45\textwidth}
+    \includegraphics[width=\textwidth]{build/convolution_example/I.png}
+    \caption{Original version of $I$}
+\end{subfigure}
+\begin{subfigure}{0.45\textwidth}
+    \includegraphics[width=\textwidth]{build/convolution_example/convolution.png}
+    \caption{Convolution of $I$ with $K$}
+\end{subfigure}
+\caption{Heatmaps of the original $I$ and the convolved $I$}
+\label{fig:convolution_example}
+\end{figure}
+
+Comparing the heatmaps on Figure \ref{fig:convolution_example}, makes it clear that little to no imformation about
+where the high values are in the picture has been lost.
+The amount of data points has however been reduced.
+
+\paragraph{Padding}
+The current model of moving the kernel over the image, will not prioritize the borders
+of the image a lot. 
+To compat this, the image is often padded - usually with zeros. 
+This is done by adding a border of zeros around the image, the width of which is refered to as the size of the padding.
+By default, the padding in libaries like PyTorch  is $0$ (no padding) as in the example before.
+
+To continue the example, we will now use a padding of $1$ around the image.
+\begin{equation}
+    \matsym{I}_{\text{padded}} = \input{build/convolution_example/I_padded.tex}
+\end{equation}
+
+Calculating the convolution of the padded image with the kernel, results in the following matrix:
+\begin{equation}
+    \input{build/convolution_example/convolution_padded.tex}
+\end{equation}
+
+And again plotting the heatmaps we see two similar images again:
+\begin{figure}[h]
+\centering
+\begin{subfigure}{0.45\textwidth}
+    \includegraphics[width=\textwidth]{build/convolution_example/I.png}
+    \caption{The original $\matsym{I}$}
+\end{subfigure}
+\begin{subfigure}{0.45\textwidth}
+    \includegraphics[width=\textwidth]{build/convolution_example/convolution_padded.png}
+    \caption{Convolution of $\matsym{I}_{\text{padded}}$ with $K$}
+\end{subfigure}
+\caption{Heatmaps of the padded $\matsym{I}_{\text{padded}}$ and the convolved $\matsym{I}_{\text{padded}}$}
+\label{fig:convolution_example_padded}
+\end{figure}
+
+Note that padding increases the amount of data points in the image, but that
+the effect of this is not as extreme as it seems in the example, since images a usually
+a lot larger than this small example.
+
+
+
+\paragraph{Full definition of convolutions definition}\label{sec:convolution_definition}
+
 
 \subsection{Gradiants of neural networks}
 
