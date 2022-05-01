@@ -11,8 +11,8 @@ def convolve(I, K, stride=1, padding=0):
     else:
         I_padded = I
 
-    h_out = (I.shape[0] + 2 * padding - K.shape[0]) // stride + 1
-    w_out = (I.shape[1] + 2 * padding - K.shape[1]) // stride + 1
+    h_out = (I.shape[0] + 2 * padding - K.shape[0] ) // stride + 1
+    w_out = (I.shape[1] + 2 * padding - K.shape[1] ) // stride + 1
 
     # Initialize the output
     O = np.zeros((h_out, w_out))

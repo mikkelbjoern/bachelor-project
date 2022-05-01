@@ -10,7 +10,7 @@ pdf:
 
 prereqs := dynamic_content bibliography
 fullpdf: $(prereqs)
-	pdflatex main.tex
+	pdflatex -shell-escape main.tex
 
 
 

@@ -373,15 +373,16 @@ Calculating the output width can then be done by finding all the possible values
 used as the left value of the kernel.
 First the padded size of the image is seen to be $w + 2p$.
 Since a kernel is moved over the picture, the last $k-1$ pixels cant be used to place a kernel.
-Hence only $w + 2p - (k - 1) = w + p - k + 1$ pixels can be used to place a kernel.
-Finally only $1/s$ of the pixels are actually used to place a kernel, hence the output width becomes:
+Assuming that the image is non-empty and the kernel is smaller than or the same size as the image,
+at least one kernel can be placed, adding up to a total of $k$ pixels where a kernel cannot be placed.
+Of the remaining only $1/s$ of the pixels are actually used to place a kernel, hence the output width becomes:
 \begin{equation}
-    w_{out} = \left\lfloor \frac{w + p - k + 1}{s} \right\rfloor
+    w_{out} = \left\lfloor \frac{w + 2p - k}{s}\right\rfloor + 1
 \end{equation}
 
 And with a completely similar procedure for the height, $h$, we get:
 \begin{equation}
-    h_{out} = \left\lfloor \frac{h + p - k + 1}{s} \right\rfloor
+    h_{out} = \left\lfloor \frac{h + 2p - k}{s} \right\rfloor + 1
 \end{equation}
 
 Having these values, we can then define a Python function that performs the convolution:
