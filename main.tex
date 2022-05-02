@@ -446,6 +446,22 @@ When training a convolutional layer of a neural network, it is exactly the kerne
 \subsection{The Resnet architecture}
 
 \subsection{Saliency maps}
+When training deep neural networks on image data,
+it is often difficult to know exactly what the model is doing.
+Especially in fields like medical image analysis, 
+where the classification of a model might influence if a patient is correctly diagnoed or not,
+it is very desireable to know what the model is doing to be able to critique the model.
+
+In image analysis, a tool to try to understand models are the so-called \textit{saliency maps}.
+A saliency map is supposed to be a visual representation what parts of the image are important to the model,
+when it made a given prediction.
+
+For instance, in a model supposed to classify if a picture of a bone is broken or not,
+we want the model to look at the bone and not really anything else in the image.
+
+Many methods exist to produce saliency maps, each with their own strengths and weaknesses.
+One of the most popular ones is the gradiant based method (explained below).
+This method is popular because it is computationally efficient and the implementation comes almost for free if Backpropagation is implemented.
 
 \paragraph{Gradiant based saliency maps} \label{sec:gradiant_saliency_maps}
 As described in Section \ref{sec:partial_derivatives_of_scalar_over_vector},
