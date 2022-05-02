@@ -1,11 +1,11 @@
-\section{Theory}
+\chapter{Theory}
 This report assumes that the reader is familiar with the basics of machine learning.
 This includes basic linear algebra, data preprocessing and model selection.
 Further a basic understanding of how neural networks function is assumed,
 including the basic concept of gradiant descent used for model training.
 
 
-\subsection{Tensors}
+\section{Tensors}
 The following definitions and concepts are heavily based on \textit{Introduction to Convolutional Neural Networks} by J. Wu \cite{tensorIntroduction}.
 In linear algebra, the concept of a vector is introduced.
 Further a 2-dimensional vector is introduced, the \textit{matrix}.
@@ -25,7 +25,7 @@ An example of a higher order tensor used in this project, could be a batch of im
 Such a batch could be represented as a tensor of shape $(h, w, c, b)$ where $b$ is the batch size. 
 That is, the entire batch would be a $4$-dimensional tensor in the tensor-space $\mathbb{F}^{h\times w\times c\times b}$.
 
-\paragraph{Vectorizing tensors}
+\subsection{Vectorizing tensors}
 As noted in most introductions of linear algebra, matrices are themselves vectors.
 This is to be understood as, any matrix $\matsym{M} \in \mathbb{F}^{m\times n}$ can be represented as a vector $\vecsym{m} \in \mathbb{F}^{m\cdot n}$.
 This is commonly done by stacing the columns of the matrix, e.g.  if 
@@ -45,7 +45,7 @@ then the vector representation is
 The same concept can be applied to tensors of higher dimensions than the $2$-dimensional matrix,
 by stacking the columns continously.
 
-\paragraph{Partial derivatives over vectors} \label{sec:partial_derivatives_of_scalar_over_vector}
+\subsection{Partial derivatives over vectors} \label{sec:partial_derivatives_of_scalar_over_vector}
 In multiple setings in training of neural networks, it is neccesarry to figure out what
 parts of the model contributed to the result of the model.
 During training, we for instance want to know what parts of the model contributed to an increase of the loss function,
@@ -62,7 +62,7 @@ Note that with this definition, derivatives over matrices can also be done by fi
 and we then get the nice algebraic property that  $\frac{\partial s}{\partial \vecsym{v}}^{T} = \frac{\partial s}{\partial \vecsym{v}^{T}}$ 
 
 
-\paragraph{Partially deriving vector functions}
+\subsection{Partially deriving vector functions}
 Suppose $\vecsym{x} \in \mathbb{F}^n$, 
 $f: \mathbb{F}^n \rightarrow \mathbb{F}^m$ and
 $\vecsym{y} = f(\vecsym{x}) \in \mathbb{F}^m$.
@@ -76,7 +76,7 @@ Which means that the derivative of a vector function on the form of $f$ will be 
 in the tensor-space $\mathbb{F}^{m\times n}$.
 
 
-\subsection{Convolutional neural networks (CCNs)} \label{sec:convolutional_neural_networks}
+\section{Convolutional neural networks (CCNs)} \label{sec:convolutional_neural_networks}
 Convolutional neural networks (CNNs) are a fairly modern method used in image classification.
 They are based on the idea of a convolutional layer, which is a way of combining pixels in a
 neighbourhood of an image into single features.
@@ -126,7 +126,7 @@ Comparing the heatmaps on Figure \ref{fig:convolution_example}, makes it clear t
 where the high values are in the picture has been lost.
 The amount of data points has however been reduced.
 
-\paragraph{Padding}
+\subsection{Padding}
 The current model of moving the kernel over the image, will not prioritize the borders
 of the image a lot. 
 To compat this, the image is often padded - usually with zeros. 
@@ -162,7 +162,7 @@ Note that padding increases the amount of data points in the image, but that
 the effect of this is not as extreme as it seems in the example, since images a usually
 a lot larger than this small example.
 
-\paragraph{Stride}
+\subsection{Stride}
 To reduce the amount of data points even further, we can use a stride.
 This is done by moving the kernel over the image as before, but moving multiple pixelse each time.
 
@@ -194,7 +194,7 @@ In convolutions can combine information from data where some kind of \textit{pro
 This is very much the case in image analysis (hence the focus in this explanation), but the idea is
 not limited to this field.
 
-\paragraph{Full definition of convolutions}\label{sec:convolution_definition}
+\subsubsection{Full definition of convolutions}\label{sec:convolution_definition}
 The above is a very simple example of a convolution.
 A full compact formula for making a convolution is left out, as it is not readable and
 ultimately not very insightful. 
@@ -221,7 +221,7 @@ Having these values, we can then define a Python function that performs the conv
 
 \inputminted[]{python}{src/convolve.py}
 
-\subsection{The power of convolution kernels}
+\section{The power of convolution kernels}
 In the example in Section \ref{sec:convolutional_neural_networks}, a convolution that
 comprimed the image into a condensed version was used.
 
@@ -272,7 +272,7 @@ The point we want to make here, is that a lot of different information can be ex
 if the correct kernel is used.
 When training a convolutional layer of a neural network, it is exactly the kernel values that optimized.
 
-\subsection{Backpropagation}
+\section{Backpropagation}
 The back propagation algorithm is a fundamental part of how we train a neural network.
 As this report does not focus on the details of how deep learning works, we will only discuss the
 basic structure of the algorithm and not the specific mathemathical details.
@@ -296,7 +296,7 @@ The specifics of how that works can be seen on page 9 of Introduction to Convolu
 
 
 
-\subsection{Saliency maps}
+\section{Saliency maps}
 When training deep neural networks on image data,
 it is often difficult to know exactly what the model is doing.
 Especially in fields like medical image analysis, 
@@ -311,10 +311,10 @@ For instance, in a model supposed to classify if a picture of a bone is broken o
 we want the model to look at the bone and not really anything else in the image.
 
 Many methods exist to produce saliency maps, each with their own strengths and weaknesses.
-One of the most popular ones is the gradiant based method (explained below).
+One of the most popular ones is the gradient based method (explained below).
 This method is popular because it is computationally efficient and the implementation comes almost for free if Backpropagation is implemented.
 
-\paragraph{Gradiant based saliency maps} \label{sec:gradiant_saliency_maps}
+\subsection{Gradient based saliency maps} \label{sec:gradiant_saliency_maps}
 As described in Section \ref{sec:partial_derivatives_of_scalar_over_vector},
 if a function $f: \mathbb{R}^n \rightarrow \mathbb{R}$ is defined,
 then the gradient of $f$ in a point $x\in\mathbb{R}$ is a vector from $\mathbb{R}^n$.
@@ -336,4 +336,4 @@ Recent research is pointing toward problems with the usage of saliency maps as e
 This report will not go deeper into exactly what information that can be extracted from a gradient based saliency map,
 but just note to be carefull when using them.
 
-\subsection{The Resnet architecture}
+\section{The Resnet architecture}

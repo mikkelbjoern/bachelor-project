@@ -1,7 +1,7 @@
 %--------------------
 % Packages
 % -------------------
-\documentclass[11pt,a4paper]{article}
+\documentclass[11pt,a4paper]{report}
 %\usepackage{gentium}
 
 \usepackage[
@@ -56,6 +56,8 @@ pdfsubject = {},
 pdftitle = {Understanding medical image clasification models},
 pdfauthor = {Mikkel Bjørn Goldschmidt}
 }
+
+\renewcommand\sectionmark[1]{\markright{\thesection.\ #1}}
 
 %-----------------------
 % Begin document
