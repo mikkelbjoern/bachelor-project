@@ -244,7 +244,7 @@ Which means that the derivative of a vector function on the form of $f$ will be 
 in the tensor-space $\mathbb{F}^{m\times n}$.
 
 
-\subsection{Convolutional neural networks (CCNs)}
+\subsection{Convolutional neural networks (CCNs)} \label{sec:convolutional_neural_networks}
 Convolutional neural networks (CNNs) are a fairly modern method used in image classification.
 They are based on the idea of a convolutional layer, which is a way of combining pixels in a
 neighbourhood of an image into single features.
@@ -389,6 +389,56 @@ Having these values, we can then define a Python function that performs the conv
 
 \inputminted[]{python}{src/convolve.py}
 
+\subsection{The power of convolution kernels}
+In the example in Section \ref{sec:convolutional_neural_networks}, a convolution that
+comprimed the image into a condensed version was used.
+
+Kernels can do lot more than compressing images though.
+For the following, different types of kernels are used to convolute an image of a Model of the Greek Temple of Artemis \cite{greek-temple-picture}.
+
+With a kernel like this:
+\begin{equation}
+    K_{\text{edge}} = \input{build/kernel_examples/K_edge.txt} 
+\end{equation}
+an image is produced where the edges are highlighted.
+
+\begin{figure}[ht]
+\centering
+\begin{subfigure}{0.45\textwidth}
+    \includegraphics[width=\textwidth]{build/kernel_examples/image_scaled.jpg}
+    \caption{The original image}
+\end{subfigure}
+\begin{subfigure}{0.45\textwidth}
+    \includegraphics[width=\textwidth]{build/kernel_examples/edges.jpg}
+    \caption{The image considered as a matrix convolved with $K_{\text{edge}}$}
+\end{subfigure}
+\caption{The image with the edges highlighted}
+\end{figure}
+
+In a similar way, a kernel like this:
+\begin{equation}
+    K_{\text{vertical}} = \input{build/kernel_examples/K_vertical.txt}
+\end{equation}
+can be used to highlight the vertical lines in the image.
+
+\begin{figure}[ht]
+\centering
+\begin{subfigure}{0.45\textwidth}
+    \includegraphics[width=\textwidth]{build/kernel_examples/image_scaled.jpg}
+    \caption{The original image}
+\end{subfigure}
+\begin{subfigure}{0.45\textwidth}
+    \includegraphics[width=\textwidth]{build/kernel_examples/vertical.jpg}
+    \caption{The image considered as a matrix convolved with $K_{\text{vertical}}$}
+\end{subfigure}
+\caption{The image with the vertical lines highlighted}
+\end{figure}
+
+A lot of other interesting kernels exist, see for instance these examples at AI Shack \cite{kernel-example-webpage}.
+
+The point we want to make here, is that a lot of different information can be extracted from an image,
+if the correct kernel is used.
+When training a convolutional layer of a neural network, it is exactly the kernel values that optimized.
 
 \subsection{Gradients of neural networks}
 
