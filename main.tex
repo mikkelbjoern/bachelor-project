@@ -445,6 +445,27 @@ if the correct kernel is used.
 When training a convolutional layer of a neural network, it is exactly the kernel values that optimized.
 
 \subsection{Backpropagation}
+The back propagation algorithm is a fundamental part of how we train a neural network.
+As this report does not focus on the details of how deep learning works, we will only discuss the
+basic structure of the algorithm and not the specific mathemathical details.
+
+The purpose of the backpropagation algorithm is to find the gradient of the model parameters with respect
+to some output of the model - most commonly the loss function.
+That is, if some output of the model $z$ is produced, the backpropagation algorithm finds the gradient over
+the internal weights of the neural network.
+
+Consider a neural network consisting of $L$ layers and lett $\vecsym{w}^L$ be the weights in the $L$'th layer.
+Then the backpropogation algorithm will find 
+$\frac{\partial z}{\partial \vecsym{w}^L}$ for each value of $L$.
+For the purpose of model training where $z$ indicates the loss, updating each layer as 
+$\vecsym{w}^L \leftarrow \vecsym{w}^L - \eta \frac{\partial z}{\partial \vecsym{w}^L}$
+is called gradient descent.
+Note the $\eta$ parameter that is used to update the weights.
+This is called the learning rate, since it determines how fast the weights are updated during training.
+
+The obvious problem is then how $\frac{\partial z}{\partial \vecsym{w}^L}$ is calculated.
+The specifics of how that works can be seen on page 9 of Introduction to Convolutional Neural Networks \cite{tensorIntroduction}.
+
 
 
 \subsection{Saliency maps}
