@@ -223,7 +223,8 @@ In this report it is also used for creating saliency maps, and discussing them (
 
 Defining the partial derivative of a vector $\vecsym{v}\in\mathbb{F}^n$ with respect to a scalar $s$ is done as follows:
 \begin{equation}
-    \left[ \frac{\partial s}{\partial \vecsym{v}} \right] = \frac{\partial s}{\partial \vecsym{v}_i}
+    \left[ \frac{\partial s}{\partial \vecsym{v}} \right]_i 
+         = \frac{\partial s}{\partial \vecsym{v}_i}
 \end{equation}
 
 Note that with this definition, derivatives over matrices can also be done by first vectorizing them,
@@ -440,9 +441,6 @@ The point we want to make here, is that a lot of different information can be ex
 if the correct kernel is used.
 When training a convolutional layer of a neural network, it is exactly the kernel values that optimized.
 
-\subsection{Gradients of neural networks}
-
-
 \subsection{Backpropagation}
 
 \subsection{The Resnet architecture}
@@ -450,6 +448,27 @@ When training a convolutional layer of a neural network, it is exactly the kerne
 \subsection{Saliency maps}
 
 \paragraph{Gradiant based saliency maps} \label{sec:gradiant_saliency_maps}
+As described in Section \ref{sec:partial_derivatives_of_scalar_over_vector},
+if a function $f: \mathbb{R}^n \rightarrow \mathbb{R}$ is defined,
+then the gradient of $f$ in a point $x\in\mathbb{R}$ is a vector from $\mathbb{R}^n$.
+A special case of this, is where $f$ is an image classification model, that takes
+an image (images can be vectorized, hence still a vector) and returns a vector of probabilities for
+diferent classes.
+Then the gradient in any probabilty of the output vector, will be of the same size as the input vector.
+Since the input vector was an image, the gradient can also be interpreted as an image.
+It is this property that is utilized when calculating gradient based saliency maps.
+
+Often, these gradients are used as heatmaps over the image, to hightlight regions that 
+supposedly contributed a lot to the classification decision of the model. 
+For instance in the book Interpretable Machine Learning (chapter 10.2)\cite{interpretable-machine-learning}, the gradient based 
+saliency map method is described to
+''assign each pixel a value that can be interpreted as the relevance of the pixel to the prediction or classification of that image''.
+
+One should however be carefull with that intepretation, as the gradient is just poiting to/away from the classification boundary.
+Recent research is pointing toward problems with the usage of saliency maps as explained in the quote before\cite{false-hope}.
+This report will not go deeper into exactly what information that can be extracted from a gradient based saliency map,
+but just note to be carefull when using them.
+
 
 \pagebreak
 
