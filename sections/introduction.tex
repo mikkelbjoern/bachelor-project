@@ -57,7 +57,7 @@ Due to the public nature of the dataset, many different models have been trained
 As of the time of writing, the best performing model published in a scientific paper,
 reaches an accuracy of $93.4\%$\cite{datta2021soft}.
 
-\subsection{Confounding elements in the data}
+\subsection{Confounding elements in the data} \label{sec:confounding}
 The dataset contains images of skin lesions, which are taken in a real world medical context.
 In this context doctors might introduce foreign objects into the images,
 to help in the treatment of the patient.
@@ -98,3 +98,26 @@ Due to this higher prevalence, the study done in this project will focus on the 
     \caption{Dataset prevalence of confounding objects}
     \label{table:confounding_objects}
 \end{table}
+
+\subsection{Correlation between confounding elements and HAM10000 labels}
+On Figure \ref{fig:ruler_vs_dx} indications of correlations between the ruler markings and the HAM10000 labels can be seen.
+
+\begin{figure}[ht]
+
+\centering
+\includegraphics[width=0.8\textwidth]{./build/confounder_label_correlation/confusion_matrix_seaborn.png}
+\caption{Confusion matrix of rulers vs. class in the HAM10000 dataset - normalized over the x-axis.}
+\label{fig:ruler_vs_dx}
+\end{figure}
+
+The two benign classes \textit{mel} and \textit{bkl} are both over represented on pictures with ruler markings copared to those without.
+In general almost every class except the biggest \textit{nv} class is over represented.
+The hypothesis that the presence of rulers in the images is correlated with the HAM10000, can be confirmed by a $\chi^2$-contingency test.
+The null hypothesis of this test is that the presence of rulers in the images is not correlated with the HAM10000 labels.
+The test value is 
+    $\input{build/confounder_label_correlation/chi2.txt}$
+on a test with
+    $\input{build/confounder_label_correlation/dof.txt}$
+degrees of freedom, resulting in a $p$-value of 
+    $\input{build/confounder_label_correlation/p.txt}$
+which is obviously significant.

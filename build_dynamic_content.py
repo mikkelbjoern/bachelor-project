@@ -8,8 +8,9 @@ import click
 import os
 from src.build_kernel_example import build_kernel_examples
 from src.build_convolution_example import build_convolution_example
+from src.build_confounder_label_correlation import build_confounder_label_correlation
 
-parts = ["convolution_example", "kernel_examples"]
+parts = ["convolution_example", "kernel_examples", "confounder_label_correlation"]
 
 BUILD_FOLDER = os.path.dirname(os.path.realpath(__file__)) + "/build"
 IMAGE_FOLDER = os.path.dirname(os.path.realpath(__file__)) + "/images"
@@ -52,6 +53,9 @@ def build_part(part):
 
     if part == "kernel_examples":
         build_kernel_examples()
+    
+    if part == "confounder_label_correlation":
+        build_confounder_label_correlation()
 
 if __name__ == "__main__":
     main()
