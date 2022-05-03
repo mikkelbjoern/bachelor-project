@@ -1,0 +1,17 @@
+\chapter{Model}
+The initial goal of this project was to look into methods to not use ruler presence in the
+diagnosis classification.
+To be able to do this, a model that was using the ruler presence in its predictions was needed.
+Preferably this model should also perform close to the best performing model, to be comparable.
+
+\section{ResNet18 architecture trained with MixUp}
+On the Kaggle classification competetion related to the HAM10000 dataset\cite{HAM10000-kaggle-competetion},
+another user claimed to get a $97.7\%$ accuracy using a ResNet18 model trained with MixUp\cite{kaggle-97-model}.
+When the provided model was retrained, the results were not as good as claimed.
+The actual accuracy was in the range of $92\%$ to $93\%$, depending on the data split.
+That is however still close to the best performing model published (see \ref{sec:state-of-the-art}).
+
+The actual implementation of the model can be seen in Appendix \ref{appendix:resnet-18-mixup}.
+Using the slight modifications to the original mode, the model reached an accuracy of $92.2\%$.
+
+\subsection{Model analysis}

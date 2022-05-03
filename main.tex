@@ -69,11 +69,18 @@ pdfauthor = {Mikkel Bjørn Goldschmidt}
 \pagebreak
 \input{sections/introduction.tex}
 
+\input{sections/model.tex}
+
 \pagebreak
 \input{sections/theory.tex}
 
 \pagebreak
 
-
 \printbibliography[title={Litterature}]
+\pagebreak
+% Start the appendix
+\appendix
+\part{Appendix}
+\input{sections/appendix/resnet-18-mixup/resnet-18-mixup.tex}
+
 \end{document}
