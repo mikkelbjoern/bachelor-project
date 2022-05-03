@@ -2,15 +2,17 @@
 dynamic_content:
 	./build_dynamic_content.py
 
-bibliography: pdf
+bibliography:
 	biber main
 
 pdf:
-	pdflatex -shell-escape main.tex
+	pdflatex -shell-escape -interaction=nonstopmode main.tex
 
-prereqs := dynamic_content bibliography
+prereqs := dynamic_content
 fullpdf: $(prereqs)
-	pdflatex -shell-escape main.tex
+	make -i pdf
+	make -i bibliography
+	make -i pdf
 
 
 

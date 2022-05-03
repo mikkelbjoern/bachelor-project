@@ -15,3 +15,21 @@ The actual implementation of the model can be seen in Appendix \ref{appendix:res
 Using the slight modifications to the original mode, the model reached an accuracy of $92.2\%$.
 
 \subsection{Model analysis}
+As described in the Introduction section, there is an academically described risk,
+that the model will use the presence of rulers in its predictions. % Maybe a reference here?
+
+We will first test this, by creating saliency maps (\ref{sec:saliency_maps}) for some of the images with rulers in the dataset.
+These can be seen in Figure \ref{fig:ruler_saliency_map}.
+More similar examples can be seen in Appendix \ref{appendix:ruler_saliency_maps}.
+
+\begin{figure}
+    \includegraphics[
+        width=\textwidth,
+        height=\textheight,
+        keepaspectratio=true,
+        angle=0,
+        clip=false
+    ]{build/saliency_maps/overview_map_2.png}
+    \caption{Saliency maps an image with a ruler. It doesn't seem to mark the ruler.}
+    \label{fig:ruler_saliency_map}
+\end{figure}

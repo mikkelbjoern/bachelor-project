@@ -1,5 +1,5 @@
 import pandas as pd
-from src.utils import DATA_FOLDER, HAM10000_DATA_FOLDER, scientific_notation
+from src.utils import scientific_notation, ham10000_metadata
 import matplotlib.pyplot as plt
 import seaborn as sns
 import scipy.stats as stats
@@ -8,17 +8,8 @@ import scipy.stats as stats
 def build_confounder_label_correlation():
     print("Building confounder label correlation...")
 
-    # Load the data
-    confounders = pd.read_csv(DATA_FOLDER + "/confounder_labels.csv")
-    labels = pd.read_csv(HAM10000_DATA_FOLDER + "/HAM10000_metadata.csv")
-    # Renaming to match the two datasets
-    confounders = confounders.rename(columns={"image": "image_id"})
-
-    # Merge the two datasets
-    merged = pd.merge(confounders, labels, on="image_id")
-    
     # Make a confusion matrix
-    confusion_matrix = merged.groupby(["ruler", "dx"]).size().unstack()
+    confusion_matrix = ham10000_metadata.groupby(["ruler", "dx"]).size().unstack()
 
     # Normalize over the x axis
     confusion_matrix_normalized = confusion_matrix.div(confusion_matrix.sum(axis=1), axis=0)

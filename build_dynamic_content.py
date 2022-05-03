@@ -6,11 +6,18 @@
 
 import click
 import os
+from src.symlink_models import symlink_models
 from src.build_kernel_example import build_kernel_examples
 from src.build_convolution_example import build_convolution_example
 from src.build_confounder_label_correlation import build_confounder_label_correlation
+from src.build_saliency_maps import build_saliency_maps
 
-parts = ["convolution_example", "kernel_examples", "confounder_label_correlation"]
+parts = [
+    "convolution_example",
+    "kernel_examples",
+    "confounder_label_correlation",
+    "saliency_maps",
+]
 
 BUILD_FOLDER = os.path.dirname(os.path.realpath(__file__)) + "/build"
 IMAGE_FOLDER = os.path.dirname(os.path.realpath(__file__)) + "/images"
@@ -24,14 +31,14 @@ def main(part):
         print("No build folder found. Creating...")
         os.makedirs(BUILD_FOLDER)
 
+    symlink_models()
+
     # Build the report
     if part is None:
         for part in parts:
             build_part(part)
     else:
         build_part(part)
-
-
 
 
 def build_part(part):
@@ -42,7 +49,13 @@ def build_part(part):
     else:
         # Remove the old files
         for file in os.listdir(part_folder):
-            os.remove(part_folder + "/" + file)
+            path = part_folder + "/" + file
+            if os.path.isfile(path):
+                os.remove(path)
+            
+            # Check if the path is a symlink
+            if os.path.islink(path):
+                os.remove(path)
 
     # Change to the part folder
     os.chdir(part_folder)
@@ -53,9 +66,15 @@ def build_part(part):
 
     if part == "kernel_examples":
         build_kernel_examples()
-    
+
     if part == "confounder_label_correlation":
         build_confounder_label_correlation()
+
+    if part == "saliency_maps":
+        build_saliency_maps()
+
+
+
 
 if __name__ == "__main__":
     main()
