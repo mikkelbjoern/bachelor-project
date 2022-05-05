@@ -11,12 +11,14 @@ from src.build_kernel_example import build_kernel_examples
 from src.build_convolution_example import build_convolution_example
 from src.build_confounder_label_correlation import build_confounder_label_correlation
 from src.build_saliency_maps import build_saliency_maps
+from src.build_prediction_strength import build_prediction_strength
 
 parts = [
     "convolution_example",
     "kernel_examples",
     "confounder_label_correlation",
     "saliency_maps",
+    "prediction_strength",
 ]
 
 BUILD_FOLDER = os.path.dirname(os.path.realpath(__file__)) + "/build"
@@ -72,6 +74,9 @@ def build_part(part):
 
     if part == "saliency_maps":
         build_saliency_maps()
+    
+    if part == "prediction_strength":
+        build_prediction_strength()
 
 
 
