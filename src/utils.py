@@ -86,7 +86,7 @@ def get_resnet_mixup_model():
 
 
 def get_only_lesions_model():
-    from models.only_lesions.only_lesions import learn as learn_only_lesions
+    from models.only_lesion.only_lesions import learn as learn_only_lesions
 
     model_dir = get_model_dir(config.only_lesions_id)
     learn_only_lesions.load(model_dir + "/models/model_resnet18")
