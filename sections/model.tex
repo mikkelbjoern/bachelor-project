@@ -63,7 +63,12 @@ it would under the assumption be expected, that the presence of the rulers impro
 on the \verb|mel| class.
 
 To test this, a plot has been created below that shows the prediction strength of the model on the \verb|mel| class,
-seperated over the presence of rulers.
+seperated over the presence of rulers (Figure \ref{fig:prediction_strength_mel}).
+
+It shows a slightly better melanoma prediction precision on the pictures with rulers (Figure \ref{fig:prediction_strength_mel_normalized}).
+Doing a $\chi^2$ test on the data from Figure \ref{fig:prediction_strength_mel_not_normalized},
+however shows that the difference is not significant ($p=\input{build/prediction_strength/p_mel.txt}).
+
 
 \begin{figure}
     \centering
@@ -74,7 +79,7 @@ seperated over the presence of rulers.
             build/prediction_strength/mel_confusion_matrix_seaborn.png
         }
         \caption{No normalization}
-        \label{fig:prediction_strength_mel}
+        \label{fig:prediction_strength_mel_not_normalized}
     \end{subfigure}
     \begin{subfigure}[h]{0.45\textwidth}
         \includegraphics[
@@ -86,6 +91,7 @@ seperated over the presence of rulers.
         \label{fig:prediction_strength_mel_normalized}
     \end{subfigure}
     \caption{Confusion matrix of the model prediction the melanoma cases split up by presence of a ruler.}
+    \label{fig:prediction_strength_mel}
 \end{figure}
 
 

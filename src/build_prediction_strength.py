@@ -80,7 +80,7 @@ def build_prediction_strength():
     chi2, prop, dof, expected = stats.chi2_contingency(mel_confusion_matrix)
     print(prop)
     with open("p_mel.txt", "w") as f:
-        f.write(scientific_notation(prop) + "\n")
+        f.write(f"{round(float(prop), 3)}")
 
 
     # Do a second plot where there is normalized over the x axis
