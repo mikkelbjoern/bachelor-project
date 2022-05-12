@@ -2,6 +2,8 @@ import os
 from math import floor, log10
 import pandas as pd
 import src.config as config
+import matplotlib.pyplot as plt
+import seaborn as sns
 
 # Find the image folder one level up from this file
 IMAGE_FOLDER = os.path.dirname(os.path.realpath(__file__)) + "/../images"
@@ -103,4 +105,37 @@ short_to_full_name_dict = {
     "vasc": "vascular lesions",  # skin condition
 }
 
+bening_or_malignant_dict = {
+    "akiec": "malignant",
+    "bcc": "malignant",
+    "bkl": "benign",
+    "nv": "benign",
+    "df": "benign",
+    "mel": "malignant",
+    "vasc": "benign",
+}
+
+
 full_name_to_short_dict = {v: k for k, v in short_to_full_name_dict.items()}
+
+
+def plot_prediction_confusion_matrix(df, y_axis, x_axis, normalize=None):
+    # Make a confusion matrix
+    confusion_matrix = (
+        df.groupby([y_axis, x_axis]).size().unstack()
+    )
+
+    if normalize:
+        assert normalize in ["x"]
+    
+    if normalize == "x":
+        # Normalize over the x axis
+        confusion_matrix = confusion_matrix.div(
+            confusion_matrix.sum(axis=1), axis=0
+        )
+
+    # Plot the confusion matrix using seaborn, format rounded to nearest 5 decimal places
+    p = sns.heatmap(
+        confusion_matrix, annot=True, cmap="Blues", annot_kws={"size": 10}, fmt=".3g"
+    )
+    return p
