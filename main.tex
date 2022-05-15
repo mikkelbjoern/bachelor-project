@@ -27,6 +27,14 @@ sorting=ynt
 \linespread{1.2} % Set linespace
 \usepackage[a4paper, lmargin=0.1666\paperwidth, rmargin=0.1666\paperwidth, tmargin=0.1111\paperheight, bmargin=0.1111\paperheight]{geometry} %margins
 %\usepackage{parskip}
+\usepackage{titling}
+\newcommand{\subtitle}[1]{%
+  \posttitle{%
+    \par\end{center}
+    \begin{center}\large#1\end{center}
+    \vskip0.5em}%
+}
+
 
 \usepackage[all]{nowidow} % Tries to remove widows
 \usepackage[protrusion=true,expansion=true]{microtype} % Improves typography, load after fontpackage is selected
@@ -40,7 +48,8 @@ sorting=ynt
 \newcommand{\tenssym}[1]{\bm{#1}}
 
 
-\title{Understanding and checking for bias in medical image clasification models}
+\title{Ruling out the rulers}
+\subtitle{Understanding and checking for bias in skin lesion classification models}
 \author{Mikkel Bjørn Goldschmidt}
 
 \usepackage{amsfonts}
@@ -50,8 +59,8 @@ sorting=ynt
 % Set pdf information and add title, fill in the fields
 %-----------------------
 \hypersetup{ 	
-pdfsubject = {},
-pdftitle = {Understanding medical image clasification models},
+pdfsubject = {Medical image analysis, XAI},
+pdftitle = {Ruling out the rulers},
 pdfauthor = {Mikkel Bjørn Goldschmidt}
 }
 
