@@ -1,0 +1,37 @@
+\section{Debiasing Skin Lesion Datasets and Model. Not So Fast}
+In their paper
+''Debiasing Skin Lesion Datasets and Model. Not So Fast''
+Bissoto, Alceu and Valle look into debiasing models trained on
+skin lesion images \cite{debias-not-so-fast}.
+They go through $7$ differenct artifacts in the images that could
+be confunding elements, and try state of the art methods to
+make them disregard the artifacts.
+These include the rulers, that is the focus of this report.
+The paper makes several claims about biases that occur in
+skin lesion models.
+Their focus is the removal of bias, but in that proces they
+make some claims about the model actually being biased.
+Two of these will be examined here.
+
+\textbf{Claim 1:}
+The model architecture is capable of detecting the artifacts in the images.
+
+\textbf{Claim 2:}
+A model trained to detect malignant lesions, is basing its predictions
+partly on the detected artifacts.
+
+\subsection{Claim 1: Capability of the model architecture}
+To show that the model architecture used for lesion clasification is
+indeed capable of detecting the artifacts in the images, they authors
+label the images with the artifacts and train a model to identify
+each of them.
+
+The ruler classification model reaches an implessive AUC of $98.2\%$
+on the ISIC dataset (see Figure 4 of the paper\cite{debias-not-so-fast}).
+
+From this, they conclude that the model architecture is capable of identiying
+the rulers (and similar artifacts) in the images.
+
+\subsection{Claim 2: The lesion classification model is biased}
+
+
