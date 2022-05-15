@@ -82,7 +82,7 @@ def build_saliency_maps():
         axs0.set_title("Original Image")
         # axs0.title("original photo")
 
-        if DEVICE == "cuda":
+        if str(DEVICE).startswith("cuda"):
             saliency_mean = saliency_mean.detach().cpu().numpy()
         
         axs1.imshow(saliency_mean[0], cmap=plt.cm.hot)
