@@ -12,6 +12,7 @@ import torch
 import matplotlib.pyplot as plt
 
 
+DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 def build_saliency_maps():
     print("Building saliency maps...")
@@ -52,6 +53,7 @@ def build_saliency_maps():
         img, classification, class_index, pred_tensor = pred
         # Turn img to tensor
         img = img.float()
+        img = img.to(DEVICE)
         img = img.unsqueeze(0)
         img.requires_grad_()
 
@@ -79,6 +81,10 @@ def build_saliency_maps():
         axs0.axis("off")
         axs0.set_title("Original Image")
         # axs0.title("original photo")
+
+        if DEVICE == "cuda":
+            saliency_mean = saliency_mean.detach().cpu().numpy()
+        
         axs1.imshow(saliency_mean[0], cmap=plt.cm.hot)
         axs1.axis("off")
         axs1.set_title("Saliency Map")
