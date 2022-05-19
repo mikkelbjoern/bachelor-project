@@ -15,7 +15,9 @@ import matplotlib.pyplot as plt
 import numpy as np
 from src.utils import bening_or_malignant_dict
 
+
 def build_near_neigh():
+    print("Building near neigh plot...")
     model_dir = get_model_dir(config.resnet_mixup_id)
 
     df_standard = pd.read_csv(f"{model_dir}/predictions.csv").merge(
@@ -31,13 +33,11 @@ def build_near_neigh():
     # the layer that is adapting to the specific classes.
     # We are interested in the first part - the convolutional layers.
 
-
     # Make a model that only extracts the features
     extraction_model = nn.Sequential(
         # *(list(model.children())[:-1])
         *(list(model.children())[:-1])
     )
-
 
     def extract_features(image_id):
         home_path = os.path.expanduser("~")
@@ -54,59 +54,66 @@ def build_near_neigh():
             extraction_model.eval()
             return extraction_model(image_tensor)
 
-
-
     # ruler_sample = df_standard[df_standard.ruler == 1].sample(400)
     # no_ruler_sample = df_standard[df_standard.ruler == 0].sample(200)
 
     # Fasten pandas randomness with a seed
     np.random.seed(42)
-    sample = df_standard.sample(101) # Set to 1500 for almost full test set
+    sample = df_standard.sample(1500)  # Set to 1500 for almost full test set
     ruler_sample = sample[sample.ruler == 1]
     no_ruler_sample = sample[sample.ruler == 0]
 
     features = {
-        image_id: np.array(extract_features(image_id)[0]) for image_id in sample.image_id
+        image_id: np.array(extract_features(image_id)[0])
+        for image_id in sample.image_id
     }
     has_ruler = {image_id: 1 for image_id in ruler_sample.image_id}
     has_ruler = {**has_ruler, **{image_id: 0 for image_id in no_ruler_sample.image_id}}
 
     # Get a random image from each of the two samples
-    ruler_examples = ruler_sample.sample(10, random_state=1337).image_id
+    ruler_examples = ruler_sample.sample(4, random_state=1337).image_id
 
     home_path = os.path.expanduser("~")
 
+    NNs = 5
+    fig, ax = plt.subplots(
+        len(ruler_examples), NNs + 1, figsize=(NNs*2+0.5, len(ruler_examples) * 1.5 + 1)
+    )
+
     for im_index, image_id in enumerate(ruler_examples):
+        query_ax = ax[im_index, 0]
         image_vector = features[image_id]
         # Find the 5 nearest neighbors
         distances = {
             image_id: np.linalg.norm(image_vector - features[image_id])
             for image_id in features.keys()
         }
-        nearest_neighbors = sorted(distances, key=distances.get)[1:6]
+        nearest_neighbors = sorted(distances, key=distances.get)[1:NNs + 1]
         # sorted(
         #     features.items(),
         #     key=lambda x: np.linalg.norm(x[1] - image_vector),
         #     reverse=True,
         # )[:5]
         # Plot the six images next to each other
-        plt.figure(figsize=(14, 6), dpi=100)
-        plt.subplot(im_index+1, 6, 1)
-        plt.imshow(
-            Image.open(f"{home_path}/kaggle-data/HAM10000/HAM10000_images/{image_id}.jpg")
+        query_ax.imshow(
+            Image.open(
+                f"{home_path}/kaggle-data/HAM10000/HAM10000_images/{image_id}.jpg"
+            )
         )
-        plt.axis("off")
-        plt.title(f"Query: {image_id}")
+        query_ax.axis("off")
+        query_ax.set_title(f"Query: {image_id}")
         for i, neighbor_id in enumerate(nearest_neighbors):
-            plt.subplot(im_index+1, 6, i + 2)
-            plt.imshow(
+            local_ax = ax[im_index, i+1]
+            local_ax.imshow(
                 Image.open(
                     f"{home_path}/kaggle-data/HAM10000/HAM10000_images/{neighbor_id}.jpg"
                 )
             )
             # Remove the axis labels
-            plt.axis("off")
-            plt.title(
+            local_ax.axis("off")
+            local_ax.set_title(
                 f"{neighbor_id}\n{'Has ruler' if has_ruler[neighbor_id] else 'No ruler'}"
             )
-    plt.savefig(f"examples.png")
+
+    fig.savefig("examples.png")
+    
