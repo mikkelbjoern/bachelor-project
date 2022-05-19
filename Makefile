@@ -2,6 +2,9 @@
 dynamic_content:
 	./build_dynamic_content.py
 
+all_dynamic_content:
+	./build_dynamic_content.py --part=all
+
 bibliography:
 	biber main
 

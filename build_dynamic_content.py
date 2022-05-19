@@ -12,14 +12,18 @@ from src.build_convolution_example import build_convolution_example
 from src.build_confounder_label_correlation import build_confounder_label_correlation
 from src.build_saliency_maps import build_saliency_maps
 from src.build_prediction_strength import build_prediction_strength
+from src.build_near_neigh import build_near_neigh
 
-parts = [
-    "convolution_example",
-    "kernel_examples",
-    "confounder_label_correlation",
-    "saliency_maps",
-    "prediction_strength",
+# The second argument in the tuple is weather the part is default built
+parts_and_default = [
+    ("convolution_example", True),
+    ("kernel_examples", True),
+    ("confounder_label_correlation", True),
+    ("saliency_maps", False),
+    ("prediction_strength", True),
+    ("near_neigh", False),
 ]
+parts = [part for part, _ in parts_and_default]
 
 BUILD_FOLDER = os.path.dirname(os.path.realpath(__file__)) + "/build"
 IMAGE_FOLDER = os.path.dirname(os.path.realpath(__file__)) + "/images"
@@ -37,7 +41,11 @@ def main(part):
 
     # Build the report
     if part is None:
-        for part in parts:
+        for part, default_build in parts_and_default:
+            if default_build:
+                build_part(part)
+    elif part == 'all':
+        for part, _ in parts_and_default:
             build_part(part)
     else:
         build_part(part)
@@ -77,7 +85,9 @@ def build_part(part):
     
     if part == "prediction_strength":
         build_prediction_strength()
-
+    
+    if part == "near_neigh":
+        build_near_neigh()
 
 
 
