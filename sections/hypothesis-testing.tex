@@ -1,0 +1,93 @@
+\chapter{Testing the hypthesis}
+From both the background litterature and general worry about models,
+there is reason to believe that a model trained on the HAM10000 dataset will be biased
+towards looking at confounding elements - hereunder the rulers in the image.
+In the following tis hypothesis will be tested using both methods that other researchers have used,
+and also other methods checking the output of the model.
+
+\subsubsection{Prediction saliency map}\label{sec:prediction-saliency-map}
+In \textit{Interpretations are useful: Penalizing Explanations to Align Neural Networks with Prior Knowledge}\cite{interps-are-useful},
+(described in Section \ref{sec:interps-are-useful}), it is shown that a model trained on skin lesion images,
+will mark out the ruler on malignant images containing one.
+With the RESNET model described in \ref{sec:model}, similar saliency maps are constructed.
+
+The saliency maps made here are gradient based as described in Section \ref{sec:gradiant_saliency_maps}.
+In Figure \ref{fig:ruler_saliency_map} these can be seen.
+More similar examples can be seen in Appendix \ref{appendix:ruler_saliency_maps}.
+
+\begin{figure}[h]
+    \includegraphics[
+        width=\textwidth,
+        height=\textheight,
+        keepaspectratio=true,
+        angle=0,
+        clip=false
+    ]{build/saliency_maps/overview_map_2.png}
+    \caption{Saliency maps of the model prediction on an image with a ruler.}
+    \label{fig:ruler_saliency_map}
+\end{figure}
+
+These images don't show results nearly as clearly as the ones from the article.
+Where the paper had results showing the ruler very clearly 0 these images will often just show a half of it.
+
+\subsubsection{Prediction precision on different classes}
+To further evaluate the model, we will investigate wether it underperforms on some classes.
+In Figure \ref{fig:prediction_strength} a confusion matrix for the trained model is shown.
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[
+        width=0.7\textwidth,
+    ]{build/prediction_strength/confusion_matrix_seaborn.png}
+    \caption{Confusion matrix of the model prediction on the dataset. 
+        Normalization has been done over the truth.
+    }
+    \label{fig:prediction_strength}
+\end{figure}
+
+The confusion matrix shows that the model underperforms on the \verb|mel| (melanoma) class.
+For terms of the using this model in practice, this would be problematic and should be adressed.
+The model does however perform fairly well in general, so it will still be used to investigate the
+impact of confounding elements on its predictions.
+
+\subsubsection{Prediction strength on the melanoma class}
+Assuming that the rulers do indeed affect the models predictions,
+it would likely impact the prediction strength of the model if rulers are present. 
+Since the rulers are overly present in the images of lesions with melanoma,
+it would under the assumption be expected, that the presence of the rulers improves the model's predictions 
+on the \verb|mel| class.
+
+To test this, a plot has been created below that shows the prediction strength of the model on the \verb|mel| class,
+seperated over the presence of rulers (Figure \ref{fig:prediction_strength_mel}).
+
+It shows a slightly better melanoma prediction precision on the pictures with rulers (Figure \ref{fig:prediction_strength_mel_normalized}).
+Doing a $\chi^2$ test on the data from Figure \ref{fig:prediction_strength_mel_not_normalized},
+however shows that the difference is not significant ($p=\input{build/prediction_strength/p_mel.txt}).
+
+
+\begin{figure}
+    \centering
+    \begin{subfigure}[h]{0.45\textwidth}
+        \includegraphics[
+            width=\textwidth,
+        ]{
+            build/prediction_strength/mel_confusion_matrix_seaborn.png
+        }
+        \caption{No normalization}
+        \label{fig:prediction_strength_mel_not_normalized}
+    \end{subfigure}
+    \begin{subfigure}[h]{0.45\textwidth}
+        \includegraphics[
+            width=\textwidth,
+        ]{
+            build/prediction_strength/mel_confusion_matrix_seaborn_normalized.png
+        }
+        \caption{Normalized over the presence of rulers}
+        \label{fig:prediction_strength_mel_normalized}
+    \end{subfigure}
+    \caption{Confusion matrix of the model prediction the melanoma cases split up by presence of a ruler.}
+    \label{fig:prediction_strength_mel}
+\end{figure}
+
+
+\end{figure}
