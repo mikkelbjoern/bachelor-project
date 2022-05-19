@@ -17,10 +17,5 @@ fullpdf: $(prereqs)
 	make -i bibliography
 	make -i pdf
 
-
-
 clean:
-	rm -f *.aux *.bbl *.blg *.log *.out *.bcf *.xml 2> /dev/null
-	rm main.pdf
-	rm -r build/
-	rm -r _minted-main/
+	./clean.sh
