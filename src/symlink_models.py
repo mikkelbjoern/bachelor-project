@@ -1,6 +1,7 @@
 import os
 from src.config import models
 from src.utils import MODEL_FOLDER, get_model_dir
+from src.prettify_output import prettify
 
 def symlink_models():
     for key, model_id in models.items():
@@ -16,7 +17,8 @@ def symlink_models():
         # Look for a file starting with "Output"
         for file_name in os.listdir(model_dir):
             if file_name.startswith("Output"):
-                # Check if the symlink already exists
-                sym_link = f"{MODEL_FOLDER}/{key}/{file_name}"
-                if not os.path.exists(sym_link):
-                    os.symlink(f"{model_dir}/{file_name}", sym_link)
+                file_handle = open(f"{model_dir}/{file_name}", 'r')
+                pretty_text = prettify(file_handle)
+                file_handle.close()
+                with open(f"{model_dir}/pretty-Output", "w") as f:
+                    f.write(pretty_text)
