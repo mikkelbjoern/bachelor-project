@@ -61,7 +61,7 @@ that the model is biased towards looking at rulers, we will also do some basic s
 to see if the model output is statistically significantly impacted by rulers.
 All tests will be performed under the assumption that the model is indeed impacted by ruler presence.
 
-\subsection{Different performance on the ruler class?}
+\subsection{Different performance on the melanoma class?}
 The confusion matrix in Figure \ref{fig:prediction_strength} shows that the model underperforms on the \verb|mel| (melanoma) class.
 Since the rulers are overly present in the images of lesions with melanoma,
 it seems likely that the presence of the rulers improves the model's predictions 
@@ -72,7 +72,7 @@ seperated over the presence of rulers (Figure \ref{fig:prediction_strength_mel})
 
 It shows a slightly better melanoma prediction precision on the pictures with rulers (Figure \ref{fig:prediction_strength_mel_normalized}).
 Doing a $\chi^2$ test on the data from Figure \ref{fig:prediction_strength_mel_not_normalized},
-however shows that the difference is not significant ($p=\input{build/prediction_strength/p_mel.txt}).
+however shows that the difference is not significant ($p=\input{build/prediction_strength/p_mel.txt}$).
 
 
 \begin{figure}[h]
@@ -99,5 +99,38 @@ however shows that the difference is not significant ($p=\input{build/prediction
     \label{fig:prediction_strength_mel}
 \end{figure}
 
+\subsection{Different performance on images containing rulers?}
+If the rulers contributes to the model's predictions,
+then it could be the case that the model has a general better/worse performance on images containing them.
+To investigate this claim, a plot like the one in Figure \ref{fig:prediction_strength_mel} has been made,
+where just Correct/Incorrect predictions are seperated over the presence of rulers.
 
+\begin{figure}
+    \centering
+    \begin{subfigure}[h]{0.45\textwidth}
+        \includegraphics[
+            width=\textwidth,
+        ]{
+            build/prediction_strength/ruler_confusion_matrix_seaborn.png
+        }
+        \caption{No normalization}
+        \label{fig:prediction_strength_ruler_not_normalized}
+    \end{subfigure}
+    \begin{subfigure}[h]{0.45\textwidth}
+        \includegraphics[
+            width=\textwidth,
+        ]{
+            build/prediction_strength/ruler_confusion_matrix_seaborn_normalized.png
+        }
+        \caption{Normalized over the presence of rulers}
+        \label{fig:prediction_strength_ruler_normalized}
+    \end{subfigure}
+    \caption{Confusion matrix of the model prediction the cases split up by presence of a ruler.}
+    \label{fig:prediction_strength_ruler}
 \end{figure}
+
+This plot tells a different story, then the one on just the \verb|mel| class.
+The likelyhood of a falsely classified image is almost twice as high for images
+that contain a ruler.
+Doing a $\chi^2$ test on the data from the confusion matrix in Figure \ref{fig:prediction_strength_ruler_not_normalized},
+shows a significant difference ($p=\input{build/prediction_strength/p_ruler.txt}$).
