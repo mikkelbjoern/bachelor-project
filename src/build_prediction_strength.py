@@ -14,6 +14,7 @@ from sklearn.metrics import confusion_matrix
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
+import matplotlib.patches as mpatches
 import numpy as np
 import scipy.stats as stats
 from fastai.interpret import ClassificationInterpretation
@@ -78,7 +79,6 @@ def build_prediction_strength():
     with open("p_mel.txt", "w") as f:
         f.write(f"{round(float(prop), 3)}")
 
-
     # Do a second plot where there is normalized over the x axis
     plt.figure(figsize=TINY_SIZE)
     p = sns.heatmap(
@@ -91,20 +91,14 @@ def build_prediction_strength():
     p.set_xlabel("Correctly classified")
     plt.savefig("mel_confusion_matrix_seaborn_normalized.png")
 
-
-
     #### Comparison of performance on cases with and without a ruler ####
     plt.clf()
 
     ruler_confusion_matrix = predictions.groupby(["ruler", "correct"]).size().unstack()
-    ruler_plot = sns.heatmap(
-        ruler_confusion_matrix, annot=True, cmap="Blues", fmt="d"
-    )
+    ruler_plot = sns.heatmap(ruler_confusion_matrix, annot=True, cmap="Blues", fmt="d")
     ruler_plot.set_ylabel("Has ruler")
     ruler_plot.set_xlabel("Correctly classified")
     plt.savefig("ruler_confusion_matrix_seaborn.png")
-
-
 
     # Normalize over the x axis
     plt.clf()
@@ -123,15 +117,22 @@ def build_prediction_strength():
     with open("p_ruler.txt", "w") as f:
         f.write(f"{round(float(prop), 3)}")
 
-
     # Do seperate plots and tests for the malignant and benign cases
-    predictions['benign_or_malignant'] = predictions.dx.map(lambda x: bening_or_malignant_dict[x])
+    predictions["benign_or_malignant"] = predictions.dx.map(
+        lambda x: bening_or_malignant_dict[x]
+    )
 
-    benign_predictions = predictions[predictions['benign_or_malignant'] == 'benign']
-    malignant_predictions = predictions[predictions['benign_or_malignant'] == 'malignant']
+    benign_predictions = predictions[predictions["benign_or_malignant"] == "benign"]
+    malignant_predictions = predictions[
+        predictions["benign_or_malignant"] == "malignant"
+    ]
 
-    benign_confusion_matrix = benign_predictions.groupby(["ruler", "correct"]).size().unstack()
-    malignant_confusion_matrix = malignant_predictions.groupby(["ruler", "correct"]).size().unstack()
+    benign_confusion_matrix = (
+        benign_predictions.groupby(["ruler", "correct"]).size().unstack()
+    )
+    malignant_confusion_matrix = (
+        malignant_predictions.groupby(["ruler", "correct"]).size().unstack()
+    )
 
     benign_confusion_matrix_normalized = benign_confusion_matrix.div(
         benign_confusion_matrix.sum(axis=1), axis=0
@@ -172,7 +173,6 @@ def build_prediction_strength():
     malignant_plot_normalized.set_xlabel("Correctly classified")
     plt.savefig("malignant_confusion_matrix_seaborn_normalized.png")
 
-
     # Make a chi-square test on the malignant_confusion_matrix
     chi2, prop, dof, expected = stats.chi2_contingency(malignant_confusion_matrix)
     with open("p_malignant.txt", "w") as f:
@@ -183,4 +183,63 @@ def build_prediction_strength():
     with open("p_benign.txt", "w") as f:
         f.write(f"{round(float(prop), 5)}")
 
+    ### Making plots of where the wrong predictions go ###
+    # # Show what classes the false classified beningn lesions are from
+    # false_benign_predictions = benign_predictions[
+    #     (benign_predictions["correct"] == False) & (benign_predictions["ruler"] == True)
+    # ]
+
+    # classi_count_false = false_benign_predictions.groupby(["classification"]).size()
+    # print(classi_count_false)
+
+    # # Plot the count
+    # plt.clf()
+    # plt.figure(figsize=(8, 5))
+    # count_plot = plt.bar(
+    #     [full_name_to_short_dict[x] for x in classi_count_false.index],
+    #     classi_count_false.values,
+    #     # Color blue for benign and red for malignant
+    #     color=[
+    #         "blue" if bening_or_malignant_dict[full_name_to_short_dict[x]] == "benign" else "red"
+    #         for x in classi_count_false.index
+    #     ],
+    # )
+    # # Show benign in legend
+    # benign_blue_patch = mpatches.Patch(color="blue", label="Benign lesion class")
+    # # Show malignant in legend
+    # malignant_red_patch = mpatches.Patch(color="red", label="Malignant lesion class")
+
+    # plt.legend(handles=[benign_blue_patch, malignant_red_patch])
+    # plt.savefig("false_classification_count.png")
+
+
+    # # Make the same plot with falsely classified beningn lesions but also with data
+    # # without rulers
+    # false_benign_predictions_all = benign_predictions[
+    #     benign_predictions["correct"] == False
+    # ]
+
+    # classi_count_false_all = false_benign_predictions_all.groupby(
+    #     ["classification"]
+    # ).size()
+    # print(classi_count_false_all)
+
+    # plt.clf()
+    # plt.figure(figsize=(8, 5))
+    # count_plot = plt.bar(
+    #     [full_name_to_short_dict[x] for x in classi_count_false_all.index],
+    #     classi_count_false_all.values,
+    #     # Color blue for benign and red for malignant
+    #     color=[
+    #         "blue" if bening_or_malignant_dict[full_name_to_short_dict[x]] == "benign" else "red"
+    #         for x in classi_count_false_all.index
+    #     ],
+    # )
+    # # Show benign in legend
+    # benign_blue_patch = mpatches.Patch(color="blue", label="Benign lesion class")
+    # # Show malignant in legend
+    # malignant_red_patch = mpatches.Patch(color="red", label="Malignant lesion class")
+
+    # plt.legend(handles=[benign_blue_patch, malignant_red_patch])
+    # plt.savefig("false_classification_count_all.png")
 

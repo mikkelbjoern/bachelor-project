@@ -165,7 +165,7 @@ significantly so under a $\chi^2$ test ($p=\input{build/prediction_strength/p_ma
         ]{
             build/prediction_strength/malignant_confusion_matrix_seaborn.png
         }
-        \caption{Normalized over the presence of rulers and malignancy}
+        \caption{Not normalized}
         \label{fig:prediction_strength_ruler_malignant_not_normalized}\
     \end{subfigure}
     \begin{subfigure}[h]{0.45\textwidth}
@@ -184,7 +184,13 @@ significantly so under a $\chi^2$ test ($p=\input{build/prediction_strength/p_ma
 
 
 \paragraph{Benign only}
-% Write text here...
+On Figure \ref{fig:prediction_strength_ruler_benign} the same calculations has been made,
+with the benign lesions as were just made with the malignant ones.
+They seem to show the opposite picture, where the images containing rulers are roughly 
+twice as likely to be incorrectly classified.
+Testing with a $\chi^2$ test, this result is even statistically significant with 
+$p=\input{build/prediction_strength/p_benign.txt}$.
+
 \begin{figure}[h]
     \centering
     \begin{subfigure}[h]{0.45\textwidth}
@@ -193,7 +199,7 @@ significantly so under a $\chi^2$ test ($p=\input{build/prediction_strength/p_ma
         ]{
             build/prediction_strength/benign_confusion_matrix_seaborn.png
         }
-        \caption{Normalized over the presence of rulers and malignancy}
+        \caption{Not normalized}
         \label{fig:prediction_strength_ruler_benign}
     \end{subfigure}
     \begin{subfigure}[h]{0.45\textwidth}
@@ -207,3 +213,6 @@ significantly so under a $\chi^2$ test ($p=\input{build/prediction_strength/p_ma
     \end{subfigure}
     \caption{Confusion matrix of the model prediction based only on images of benign lesions.}
 \end{figure}
+
+So the algorithm is significantly worse at classifying beningn lesions if they contain a ruler.
+Again, this does not mean that it is because of the rulers, only that there is correlation.
