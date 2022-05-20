@@ -27,30 +27,7 @@ More similar examples can be seen in Appendix \ref{appendix:ruler_saliency_maps}
     \label{fig:ruler_saliency_map}
 \end{figure}
 
-These images don't show results nearly as clearly as the ones from the article.
-Where the paper had results showing the ruler very clearly 0 these images will often just show a half of it.
-
-\section{Prediction precision on different classes}
-To further evaluate the model, we will investigate wether it underperforms on some classes.
-In Figure \ref{fig:prediction_strength} a confusion matrix for the trained model is shown.
-
-\begin{figure}[ht]
-    \centering
-    \includegraphics[
-        width=0.7\textwidth,
-    ]{build/prediction_strength/confusion_matrix_seaborn.png}
-    \caption{Confusion matrix of the model prediction on the dataset. 
-        Normalization has been done over the truth.
-    }
-    \label{fig:prediction_strength}
-\end{figure}
-
-The confusion matrix shows that the model underperforms on the \verb|mel| (melanoma) class.
-For terms of the using this model in practice, this would be problematic and should be adressed.
-The model does however perform fairly well in general, so it will still be used to investigate the
-impact of confounding elements on its predictions.
-
-\subsection{Feature based nearest neighbors}
+\section{Feature based nearest neighbors}
 In \textit{Debiasing Skin Lesions Datasets and Model. Not so Fast}\cite{debias-not-so-fast} (described in Section \ref{sec:debias-not-so-fast}),
 the authors argue that their melanoma prediction can pick up on confounding elements (like rulers), 
 by examining the internal layers of their model and comparing them to one another.
@@ -61,17 +38,33 @@ For a detailed description see section \ref{sec:debias-not-so-fast}.
 
 To check if this is the case for our model, we use the same approach and make a similar plot as seen in Figure \ref{fig:not-so-fast-artifact-query}.
 
-% \begin{figure}
-%     \centering
-%     \includegraphics*[width=\textwidth]{build/near_neigh/examples.png}
-%     \caption{Queries like the ones in Figure \ref{fig:not-so-fast-artifact-query} made for my own model}
-% \end{figure}
+\begin{figure}
+    \centering
+    \includegraphics*[width=\textwidth]{build/near_neigh/examples.png}
+    \caption{Queries like the ones in Figure \ref{fig:not-so-fast-artifact-query} made for my own model
+            All queries contain a ruler, and the neighbors have noted if they contain a ruler.
+    }
+    \label{fig:my-artifact-query}
+\end{figure}
 
-\subsection{Prediction strength on the melanoma class}
-Assuming that the rulers do indeed affect the models predictions,
-it would likely impact the prediction strength of the model if rulers are present. 
+Looking at Figure \ref{fig:my-artifact-query} we can see, that the results do not
+suggest anywhere near as strong a correlation as the paper shows in Figure \ref{fig:not-so-fast-artifact-query}.
+There does seem to be some amount more rulers than a random sample of images.
+Weather that is neccessarily due to the model being able to detect the rulers will be discussed later.
+
+These images don't show results nearly as clearly as the ones from the article.
+Where the paper had results showing the ruler very clearly 0 these images will often just show a half of it.
+
+\section{Statistical tests}
+Since the tests described in the background litterature, don't show clear evidence,
+that the model is biased towards looking at rulers, we will also do some basic statistical tests,
+to see if the model output is statistically significantly impacted by rulers.
+All tests will be performed under the assumption that the model is indeed impacted by ruler presence.
+
+\subsection{Different performance on the ruler class?}
+The confusion matrix in Figure \ref{fig:prediction_strength} shows that the model underperforms on the \verb|mel| (melanoma) class.
 Since the rulers are overly present in the images of lesions with melanoma,
-it would under the assumption be expected, that the presence of the rulers improves the model's predictions 
+it seems likely that the presence of the rulers improves the model's predictions 
 on the \verb|mel| class.
 
 To test this, a plot has been created below that shows the prediction strength of the model on the \verb|mel| class,

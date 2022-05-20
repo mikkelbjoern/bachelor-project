@@ -13,3 +13,18 @@ That is however still close to the best performing model published (see \ref{sec
 
 The actual implementation of the model can be seen in Appendix \ref{appendix:resnet-18-mixup}.
 Using the slight modifications to the original mode, the model reached an accuracy of roughly $91\%$.
+
+\section{Prediction precision on different classes}
+The model is trained on roughly $80\%$ of the data, and is tested on the remaining $20\%$.
+In Figure \ref{fig:prediction_strength} a confusion matrix for the trained model tested on the test set is shown.
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[
+        width=0.7\textwidth,
+    ]{build/prediction_strength/confusion_matrix_seaborn.png}
+    \caption{Confusion matrix of the model prediction on the dataset. 
+        Normalization has been done over the truth.
+    }
+    \label{fig:prediction_strength}
+\end{figure}
