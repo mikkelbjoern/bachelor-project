@@ -61,7 +61,7 @@ that the model is biased towards looking at rulers, we will also do some basic s
 to see if the model output is statistically significantly impacted by rulers.
 All tests will be performed under the assumption that the model is indeed impacted by ruler presence.
 
-\subsection{Different performance on the melanoma class?}
+\subsection{Different performance on the melanoma class?}\label{sec:different-performance-on-the-melanoma-class}
 The confusion matrix in Figure \ref{fig:prediction_strength} shows that the model underperforms on the \verb|mel| (melanoma) class.
 Since the rulers are overly present in the images of lesions with melanoma,
 it seems likely that the presence of the rulers improves the model's predictions 
@@ -134,3 +134,20 @@ The likelyhood of a falsely classified image is almost twice as high for images
 that contain a ruler.
 Doing a $\chi^2$ test on the data from the confusion matrix in Figure \ref{fig:prediction_strength_ruler_not_normalized},
 shows a significant difference ($p=\input{build/prediction_strength/p_ruler.txt}$).
+
+\subsubsection{Controlling for classes}
+From Figure \ref{fig:prediction_strength_ruler} and the following statistical test,
+it became clear that there is a significant difference between performance on images containing rulers,
+and on images without rulers.
+As has been repeated in many a statistics course though: 
+\textit{Correlation is not causation}.
+That is, it is not neccessarily \textit{because} of the rulers that the predictions are worse.
+An explanation that would align with the results of Section \ref{sec:different-performance-on-the-melanoma-class},
+could be that the model just has a more difficult time predicting the less prevalent malignant classes.
+To test this, we need to control for the malignancy of lesion in the image.
+
+As described in \ref{sec:statistical_tests_with_conditioned_variables}, there is not 
+a single standard test for this.
+Here we will rely on making two seperate tests:
+One on the test images of malignant and one of those without.
+ % TODO: Do these tests
