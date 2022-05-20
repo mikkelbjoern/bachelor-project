@@ -7,6 +7,7 @@ from src.utils import (
     short_to_full_name_dict,
     full_name_to_short_dict,
     HAM10000_DATA_FOLDER,
+    bening_or_malignant_dict,
 )
 from src.config import resnet_mixup_id, only_lesion_id
 from sklearn.metrics import confusion_matrix
@@ -123,5 +124,63 @@ def build_prediction_strength():
         f.write(f"{round(float(prop), 3)}")
 
 
+    # Do seperate plots and tests for the malignant and benign cases
+    predictions['benign_or_malignant'] = predictions.dx.map(lambda x: bening_or_malignant_dict[x])
+
+    benign_predictions = predictions[predictions['benign_or_malignant'] == 'benign']
+    malignant_predictions = predictions[predictions['benign_or_malignant'] == 'malignant']
+
+    benign_confusion_matrix = benign_predictions.groupby(["ruler", "correct"]).size().unstack()
+    malignant_confusion_matrix = malignant_predictions.groupby(["ruler", "correct"]).size().unstack()
+
+    benign_confusion_matrix_normalized = benign_confusion_matrix.div(
+        benign_confusion_matrix.sum(axis=1), axis=0
+    )
+    malignant_confusion_matrix_normalized = malignant_confusion_matrix.div(
+        malignant_confusion_matrix.sum(axis=1), axis=0
+    )
+
+    plt.clf()
+    benign_plot = sns.heatmap(
+        benign_confusion_matrix, annot=True, cmap="Blues", fmt="d"
+    )
+    benign_plot.set_ylabel("Has ruler")
+    benign_plot.set_xlabel("Correctly classified")
+    plt.savefig("benign_confusion_matrix_seaborn.png")
+
+    plt.clf()
+    malignant_plot = sns.heatmap(
+        malignant_confusion_matrix, annot=True, cmap="Blues", fmt="d"
+    )
+    malignant_plot.set_ylabel("Has ruler")
+    malignant_plot.set_xlabel("Correctly classified")
+    plt.savefig("malignant_confusion_matrix_seaborn.png")
+
+    plt.clf()
+    benign_plot_normalized = sns.heatmap(
+        benign_confusion_matrix_normalized, annot=True, cmap="Blues"
+    )
+    benign_plot_normalized.set_ylabel("Has ruler")
+    benign_plot_normalized.set_xlabel("Correctly classified")
+    plt.savefig("benign_confusion_matrix_seaborn_normalized.png")
+
+    plt.clf()
+    malignant_plot_normalized = sns.heatmap(
+        malignant_confusion_matrix_normalized, annot=True, cmap="Blues"
+    )
+    malignant_plot_normalized.set_ylabel("Has ruler")
+    malignant_plot_normalized.set_xlabel("Correctly classified")
+    plt.savefig("malignant_confusion_matrix_seaborn_normalized.png")
+
+
+    # Make a chi-square test on the malignant_confusion_matrix
+    chi2, prop, dof, expected = stats.chi2_contingency(malignant_confusion_matrix)
+    with open("p_malignant.txt", "w") as f:
+        f.write(f"{round(float(prop), 3)}")
+
+    # Make a chi-square test on the benign_confusion_matrix
+    chi2, prop, dof, expected = stats.chi2_contingency(benign_confusion_matrix)
+    with open("p_benign.txt", "w") as f:
+        f.write(f"{round(float(prop), 5)}")
 
 

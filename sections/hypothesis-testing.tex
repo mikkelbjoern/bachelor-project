@@ -29,7 +29,7 @@ More similar examples can be seen in Appendix \ref{appendix:ruler_saliency_maps}
 
 \section{Feature based nearest neighbors}
 In \textit{Debiasing Skin Lesions Datasets and Model. Not so Fast}\cite{debias-not-so-fast} (described in Section \ref{sec:debias-not-so-fast}),
-the authors argue that their melanoma prediction can pick up on confounding elements (like rulers), 
+the authors argue that their melanoma prediction can pick up on confounding elements (like rulers),
 by examining the internal layers of their model and comparing them to one another.
 Specifically, they find, that the vectors outputted from internal layers,
 that are thought of as representing the semantic features of an image,
@@ -42,7 +42,7 @@ To check if this is the case for our model, we use the same approach and make a 
     \centering
     \includegraphics*[width=\textwidth]{build/near_neigh/examples.png}
     \caption{Queries like the ones in Figure \ref{fig:not-so-fast-artifact-query} made for my own model
-            All queries contain a ruler, and the neighbors have noted if they contain a ruler.
+        All queries contain a ruler, and the neighbors have noted if they contain a ruler.
     }
     \label{fig:my-artifact-query}
 \end{figure}
@@ -64,7 +64,7 @@ All tests will be performed under the assumption that the model is indeed impact
 \subsection{Different performance on the melanoma class?}\label{sec:different-performance-on-the-melanoma-class}
 The confusion matrix in Figure \ref{fig:prediction_strength} shows that the model underperforms on the \verb|mel| (melanoma) class.
 Since the rulers are overly present in the images of lesions with melanoma,
-it seems likely that the presence of the rulers improves the model's predictions 
+it seems likely that the presence of the rulers improves the model's predictions
 on the \verb|mel| class.
 
 To test this, a plot has been created below that shows the prediction strength of the model on the \verb|mel| class,
@@ -139,15 +139,71 @@ shows a significant difference ($p=\input{build/prediction_strength/p_ruler.txt}
 From Figure \ref{fig:prediction_strength_ruler} and the following statistical test,
 it became clear that there is a significant difference between performance on images containing rulers,
 and on images without rulers.
-As has been repeated in many a statistics course though: 
+As has been repeated in many a statistics course though:
 \textit{Correlation is not causation}.
 That is, it is not neccessarily \textit{because} of the rulers that the predictions are worse.
 An explanation that would align with the results of Section \ref{sec:different-performance-on-the-melanoma-class},
 could be that the model just has a more difficult time predicting the less prevalent malignant classes.
 To test this, we need to control for the malignancy of lesion in the image.
 
-As described in \ref{sec:statistical_tests_with_conditioned_variables}, there is not 
+As described in \ref{sec:statistical_tests_with_conditioned_variables}, there is not
 a single standard test for this.
 Here we will rely on making two seperate tests:
 One on the test images of malignant and one of those without.
- % TODO: Do these tests
+
+\paragraph{Malignant only}
+On Figure \ref{fig:prediction_strength_ruler_malignant} yet another set of tables are set up,
+comparing precision of the algorithm on the malignant subset of the test set.
+It is slightly better at classifying the malignant cases, but not
+significantly so under a $\chi^2$ test ($p=\input{build/prediction_strength/p_malignant.txt}$).
+
+\begin{figure}[h]
+    \centering
+    \begin{subfigure}[h]{0.45\textwidth}
+        \includegraphics[
+            width=\textwidth,
+        ]{
+            build/prediction_strength/malignant_confusion_matrix_seaborn.png
+        }
+        \caption{Normalized over the presence of rulers and malignancy}
+        \label{fig:prediction_strength_ruler_malignant_not_normalized}\
+    \end{subfigure}
+    \begin{subfigure}[h]{0.45\textwidth}
+        \includegraphics[
+            width=\textwidth,
+        ]{
+            build/prediction_strength/malignant_confusion_matrix_seaborn_normalized.png
+        }
+        \caption{Normalized over the presence of rulers and malignancy}
+        \label{fig:prediction_strength_ruler_normalized_malignant}
+    \end{subfigure}
+    \caption{Confusion matrix of the model prediction based only on images of malignant lesions.}
+    \label{fig:prediction_strength_ruler_malignant}
+\end{figure}
+
+
+
+\paragraph{Benign only}
+% Write text here...
+\begin{figure}[h]
+    \centering
+    \begin{subfigure}[h]{0.45\textwidth}
+        \includegraphics[
+            width=\textwidth,
+        ]{
+            build/prediction_strength/benign_confusion_matrix_seaborn.png
+        }
+        \caption{Normalized over the presence of rulers and malignancy}
+        \label{fig:prediction_strength_ruler_benign}
+    \end{subfigure}
+    \begin{subfigure}[h]{0.45\textwidth}
+        \includegraphics[
+            width=\textwidth,
+        ]{
+            build/prediction_strength/benign_confusion_matrix_seaborn_normalized.png
+        }
+        \caption{Normalized over the presence of rulers and malignancy}
+        \label{fig:prediction_strength_ruler_normalized_benign}
+    \end{subfigure}
+    \caption{Confusion matrix of the model prediction based only on images of benign lesions.}
+\end{figure}
