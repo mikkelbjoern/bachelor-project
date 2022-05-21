@@ -229,3 +229,17 @@ Due to the laclk of data on the other confounders, no further exploration into t
     \caption{Misclassified benign lesions with rulers}
     \label{fig:prediction_strength_ruler_misclassified_benign}
 \end{figure}
+
+\section{Segmenting the lesion}
+A widely used strategy for making a model not use confounding information, is to simply remove it from the image.
+In this case, that would mean to make the entire image black except the skin lesion.
+Training another model on this data, would mean that it didn't have access to the confounding elements, 
+and will therefore be unable to learn about them.
+
+Operating under the assumption that the model is learning about confounding elements,
+a worse performance would be expected from a model trained on a segmented dataset,
+since it can't get the assumed advantage from looking at the confounding elements.
+
+% TODO: State basic performance metrics on the model on the dataset.
+
+% TODO: Run all the same statistical tests on the segmented model - put in Appendix except if interesting
