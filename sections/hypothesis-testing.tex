@@ -216,3 +216,16 @@ $p=\input{build/prediction_strength/p_benign.txt}$.
 
 So the algorithm is significantly worse at classifying beningn lesions if they contain a ruler.
 Again, this does not mean that it is because of the rulers, only that there is correlation.
+A possible explanation could also be that other confounding elements are more present in images with rulers.
+In Figure \ref{fig:prediction_strength_ruler_misclassified_benign} a sample of the misclassified images are shown,
+and a lot of these contain other confounding elements like ink and black borders.
+Due to the laclk of data on the other confounders, no further exploration into these correlations has been done.
+
+\begin{figure}
+    \centering
+    \includegraphics*[width=\textwidth]{
+        build/prediction_strength/misclassified_benign_images_with_rulers.png
+    }
+    \caption{Misclassified benign lesions with rulers}
+    \label{fig:prediction_strength_ruler_misclassified_benign}
+\end{figure}

@@ -139,3 +139,6 @@ def plot_prediction_confusion_matrix(df, y_axis, x_axis, normalize=None):
         confusion_matrix, annot=True, cmap="Blues", annot_kws={"size": 10}, fmt=".3g"
     )
     return p
+
+def get_image_path(image_id):
+    return HAM10000_DATA_FOLDER + "/HAM10000_images/" + image_id + ".jpg"

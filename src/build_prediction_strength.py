@@ -1,14 +1,12 @@
-from cProfile import label
 from src.utils import (
-    get_resnet_mixup_model,
     get_model_dir,
     ham10000_metadata,
-    scientific_notation,
     short_to_full_name_dict,
     full_name_to_short_dict,
-    HAM10000_DATA_FOLDER,
     bening_or_malignant_dict,
+    get_image_path
 )
+from PIL import Image
 from src.config import resnet_mixup_id, only_lesion_id
 from sklearn.metrics import confusion_matrix
 import pandas as pd
@@ -183,63 +181,23 @@ def build_prediction_strength():
     with open("p_benign.txt", "w") as f:
         f.write(f"{round(float(prop), 5)}")
 
-    ### Making plots of where the wrong predictions go ###
-    # # Show what classes the false classified beningn lesions are from
-    # false_benign_predictions = benign_predictions[
-    #     (benign_predictions["correct"] == False) & (benign_predictions["ruler"] == True)
-    # ]
+    ## Make a plot of some of the images with rulers that were misclassified ##
+    # Get the indices of the misclassified images
+    misclassified_images_df = benign_predictions[
+        (benign_predictions["correct"] == False) & (benign_predictions["ruler"] == True)
+    ]
 
-    # classi_count_false = false_benign_predictions.groupby(["classification"]).size()
-    # print(classi_count_false)
+    # Find the image_ids
+    image_ids = misclassified_images_df.image_id.unique()
 
-    # # Plot the count
-    # plt.clf()
-    # plt.figure(figsize=(8, 5))
-    # count_plot = plt.bar(
-    #     [full_name_to_short_dict[x] for x in classi_count_false.index],
-    #     classi_count_false.values,
-    #     # Color blue for benign and red for malignant
-    #     color=[
-    #         "blue" if bening_or_malignant_dict[full_name_to_short_dict[x]] == "benign" else "red"
-    #         for x in classi_count_false.index
-    #     ],
-    # )
-    # # Show benign in legend
-    # benign_blue_patch = mpatches.Patch(color="blue", label="Benign lesion class")
-    # # Show malignant in legend
-    # malignant_red_patch = mpatches.Patch(color="red", label="Malignant lesion class")
-
-    # plt.legend(handles=[benign_blue_patch, malignant_red_patch])
-    # plt.savefig("false_classification_count.png")
-
-
-    # # Make the same plot with falsely classified beningn lesions but also with data
-    # # without rulers
-    # false_benign_predictions_all = benign_predictions[
-    #     benign_predictions["correct"] == False
-    # ]
-
-    # classi_count_false_all = false_benign_predictions_all.groupby(
-    #     ["classification"]
-    # ).size()
-    # print(classi_count_false_all)
-
-    # plt.clf()
-    # plt.figure(figsize=(8, 5))
-    # count_plot = plt.bar(
-    #     [full_name_to_short_dict[x] for x in classi_count_false_all.index],
-    #     classi_count_false_all.values,
-    #     # Color blue for benign and red for malignant
-    #     color=[
-    #         "blue" if bening_or_malignant_dict[full_name_to_short_dict[x]] == "benign" else "red"
-    #         for x in classi_count_false_all.index
-    #     ],
-    # )
-    # # Show benign in legend
-    # benign_blue_patch = mpatches.Patch(color="blue", label="Benign lesion class")
-    # # Show malignant in legend
-    # malignant_red_patch = mpatches.Patch(color="red", label="Malignant lesion class")
-
-    # plt.legend(handles=[benign_blue_patch, malignant_red_patch])
-    # plt.savefig("false_classification_count_all.png")
-
+    # Plot them 12 of them in three rows
+    plt.clf()
+    fig, axs = plt.subplots(3, 4, figsize=(15, 10))
+    for i, image_id in enumerate(image_ids[:12]):
+        # Get the image
+        image_path = get_image_path(image_id)
+        image = Image.open(image_path)
+        axs[i // 4, i % 4].imshow(image)
+        axs[i // 4, i % 4].set_title(image_id)
+        axs[i // 4, i % 4].axis("off")
+    plt.savefig("misclassified_benign_images_with_rulers.png")
