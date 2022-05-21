@@ -146,9 +146,9 @@ def calculate_metrics(model_id, dataset):
     """
     Calculates metrics for the model with the given id,
     on the dataset provided
-    :model_id: uuid
-    :dataset: 'normal', 'only_lesions' or 'without_lesions'
-    :returns: dict of metrics containing:
+        :model_id: uuid
+        :dataset: 'normal', 'only_lesions' or 'without_lesions'
+        :returns: dict of metrics containing:
         - Multi-class precision (mc-precision)
         - Multi-class f1-score, calculated 'weighted' see sklearn docs for explanation (mc-f1)
         - Binary precision (b-precision)
@@ -163,7 +163,7 @@ def calculate_metrics(model_id, dataset):
     elif dataset == "without_lesions":
         file_name = "without_lesions_predictions.csv"
     else:
-        raise ValueError(f"Unknown dataset {dataset}")
+        raise ValueError(f"Unknown dataset {dataset}, must be 'normal', 'only_lesions' or 'without_lesions'")
 
     predictions = pd.read_csv(f"{get_model_dir(model_id)}/{file_name}")
     predictions = predictions.merge(ham10000_metadata, on="image_id", how="left")

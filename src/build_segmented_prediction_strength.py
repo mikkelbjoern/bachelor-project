@@ -49,7 +49,9 @@ def build_segmented_prediction_strength():
         predictions.groupby(["real_class", "classification"]).size().unstack()
     )
     only_lesion_confusion_matrix = (
-        only_lesion_predictions.groupby(["real_class", "classification"]).size().unstack()
+        only_lesion_predictions.groupby(["real_class", "classification"])
+        .size()
+        .unstack()
     )
 
     # Normalize over the x axis
@@ -60,22 +62,23 @@ def build_segmented_prediction_strength():
         only_lesion_confusion_matrix.sum(axis=1), axis=0
     )
 
-
     confusion_matrix_normalized.columns = confusion_matrix_normalized.columns.map(
         lambda x: full_name_to_short_dict[x]
     )
-    only_lesion_confusion_matrix_normalized.columns = only_lesion_confusion_matrix_normalized.columns.map(
-        lambda x: full_name_to_short_dict[x]
+    only_lesion_confusion_matrix_normalized.columns = (
+        only_lesion_confusion_matrix_normalized.columns.map(
+            lambda x: full_name_to_short_dict[x]
+        )
     )
-
 
     confusion_matrix_normalized.index = confusion_matrix_normalized.index.map(
         lambda x: full_name_to_short_dict[x]
     )
-    only_lesion_confusion_matrix_normalized.index = only_lesion_confusion_matrix_normalized.index.map(
-        lambda x: full_name_to_short_dict[x]
+    only_lesion_confusion_matrix_normalized.index = (
+        only_lesion_confusion_matrix_normalized.index.map(
+            lambda x: full_name_to_short_dict[x]
+        )
     )
-
 
     # Plot the confusion matrix using seaborn
     plt.figure(figsize=(8, 8))
@@ -89,7 +92,10 @@ def build_segmented_prediction_strength():
     # Plot the confusion matrix using seaborn
     plt.figure(figsize=(8, 8))
     p = sns.heatmap(
-        only_lesion_confusion_matrix_normalized, annot=True, cmap="Blues", annot_kws={"size": 10}
+        only_lesion_confusion_matrix_normalized,
+        annot=True,
+        cmap="Blues",
+        annot_kws={"size": 10},
     )
     p.set_xlabel("Predicted label")
     p.set_ylabel("True label")
@@ -99,6 +105,48 @@ def build_segmented_prediction_strength():
 
     # With recall we think malignant recall
     # With precision we calculate both malignant precision and general class precision
-    scores = calculate_metrics(only_lesion_id, 'normal')
-    # TODO: Write these calculations to a pretty table
+    segmented_on_normal_metrics = calculate_metrics(only_lesion_id, "normal")
+    segmented_on_only_lesion_metrics = calculate_metrics(only_lesion_id, "only_lesions")
+    normal_on_normal_metrics = calculate_metrics(resnet_mixup_id, "normal")
 
+    index = pd.MultiIndex.from_tuples(
+        [
+            ("Full images", "Full images"),
+            ("Segmented lesions", "Full images"),
+            ("Segmented lesions", "Segmented lesions"),
+        ],
+        names=["Training set", "Evaluation set"],
+    )
+
+    score_table = pd.DataFrame(
+        {
+            "Multiclass precision": [
+                normal_on_normal_metrics["mc-precision"],
+                segmented_on_normal_metrics["mc-precision"],
+                segmented_on_only_lesion_metrics["mc-precision"],
+            ],
+            "Multiclass F1 score": [
+                normal_on_normal_metrics["mc-f1"],
+                segmented_on_normal_metrics["mc-f1"],
+                segmented_on_only_lesion_metrics["mc-f1"],
+            ],
+            "Binary precision": [
+                normal_on_normal_metrics["b-precision"],
+                segmented_on_normal_metrics["b-precision"],
+                segmented_on_only_lesion_metrics["b-precision"],
+            ],
+            "Binary F1 score": [
+                normal_on_normal_metrics["b-f1"],
+                segmented_on_normal_metrics["b-f1"],
+                segmented_on_only_lesion_metrics["b-f1"],
+            ],
+            "Binary recall": [
+                normal_on_normal_metrics["b-recall"],
+                segmented_on_normal_metrics["b-recall"],
+                segmented_on_only_lesion_metrics["b-recall"],
+            ],
+        },
+        index=index,
+    )
+
+    score_table.transpose().to_latex("score_table.tex")
