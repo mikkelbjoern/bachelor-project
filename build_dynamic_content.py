@@ -13,6 +13,7 @@ from src.build_confounder_label_correlation import build_confounder_label_correl
 from src.build_saliency_maps import build_saliency_maps
 from src.build_prediction_strength import build_prediction_strength
 from src.build_near_neigh import build_near_neigh
+from src.build_segmented_prediction_strength import build_segmented_prediction_strength
 
 # The second argument in the tuple is weather the part is default built
 parts_and_default = [
@@ -22,6 +23,7 @@ parts_and_default = [
     ("saliency_maps", False),
     ("prediction_strength", True),
     ("near_neigh", False),
+    ("segmented_prediction_strength", True),
 ]
 parts = [part for part, _ in parts_and_default]
 
@@ -88,6 +90,9 @@ def build_part(part):
     
     if part == "near_neigh":
         build_near_neigh()
+
+    if part == "segmented_prediction_strength":
+        build_segmented_prediction_strength()
 
 
 
