@@ -4,6 +4,7 @@ import pandas as pd
 import src.config as config
 import matplotlib.pyplot as plt
 import seaborn as sns
+import sklearn.metrics as metrics
 
 # Find the image folder one level up from this file
 IMAGE_FOLDER = os.path.dirname(os.path.realpath(__file__)) + "/../images"
@@ -121,18 +122,14 @@ full_name_to_short_dict = {v: k for k, v in short_to_full_name_dict.items()}
 
 def plot_prediction_confusion_matrix(df, y_axis, x_axis, normalize=None):
     # Make a confusion matrix
-    confusion_matrix = (
-        df.groupby([y_axis, x_axis]).size().unstack()
-    )
+    confusion_matrix = df.groupby([y_axis, x_axis]).size().unstack()
 
     if normalize:
         assert normalize in ["x"]
-    
+
     if normalize == "x":
         # Normalize over the x axis
-        confusion_matrix = confusion_matrix.div(
-            confusion_matrix.sum(axis=1), axis=0
-        )
+        confusion_matrix = confusion_matrix.div(confusion_matrix.sum(axis=1), axis=0)
 
     # Plot the confusion matrix using seaborn, format rounded to nearest 5 decimal places
     p = sns.heatmap(
@@ -140,5 +137,79 @@ def plot_prediction_confusion_matrix(df, y_axis, x_axis, normalize=None):
     )
     return p
 
+
 def get_image_path(image_id):
     return HAM10000_DATA_FOLDER + "/HAM10000_images/" + image_id + ".jpg"
+
+
+def calculate_metrics(model_id, dataset):
+    """
+    Calculates metrics for the model with the given id,
+    on the dataset provided
+    :model_id: uuid
+    :dataset: 'normal', 'only_lesions' or 'without_lesions'
+    :returns: dict of metrics containing:
+        - Multi-class precision (mc-precision)
+        - Multi-class f1-score, calculated 'weighted' see sklearn docs for explanation (mc-f1)
+        - Binary precision (b-precision)
+        - Binary recall (b-recall)
+        - Binary f1-score  (b-f1)
+    """
+    # Get the model
+    if dataset == "normal":
+        file_name = "predictions.csv"
+    elif dataset == "only_lesions":
+        file_name = "only_lesions_predictions.csv"
+    elif dataset == "without_lesions":
+        file_name = "without_lesions_predictions.csv"
+    else:
+        raise ValueError(f"Unknown dataset {dataset}")
+
+    predictions = pd.read_csv(f"{get_model_dir(model_id)}/{file_name}")
+    predictions = predictions.merge(ham10000_metadata, on="image_id", how="left")
+    predictions["real_class"] = predictions.dx.map(lambda x: short_to_full_name_dict[x])
+    predictions["correct_class"] = predictions.classification == predictions.real_class
+
+    predictions["malignant_or_benign"] = predictions.dx.map(
+        lambda x: bening_or_malignant_dict[x]
+    )
+    predictions["malignant"] = predictions["malignant_or_benign"] == "malignant"
+    predictions["benign"] = predictions["malignant_or_benign"] == "benign"
+
+    predictions["predicted_malignant_or_benign"] = predictions.classification.map(
+        lambda x: bening_or_malignant_dict[full_name_to_short_dict[x]]
+    )
+    predictions["predicted_malignant"] = (
+        predictions["predicted_malignant_or_benign"] == "malignant"
+    )
+    predictions["predicted_benign"] = (
+        predictions["predicted_malignant_or_benign"] == "benign"
+    )
+
+    # Calculate the metrics
+    mc_precision = predictions["correct_class"].mean()
+
+    mc_f1 = metrics.f1_score(
+        predictions.real_class, predictions.classification, average="weighted"
+    )
+
+    b_precision = (
+        predictions["malignant_or_benign"]
+        == predictions["predicted_malignant_or_benign"]
+    ).mean()
+
+    b_recall = metrics.recall_score(
+        predictions.malignant_or_benign, predictions.predicted_malignant_or_benign, pos_label='malignant'
+    )
+
+    b_f1 = metrics.f1_score(
+        predictions.malignant_or_benign, predictions.predicted_malignant_or_benign, pos_label='malignant'
+    )
+
+    return {
+        "mc-precision": mc_precision,
+        "mc-f1": mc_f1,
+        "b-precision": b_precision,
+        "b-recall": b_recall,
+        "b-f1": b_f1,
+    }

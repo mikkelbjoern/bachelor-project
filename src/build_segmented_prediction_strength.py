@@ -5,9 +5,10 @@ from src.utils import (
     full_name_to_short_dict,
     bening_or_malignant_dict,
     get_image_path,
+    calculate_metrics,
 )
 from PIL import Image
-from src.config import only_lesion_id
+from src.config import only_lesion_id, resnet_mixup_id
 from sklearn.metrics import confusion_matrix
 import pandas as pd
 import seaborn as sns
@@ -98,6 +99,6 @@ def build_segmented_prediction_strength():
 
     # With recall we think malignant recall
     # With precision we calculate both malignant precision and general class precision
-    # TODO: ACTUALLY DO THESE CALCULATIONS
-
+    scores = calculate_metrics(only_lesion_id, 'normal')
+    # TODO: Write these calculations to a pretty table
 
