@@ -246,7 +246,10 @@ since it can't get the assumed advantage from looking at the confounding element
                 then evaluated on each of the two for calculating metric.
                 The reported metrics are defined in Section \ref{sec:model_metrics}.
     }
-    \label{table:segmented_metrics}
+    \label{tab:segmented_metrics}
 \end{table}
 
-% TODO: Run all the same statistical tests on the segmented model - put in Appendix except if interesting
+The most notable thing in Table \ref{table:segmented_metrics} is that the segmented model tested
+on its segmented images outperforms everything else on all metrics.
+This finding has already been reported previously \cite{segmenting-improves-performance}.
+The segmented model even outperforms the model trained on the full images, on the full images in Malignant recall.
