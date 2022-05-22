@@ -138,8 +138,28 @@ def plot_prediction_confusion_matrix(df, y_axis, x_axis, normalize=None):
     return p
 
 
-def get_image_path(image_id):
-    return HAM10000_DATA_FOLDER + "/HAM10000_images/" + image_id + ".jpg"
+def get_image_path(image_id, image_type="normal"):
+    """
+    Returns the path to the image with the given image_id.
+    The image_type should be either "only_lesions", "without_lesions", or "normal"
+    """
+    if image_type == "only_lesions":
+        folder = "only_lesions"
+    elif image_type == "without_lesions":
+        folder = "without_lesions"
+    elif image_type == "normal":
+        folder = "HAM10000_images"
+    else:
+        raise ValueError(
+            f"Unknown image type {image_type}, should be one of 'only_lesions', 'without_lesions', or 'normal'"
+        )
+
+    return (
+        HAM10000_DATA_FOLDER
+        + f"/{folder}/"
+        + image_id
+        + (".jpg" if image_type == "normal" else ".png")
+    )
 
 
 def calculate_metrics(model_id, dataset):
@@ -163,7 +183,9 @@ def calculate_metrics(model_id, dataset):
     elif dataset == "without_lesions":
         file_name = "without_lesions_predictions.csv"
     else:
-        raise ValueError(f"Unknown dataset {dataset}, must be 'normal', 'only_lesions' or 'without_lesions'")
+        raise ValueError(
+            f"Unknown dataset {dataset}, must be 'normal', 'only_lesions' or 'without_lesions'"
+        )
 
     predictions = pd.read_csv(f"{get_model_dir(model_id)}/{file_name}")
     predictions = predictions.merge(ham10000_metadata, on="image_id", how="left")
@@ -199,11 +221,15 @@ def calculate_metrics(model_id, dataset):
     ).mean()
 
     b_recall = metrics.recall_score(
-        predictions.malignant_or_benign, predictions.predicted_malignant_or_benign, pos_label='malignant'
+        predictions.malignant_or_benign,
+        predictions.predicted_malignant_or_benign,
+        pos_label="malignant",
     )
 
     b_f1 = metrics.f1_score(
-        predictions.malignant_or_benign, predictions.predicted_malignant_or_benign, pos_label='benign'
+        predictions.malignant_or_benign,
+        predictions.predicted_malignant_or_benign,
+        pos_label="benign",
     )
 
     return {

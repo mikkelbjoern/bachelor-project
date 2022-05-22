@@ -14,6 +14,7 @@ from src.build_saliency_maps import build_saliency_maps
 from src.build_prediction_strength import build_prediction_strength
 from src.build_near_neigh import build_near_neigh
 from src.build_segmented_prediction_strength import build_segmented_prediction_strength
+from src.build_segmented_images_example import build_segmented_images_examlpe
 
 # The second argument in the tuple is weather the part is default built
 parts_and_default = [
@@ -24,6 +25,7 @@ parts_and_default = [
     ("prediction_strength", True),
     ("near_neigh", False),
     ("segmented_prediction_strength", True),
+    ("segmented_images_example", True)
 ]
 parts = [part for part, _ in parts_and_default]
 
@@ -93,7 +95,9 @@ def build_part(part):
 
     if part == "segmented_prediction_strength":
         build_segmented_prediction_strength()
-
+    
+    if part == "segmented_images_example":
+        build_segmented_images_examlpe()
 
 
 if __name__ == "__main__":
