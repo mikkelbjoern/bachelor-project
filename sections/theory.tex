@@ -341,7 +341,7 @@ The RESNET architecture is a popular architecture for deep neural networks.
 It was presented in 2015 and presented some promising results on the ImageNet dataset\cite{RESNET-paper}.
 It is implemented PyTorch and other similar libraries, making it easy to implement.
 
-\section{Model metrics}
+\section{Model metrics} \label{sec:model_metrics}
 To compare the performance of different models, different kinds of metrics can be used.
 In the litterature on HAM10000, some researchers choose to look at all the classes presented 
 in Table \ref{table:ham10000}.
@@ -397,8 +397,12 @@ Defining a multiclass F1 score, is a bit more complicated than for a binary one.
 The Python package that is used to calculate the F1 score in this project, \verb|sklearn|
 \cite{sklearn}, has a mandatory parameter \verb|average|, that changes the way the F1 score is calculated.
 In Figure \ref{fig:sklearn-f1-average-docs} the average parameter is described.
-In this project, the we will use \verb|average='weighted'|.
-% TODO: Give a reason for this choice
+In this project, the we will use \verb|average='weighted'|, where the F1 score is calculated
+using each of the classes in the problem as a positive class and then doing a weighted average of them based
+on the number of samples in each class.
+The reason for this choice, is that it explicitly considers the class imbalanance,
+which is important for the multiclass problem on the HAM10000.
+
 
 \begin{figure}
 \begin{minted}{text}
