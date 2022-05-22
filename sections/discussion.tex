@@ -1,4 +1,4 @@
-\chapter{Discuission}
+\chapter{Discussion}
 Biases on models from confounding elements have been widely reported in machine learning
 \cite{DeConstructing_Bias_on_Skin_Lesion_Datasets_2019, Towards_Explainable_Classifiers_Using_the_Counterfactual_Approach_2019, debias-not-so-fast, interps-are-useful}
 
@@ -6,7 +6,19 @@ The initial goal of this project was to look into methods to not use ruler prese
 classification of lesions.
 To be able to investigate the phenomenon, the plan was to:
 \begin{enumerate}
-    \item Train a model that performs fairly well compared to the state of the art
-    \item Show that the model is biased towards the presence of ruler \label{item:biased-ruler}
-          % Write the rest here...
+    \item Train a model that performs fairly well compared to the state of the art \label{item:train-model}
+    \item Show that the model is using the presence of ruler in its predictions \label{item:biased-ruler}
+    \item Make changes to the model to remove the bias
+    \item Rerun the argument as in step \ref{item:biased-ruler} and show that the model is no longer biased
 \end{enumerate}
+Step \ref{item:train-model} went fairly easy, especially because the dataset is well researched,
+so another model could be used for inspiration \cite{kaggle-97-model}.
+
+When reaching step \ref{item:biased-ruler}, the results didn't go quite as expected.
+Even though it had been argued in previous papers, that models were doing exactly this 
+\cite{debias-not-so-fast,interps-are-useful}, I was unable to replicate their results, 
+to a degree that convinced me that the model was indeed using the rulers.
+
+% TODO: Write about the saliency maps - not pointing to the ruler
+% Even if they did, its uncertain what they mean (reference to the paper about no hope for XAI)
+% And also they are super hard to interpret - they are very prone to introduce confirmation bias
