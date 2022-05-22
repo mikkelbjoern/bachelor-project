@@ -235,6 +235,17 @@ A widely used strategy for making a model not use confounding information, is to
 In this case, that would mean to make the entire image black except the skin lesion.
 Training another model on this data, would mean that it didn't have access to the confounding elements, 
 and will therefore be unable to learn about them.
+On Figure \ref{fig:semgemted_images_example} a sample of the images that have been segmented,
+can be seen.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics*[width=\textwidth]{
+        build/segmented_images_example/segmented_images_example.png
+    }
+    \caption{Examples of segmented lesions. The originals are shown above their segmented versions.}
+    \label{fig:segmented_images_example}
+\end{figure}
 
 Operating under the assumption that the model is learning about confounding elements,
 a worse performance would be expected from a model trained on a segmented dataset,
