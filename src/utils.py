@@ -203,7 +203,7 @@ def calculate_metrics(model_id, dataset):
     )
 
     b_f1 = metrics.f1_score(
-        predictions.malignant_or_benign, predictions.predicted_malignant_or_benign, pos_label='malignant'
+        predictions.malignant_or_benign, predictions.predicted_malignant_or_benign, pos_label='benign'
     )
 
     return {

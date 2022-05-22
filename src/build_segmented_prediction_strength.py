@@ -1,3 +1,4 @@
+from matplotlib.ft2font import BOLD
 from src.utils import (
     get_model_dir,
     ham10000_metadata,
@@ -108,12 +109,16 @@ def build_segmented_prediction_strength():
     segmented_on_normal_metrics = calculate_metrics(only_lesion_id, "normal")
     segmented_on_only_lesion_metrics = calculate_metrics(only_lesion_id, "only_lesions")
     normal_on_normal_metrics = calculate_metrics(resnet_mixup_id, "normal")
+    normal_on_segmented_metrics = calculate_metrics(resnet_mixup_id, "only_lesions")
 
+    full_image_label = "Full images"
+    segmented_image_label = "Segmented"
     index = pd.MultiIndex.from_tuples(
         [
-            ("Full images", "Full images"),
-            ("Segmented lesions", "Full images"),
-            ("Segmented lesions", "Segmented lesions"),
+            (full_image_label, full_image_label),
+            (full_image_label, segmented_image_label),
+            (segmented_image_label, full_image_label),
+            (segmented_image_label, segmented_image_label),
         ],
         names=["Training set", "Evaluation set"],
     )
@@ -122,26 +127,31 @@ def build_segmented_prediction_strength():
         {
             "Multiclass precision": [
                 normal_on_normal_metrics["mc-precision"],
+                normal_on_segmented_metrics["mc-precision"],
                 segmented_on_normal_metrics["mc-precision"],
                 segmented_on_only_lesion_metrics["mc-precision"],
             ],
             "Multiclass F1 score": [
                 normal_on_normal_metrics["mc-f1"],
+                normal_on_segmented_metrics["mc-f1"],
                 segmented_on_normal_metrics["mc-f1"],
                 segmented_on_only_lesion_metrics["mc-f1"],
             ],
             "Binary precision": [
                 normal_on_normal_metrics["b-precision"],
+                normal_on_segmented_metrics["b-precision"],
                 segmented_on_normal_metrics["b-precision"],
                 segmented_on_only_lesion_metrics["b-precision"],
             ],
-            "Binary F1 score": [
+            "Malignant F1 score": [
                 normal_on_normal_metrics["b-f1"],
+                normal_on_segmented_metrics["b-f1"],
                 segmented_on_normal_metrics["b-f1"],
                 segmented_on_only_lesion_metrics["b-f1"],
             ],
-            "Binary recall": [
+            "Malignant recall": [
                 normal_on_normal_metrics["b-recall"],
+                normal_on_segmented_metrics["b-recall"],
                 segmented_on_normal_metrics["b-recall"],
                 segmented_on_only_lesion_metrics["b-recall"],
             ],
@@ -149,4 +159,9 @@ def build_segmented_prediction_strength():
         index=index,
     )
 
-    score_table.transpose().to_latex("score_table.tex")
+    score_table.transpose().to_latex(
+        "score_table.tex",
+        bold_rows=True,
+        multicolumn=True,
+        # column_format="l|rr|rr|",
+    )
