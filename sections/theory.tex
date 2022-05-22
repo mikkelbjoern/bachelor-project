@@ -373,11 +373,64 @@ When refering to \textit{malignant recall}, we will think of the recall metric i
 where the considered classes are just benign and malignant.
 As the name suggest, the positive class is malignant.
 
+An intuitive way of thinking about this is how big a portion of the malignant lesions
+that the model was able to detect.
+On its own, a very high malignant recall does not mean the the model is very good,
+as one can trivially make it $1$ by just having a model that always predicts malignant no matter the image.
+
 \subsection{Malignant F1 score}
-% TODO: Write the F1 score definition
+In general the F1 score is defined as
+\[
+    \text{F1 score} = \frac{2 \cdot \text{Precision} \cdot \text{Recall}}{\text{Precision} + \text{Recall}}
+\]
+giving rise to the need of for positive class, as the definition of recall requires one.
+Here the \textit{Malignant F1 score} is defined as
+\[
+    \text{Malignant F1 score} = \frac{2\cdot \text{Precision} \cdot \text{Malignant recall}}{\text{Precision} + \text{Malignant recall}}
+\]
+
+A benifit of the F1 score is that it is a good metric to compare the performance of different models, 
+as it both takes the class imbalanance into account but also just the general performance of the model.
 
 \subsection{Multiclass F1 score}
-% TODO: Write the F1 score definition
+Defining a multiclass F1 score, is a bit more complicated than for a binary one.
+The Python package that is used to calculate the F1 score in this project, \verb|sklearn|
+\cite{sklearn}, has a mandatory parameter \verb|average|, that changes the way the F1 score is calculated.
+In Figure \ref{fig:sklearn-f1-average-docs} the average parameter is described.
+In this project, the we will use \verb|average='weighted'|.
+% TODO: Give a reason for this choice
+
+\begin{figure}
+\begin{minted}{text}
+    average : {'micro', 'macro', 'samples','weighted', 'binary'} or None, \
+            default='binary'
+        This parameter is required for multiclass/multilabel targets.
+        If ``None``, the scores for each class are returned. Otherwise, this
+        determines the type of averaging performed on the data:
+
+        ``'binary'``:
+            Only report results for the class specified by ``pos_label``.
+            This is applicable only if targets (``y_{true,pred}``) are binary.
+        ``'micro'``:
+            Calculate metrics globally by counting the total true positives,
+            false negatives and false positives.
+        ``'macro'``:
+            Calculate metrics for each label, and find their unweighted
+            mean.  This does not take label imbalance into account.
+        ``'weighted'``:
+            Calculate metrics for each label, and find their average weighted
+            by support (the number of true instances for each label). This
+            alters 'macro' to account for label imbalance; it can result in an
+            F-score that is not between precision and recall.
+        ``'samples'``:
+            Calculate metrics for each instance, and find their average (only
+            meaningful for multilabel classification where this differs from
+            :func:`accuracy_score`).
+\end{minted}
+\caption{The mandatory \textit{average} parameter for the F1 score in a multiclass problem (Copied from \url{https://scikit-learn.org/stable/modules/generated/sklearn.metrics.f1_score.html})}
+\label{fig:sklearn-f1-average-docs}
+\end{figure}
+
 
 
 
