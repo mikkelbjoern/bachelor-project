@@ -341,6 +341,48 @@ The RESNET architecture is a popular architecture for deep neural networks.
 It was presented in 2015 and presented some promising results on the ImageNet dataset\cite{RESNET-paper}.
 It is implemented PyTorch and other similar libraries, making it easy to implement.
 
+\section{Model metrics}
+To compare the performance of different models, different kinds of metrics can be used.
+In the litterature on HAM10000, some researchers choose to look at all the classes presented 
+in Table \ref{table:ham10000}.
+Others choose to only look at weather the lesion is benign or malignant 
+(see the \textit{severity} column in Table \ref{table:ham10000} - the \textit{pre-malignant} will be considered malignant).
+To enable comparison with as many other studies as possible, we will report different metrics
+on both problems as desribed in the following.
+\subsection{Multiclass accuracy}
+The most simple metric used here, is the accuracy, which is the percentage predictions that are correct.
+\[
+    \text{Accuracy} = \frac{\text{correct classifications}}{\text{total predictions}}
+\]
+Accuracy as a metric is not that good for problems with big class imbalance,
+such as this one where a single class accounts for more than half of the data (see Table \ref{table:ham10000}).
+
+\subsection{Binary accuracy}
+The binary accuracy is defined exactly as the multiclass, but except of using all $7$ classes,
+the considered classes are just benign and malignant.
+
+\subsection{Malignant recall}
+The general definition of recall in a binary classification problem is the percentage of the positive class
+that is correctly classified.
+The recall is defined as
+\[
+    \text{Recall} = \frac{\text{TP}}{\text{TP} + \text{FN}}
+\]
+Here $TP$ is the number of true positives, and $FN$ is the number of false negatives.
+When refering to \textit{malignant recall}, we will think of the recall metric in the problem
+where the considered classes are just benign and malignant.
+As the name suggest, the positive class is malignant.
+
+\subsection{Malignant F1 score}
+% TODO: Write the F1 score definition
+
+\subsection{Multiclass F1 score}
+% TODO: Write the F1 score definition
+
+
+
+
+
 \section{Statistical tests with conditioned variables}\label{sec:statistical_tests_with_conditioned_variables}
 % TODO: Write about statistical tests with conditioned variables
 % http://users.stat.umn.edu/~helwig/notes/ChiSquareTests_slides.pdf
