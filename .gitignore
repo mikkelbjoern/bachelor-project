@@ -6,6 +6,8 @@
 *.blg
 *.xml
 *.bbl
+*.lof
+*.lot
 build/
 *__pycache__*
 _minted-main/
