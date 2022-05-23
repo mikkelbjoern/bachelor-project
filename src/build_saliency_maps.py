@@ -2,6 +2,7 @@ from src.utils import (
     ham10000_metadata,
     DATA_FOLDER,
     get_resnet_mixup_model,
+    get_only_lesions_model,
     HAM10000_DATA_FOLDER,
     short_to_full_name_dict,
 )
@@ -16,8 +17,22 @@ from scipy.ndimage.filters import uniform_filter, maximum_filter
 
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
+
 def build_saliency_maps():
-    print("Building saliency maps...")
+    return _build_saliency_maps("normal")
+
+
+def build_only_lesion_saliency_maps():
+    return _build_saliency_maps("only_lesion")
+
+
+def _build_saliency_maps(model):
+    if not model in ["normal", "only_lesion"]:
+        raise ValueError(
+            f"Model {model} not recognized - must be either 'normal' or 'only_lesion'"
+        )
+    print(f"Building ({model}) saliency maps...")
+
     # Read the validation file names
     image_ids = []
     with open(f"{DATA_FOLDER}/valid_file_names.csv", "r") as f:
@@ -40,7 +55,15 @@ def build_saliency_maps():
             print_image_ids.append(with_rulers.iloc[check_index]["image_id"])
         check_index += 1
 
-    learn = get_resnet_mixup_model()
+    if model == "normal":
+        learn = get_resnet_mixup_model()
+    elif model == "only_lesion":
+        learn = get_only_lesions_model()
+    else:
+        raise ValueError(
+            f"Model {model} not recognized - must be either 'normal' or 'only_lesion'"
+        )
+
     learn.no_logging()
     learn.model.requires_grad_()
     image_paths = [
@@ -49,7 +72,7 @@ def build_saliency_maps():
     ]
 
     predictions = [learn.predict(img_path, with_input=True) for img_path in image_paths]
-    
+
     latex_appendix = ""
     for i, pred in enumerate(predictions):
         img, classification, class_index, pred_tensor = pred
@@ -86,7 +109,7 @@ def build_saliency_maps():
 
         if str(DEVICE).startswith("cuda"):
             saliency_mean = saliency_mean.cpu().numpy()
-        
+
         axs1.imshow(saliency_mean[0], cmap=plt.cm.hot)
         axs1.axis("off")
         axs1.set_title("Saliency Map")
@@ -103,11 +126,10 @@ def build_saliency_maps():
         saliency_mean = maximum_filter(saliency_mean, size=3)
         saliency_mean = uniform_filter(saliency_mean, size=12)
 
-        # Stretch the saliency map values to the 0-1 range 
+        # Stretch the saliency map values to the 0-1 range
         saliency_mean = (saliency_mean - np.min(saliency_mean)) / (
             np.max(saliency_mean) - np.min(saliency_mean)
         )
-
 
         heat_focused_image = color_image.copy()
         # Turn image into numpy array
@@ -119,7 +141,6 @@ def build_saliency_maps():
         heat_focused_image[:, :, 2] = heat_focused_image[:, :, 2] * saliency_mean
         # Turn image back into PIL image
         heat_focused_image = Image.fromarray(heat_focused_image)
-
 
         axs2.imshow(heat_focused_image, cmap=plt.cm.hot)
         axs2.axis("off")
@@ -144,7 +165,3 @@ def build_saliency_maps():
         """
     with open("saliency_maps_appendix.tex", "w") as f:
         f.write(latex_appendix)
-
-        
-
-

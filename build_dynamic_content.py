@@ -10,7 +10,7 @@ from src.symlink_models import symlink_models
 from src.build_kernel_example import build_kernel_examples
 from src.build_convolution_example import build_convolution_example
 from src.build_confounder_label_correlation import build_confounder_label_correlation
-from src.build_saliency_maps import build_saliency_maps
+from src.build_saliency_maps import build_saliency_maps, build_only_lesion_saliency_maps
 from src.build_prediction_strength import build_prediction_strength
 from src.build_near_neigh import build_near_neigh
 from src.build_segmented_prediction_strength import build_segmented_prediction_strength
@@ -22,6 +22,7 @@ parts_and_default = [
     ("kernel_examples", True),
     ("confounder_label_correlation", True),
     ("saliency_maps", False),
+    ("only_lesion_saliency_maps", False),
     ("prediction_strength", True),
     ("near_neigh", False),
     ("segmented_prediction_strength", True),
@@ -98,6 +99,9 @@ def build_part(part):
     
     if part == "segmented_images_example":
         build_segmented_images_examlpe()
+    
+    if part == "only_lesion_saliency_maps":
+        build_only_lesion_saliency_maps()
 
 
 if __name__ == "__main__":
