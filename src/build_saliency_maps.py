@@ -85,22 +85,14 @@ def build_saliency_maps():
         # axs0.title("original photo")
 
         if str(DEVICE).startswith("cuda"):
-            saliency_mean = saliency_mean.detach().cpu().numpy()
+            saliency_mean = saliency_mean.cpu().numpy()
         
         axs1.imshow(saliency_mean[0], cmap=plt.cm.hot)
         axs1.axis("off")
         axs1.set_title("Saliency Map")
-        # axs1.title("Saliency map")
-        #axs2.imshow(color_image)
         # Multiple the saliency map by the original by element-wise multiplication
-        print(saliency_mean[0].shape, color_image.size)
         # Change saliency map to numpy array
-        saliency_mean = saliency_mean[0].detach().numpy()
-        # Turn into PIL image
-        #saliency_mean = Image.fromarray(saliency_mean).convert("L")
-        # Stretch the saliency map values to the 0-1 range 
-
-        # Save a histogram of the saliency map values
+        saliency_mean = saliency_mean[0]
 
         # Apply a uniform filter to the saliency map
         footprint = np.ones((12, 12)) * 0.4
@@ -110,6 +102,8 @@ def build_saliency_maps():
         saliency_mean = maximum_filter(saliency_mean, footprint=footprint)
         saliency_mean = maximum_filter(saliency_mean, size=3)
         saliency_mean = uniform_filter(saliency_mean, size=12)
+
+        # Stretch the saliency map values to the 0-1 range 
         saliency_mean = (saliency_mean - np.min(saliency_mean)) / (
             np.max(saliency_mean) - np.min(saliency_mean)
         )
