@@ -1,6 +1,6 @@
 \chapter{Discussion}
 Biases on models from confounding elements have been widely reported in machine learning
-\cite{DeConstructing_Bias_on_Skin_Lesion_Datasets_2019, Towards_Explainable_Classifiers_Using_the_Counterfactual_Approach_2019, debias-not-so-fast, interps-are-useful}
+\cite{DeConstructing_Bias_on_Skin_Lesion_Datasets_2019, Towards_Explainable_Classifiers_Using_the_Counterfactual_Approach_2019, debias-not-so-fast, interps-are-useful}.
 
 The initial goal of this project was to look into methods to not use ruler presence in the
 classification of lesions.
@@ -15,10 +15,20 @@ Step \ref{item:train-model} went fairly easy, especially because the dataset is 
 so another model could be used for inspiration \cite{kaggle-97-model}.
 
 When reaching step \ref{item:biased-ruler}, the results didn't go quite as expected.
-Even though it had been argued in previous papers, that models were doing exactly this 
-\cite{debias-not-so-fast,interps-are-useful}, I was unable to replicate their results, 
+Even though it had been argued in previous papers, that models were doing exactly this
+\cite{debias-not-so-fast,interps-are-useful}, I was unable to replicate their results,
 to a degree that convinced me that the model was indeed using the rulers.
+This changed the focus of the project from removing biased predictions to instead investigating
+if there were any biases at all.
+In the following, we will go through the experiments made in Section \ref{sec:testing-the-hypothesis} and
+examine the results in this light: Do they seem to indicate that the model is using the rulers?
 
 % TODO: Write about the saliency maps - not pointing to the ruler
 % Even if they did, its uncertain what they mean (reference to the paper about no hope for XAI)
 % And also they are super hard to interpret - they are very prone to introduce confirmation bias
+\section{Saliency maps}
+In Section \ref{sec:prediction-saliency-map} we investigated the saliency maps of the model predictions.
+Previously other researchers had shown that the rulers would be indicated clearly on these maps \cite{interps-are-useful}.
+Going through the same experiment with the model trained in this project, we found saliency maps that were
+nowhere near as clear as the ones shown in the paper 
+(see Figure \ref{fig:interps-are-useful-saliency-maps} and \ref{fig:ruler_saliency_map}).
