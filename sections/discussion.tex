@@ -30,5 +30,17 @@ examine the results in this light: Do they seem to indicate that the model is us
 In Section \ref{sec:prediction-saliency-map} we investigated the saliency maps of the model predictions.
 Previously other researchers had shown that the rulers would be indicated clearly on these maps \cite{interps-are-useful}.
 Going through the same experiment with the model trained in this project, we found saliency maps that were
-nowhere near as clear as the ones shown in the paper 
+did not indicate anything very clearly. 
 (see Figure \ref{fig:interps-are-useful-saliency-maps} and \ref{fig:ruler_saliency_map}).
+In some instances, the saliency map was not even visible in the hightligthed areas,
+and in others it was but not in a way where it was obviously using that specific element of the image.
+
+In general saliency maps are very prone to confirmation bias \cite{sanity-checks-for-saliency,Grns2020FaithfulSM}.
+It is nothing more than the gradient on a very complicated function.
+Conclude that just because the ruler is sometimes highlighted partly on the saliency map,
+it must mean that the model is using it, seems like a stretch on its own.
+
+We could have used different kinds of saliency maps, if we wanted to go further into the understanding 
+the model in this way.
+Due to the risk of confirmation bias mentioned earlier, we instead used the time on other approaches.
+
