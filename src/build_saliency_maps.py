@@ -89,8 +89,20 @@ def build_saliency_maps():
         axs1.axis("off")
         axs1.set_title("Saliency Map")
         # axs1.title("Saliency map")
-        axs2.imshow(color_image)
-        axs2.imshow(saliency_mean[0], cmap=plt.cm.hot, alpha=0.6)
+        #axs2.imshow(color_image)
+        # Multiple the saliency map by the original by element-wise multiplication
+        print(saliency_mean[0].shape, color_image.size)
+        # Change saliency map to numpy array
+        saliency_mean = saliency_mean[0].detach().numpy()
+        # Turn into PIL image
+        saliency_mean = Image.fromarray(saliency_mean).convert("L")
+        print(saliency_mean)
+
+        heat_focused_image = color_image.copy()
+        heat_focused_image.paste(saliency_mean, mask=saliency_mean)
+
+
+        axs2.imshow(heat_focused_image, cmap=plt.cm.hot, alpha=0.6)
         axs2.axis("off")
         axs2.set_title("Saliency Map Overlay")
 
