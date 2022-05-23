@@ -10,6 +10,8 @@ from PIL import Image
 import torchvision.transforms as transforms
 import torch
 import matplotlib.pyplot as plt
+import numpy as np
+from scipy.ndimage.filters import uniform_filter, maximum_filter
 
 
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -95,14 +97,37 @@ def build_saliency_maps():
         # Change saliency map to numpy array
         saliency_mean = saliency_mean[0].detach().numpy()
         # Turn into PIL image
-        saliency_mean = Image.fromarray(saliency_mean).convert("L")
-        print(saliency_mean)
+        #saliency_mean = Image.fromarray(saliency_mean).convert("L")
+        # Stretch the saliency map values to the 0-1 range 
+
+        # Save a histogram of the saliency map values
+
+        # Apply a uniform filter to the saliency map
+        footprint = np.ones((12, 12)) * 0.4
+        footprint[1:-1, 1:-1] += 0.3
+        footprint[3:-3, 3:-3] += 0.2
+        footprint[5:-5, 5:-5] = 1
+        saliency_mean = maximum_filter(saliency_mean, footprint=footprint)
+        saliency_mean = maximum_filter(saliency_mean, size=3)
+        saliency_mean = uniform_filter(saliency_mean, size=12)
+        saliency_mean = (saliency_mean - np.min(saliency_mean)) / (
+            np.max(saliency_mean) - np.min(saliency_mean)
+        )
+
 
         heat_focused_image = color_image.copy()
-        heat_focused_image.paste(saliency_mean, mask=saliency_mean)
+        # Turn image into numpy array
+        heat_focused_image = np.array(heat_focused_image)
+        # Multiply the saliency map by the original by element-wise multiplication
+        # on each of the 3 channels
+        heat_focused_image[:, :, 0] = heat_focused_image[:, :, 0] * saliency_mean
+        heat_focused_image[:, :, 1] = heat_focused_image[:, :, 1] * saliency_mean
+        heat_focused_image[:, :, 2] = heat_focused_image[:, :, 2] * saliency_mean
+        # Turn image back into PIL image
+        heat_focused_image = Image.fromarray(heat_focused_image)
 
 
-        axs2.imshow(heat_focused_image, cmap=plt.cm.hot, alpha=0.6)
+        axs2.imshow(heat_focused_image, cmap=plt.cm.hot)
         axs2.axis("off")
         axs2.set_title("Saliency Map Overlay")
 
