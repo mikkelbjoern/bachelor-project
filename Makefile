@@ -1,5 +1,3 @@
-#!/bin/bash
-
 dynamic_content:
 	./build_dynamic_content.sh
 
