@@ -36,8 +36,14 @@ In general saliency maps are very prone to confirmation bias \cite{sanity-checks
 It is nothing more than the gradient on a very complicated function.
 Conclude that just because the ruler is sometimes highlighted partly on the saliency map,
 it must mean that the model is using it, seems like a stretch on its own.
+Especially when considering the saliency maps from the model trained on segmented images (Figure 
+\ref{fig:segmented_prediction_saliency_map}) that is hightlighting the ruler to at least the same degree 
+that the model trained on the entire dataset is.
+We know for sure, that the model trained on the segmented dataset is not using the rulers,
+as it has never seen a ruler during training.
+It is unclear exactly what knowledge can be extracted from the saliency maps,
+but using them to conclude that the model is using the rulers doesn't seem to be holding up.
 
 We could have used different kinds of saliency maps, if we wanted to go further into the understanding 
 the model in this way.
 Due to the risk of confirmation bias mentioned earlier, we instead used the time on other approaches.
-
