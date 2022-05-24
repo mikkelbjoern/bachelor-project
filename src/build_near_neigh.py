@@ -15,6 +15,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from src.utils import bening_or_malignant_dict
 
+DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 def build_near_neigh():
     print("Building near neigh plot...")
@@ -49,10 +50,15 @@ def build_near_neigh():
         image_tensor = transforms.PILToTensor()(image)
         image_tensor = image_tensor.float()
         image_tensor = image_tensor.unsqueeze(0)
+        if str(DEVICE).startswith("cuda"):
+            image_tensor = image_tensor.cuda()
 
         with torch.no_grad():
             extraction_model.eval()
-            return extraction_model(image_tensor)
+            res = extraction_model(image_tensor)
+            if str(DEVICE).startswith("cuda"):
+                res = res.cpu()
+            return res
 
     # ruler_sample = df_standard[df_standard.ruler == 1].sample(400)
     # no_ruler_sample = df_standard[df_standard.ruler == 0].sample(200)
