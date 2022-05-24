@@ -23,7 +23,12 @@ if there were any biases at all.
 In the following, we will go through the experiments made in Section \ref{sec:testing-the-hypothesis} and
 examine the results in this light: Do they seem to indicate that the model is using the rulers?
 
-\section{Saliency maps}
+The discussion will be divided into a part where the results of the analysis in Section \ref{sec:testing-the-hypothesis}
+are examined, and a part where we will discuss the results of the project in its entirety.
+It will be finished up with what obvious further research that could be done following up this project.
+
+\section{Discussion of analysis}
+\subsection{Saliency maps}
 In Section \ref{sec:prediction-saliency-map} we investigated the saliency maps of the model predictions.
 Previously other researchers had shown that the rulers would be indicated clearly on these maps \cite{interps-are-useful}.
 Going through the same experiment with the model trained in this project, we found saliency maps that were
@@ -48,7 +53,7 @@ We could have used different kinds of saliency maps, if we wanted to go further 
 the model in this way.
 Due to the risk of confirmation bias mentioned earlier, we instead used the time on other approaches.
 
-\section{Feature vector similarity}
+\subsection{Feature vector similarity}
 The authors of \cite{debias-not-so-fast} also argued that their model was using rulers
 and other confounding elements in its predictions.
 Their argument was based rougly around the idea that if the extracted features from two images
@@ -76,7 +81,7 @@ the final classification.
 That could for instance be done by running the backpropagation algorithm and see the
 gradient in each of the features of the vector and weight by them in the distance metric.
 
-\section{Statistical analysis of model predictions}
+\subsection{Statistical analysis of model predictions}
 To investigate if the model was using the rulers in its predictions, 
 we ran quite a few statistical tests (Section \ref{sec:statistical-tests}).
 In most of the tests, we weren't able to identify that the model was biased.
@@ -100,4 +105,45 @@ it is due to a concern that the lesion is malignant.
 If a benign lesion has a ruler, then it seems that the doctor found 
 some aspect of the lesion that makes worried her, 
 hence the lesion is probably more difficult to classify.
+
+\section{Discussion of project}
+\subsection{Does the Clever Hans phenomenon even exist?}
+All of these arguments arguing that the model are probably influenced by the presence of rulers,
+could seem like we are arguing that the Clever Hans phenomenon doesn't exist.
+That is not at all the case, the phenomenon definetly exists.
+Of course litterature can be found on the topic, but I also encountered it during the project.
+I tried to train a classifier just for the rulers, and I ended up with a classifier that would
+be decent at classifying the lesion instead. 
+In Figure \ref{fig:ruler_classifier_saliency_map} a saliency map of the ruler classifiers prediction is shown,
+where it clearly is using the lesion and not the ruler.
+
+\begin{center}
+    % Taken from this message: https://slackers-k4k1590.slack.com/archives/C0301E3TZ6J/p1645645248107699
+    \includegraphics[width=0.5\textwidth]{images/ruler_classifier_saliency.png}
+    \captionof{figure}{Saliency map from a ruler classifier that I trained during the project.}
+    \label{fig:ruler_classifier_saliency_map}
+\end{center}
+
+This clearly shows the Clever Hans phenomenon in action.
+To make it work, the model had to be quite poor - in this case the model didn't have a lot of layers,
+and was only trained on a small subset of the dataset.
+
+So the Clever Hans phenomenon is very real, but just because it could occur, doesn't mean that it will in all cases.
+
+\subsection{Are no models affected by the rulers?}
+
+
+\subsection{How big of an impact can be expected from confounfing elements?}
+% Those introduced by humans can never be better than what a human can predict
+% That of course depends largely on how the dataset is assembled.
+% Also mention the point about it can't be that big, since it performs hella well
+% on the segmented images.
+
+
+
+\subsection{Why are these results even relevant?}
+
+
+
+\section{Further research}
 
