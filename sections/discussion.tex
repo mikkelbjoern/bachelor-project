@@ -144,9 +144,24 @@ so for someone to train a model by mistake that is seems unlikely - but of cours
 \subsection{How big of an impact can be expected from confounfing elements?}
 % Those introduced by humans can never be better than what a human can predict
 % That of course depends largely on how the dataset is assembled.
+Obviously, there are lot of other confounding elements that could introduce the Clever Hans effect on models trained 
+skin lesion images than just the rulers studied in this report.
+Figuring out if a given model was using one specific element, 
+was in itself quite a difficult task, 
+so answering the generalized question about weather a given model is affected by any confounding element,
+is very difficult if not impossible.
+We can however say something about the subset of confounding elements that are on purpose introduced by a doctor, 
+such as adding a ruler, looking through a microscope or drawing next to a lesion.
+Since they are added by a doctor, they can never provide more knowledge than that doctor already had.
+Doctors looking at the images, get precisions that wary between $74\%$ and $84\%$\cite{multiclass-skin-lesion-hybrid}.
+If we are able to construct algortihms significantly outperforming that (like the one trained in this project),
+then model must at least have learned \textit{something}, that the doctors didn't already know.
+That argument is of course very dependent on how the data is collected,
+as the argument doesn't hold if the doctor has other external knowledge not extracted from the image.
+
+
 % Also mention the point about it can't be that big, since it performs hella well
 % on the segmented images.
-
 
 \subsection{Why are these results even relevant?}
 
