@@ -80,13 +80,25 @@ gradient in each of the features of the vector and weight by them in the distanc
 To investigate if the model was using the rulers in its predictions, 
 we ran quite a few statistical tests (Section \ref{sec:statistical-tests}).
 In most of the tests, we weren't able to identify that the model was biased.
-In two tests, we were able to identify statistically significant correlation between
+In a few cases, we were able to identify statistically significant correlation between
 the models prediction and the presence of rulers.
-Both of these related to the prediction strength of the model on images.
-The two points can be rougly summarized as:
+All of these related to the prediction strength of the model on images.
+The points can be rougly summarized as:
 \begin{enumerate}
     \item The model was worse at predicting the class of images that contained a ruler
     \item The model was worse at predicting the class of images of benign lesions where a ruler was present 
+    \item The model was not significantly worse at predicting the class of malignant lesions if a ruler was present
 \end{enumerate}
 
-% Write about how this could have other reasons that the ruler affecting predictions
+A tempting conclusion from a researcher looking into if a model is biased or not,
+is that the model is classifying the benign lesions as malignant due to the ruler indicating them 
+as malignant.
+Another explanation could also be, that the rulers are simply present in benign images that are 
+difficult to classify.
+When a doctor decides to place a ruler next to a lesion,
+it is due to a concern that the lesion is malignant.
+If a benign lesion has a ruler, then it seems that the doctor found 
+some aspect of the lesion that makes worried her, 
+hence the lesion is probably more difficult to classify.
+% TODO: Make a test where the segmented lesions are checked for being biased
+% in its ability to classify lesions that used to contain a ruler.
