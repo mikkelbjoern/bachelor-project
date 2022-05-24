@@ -75,3 +75,18 @@ So to use this method, we would also need to weight the features after how relev
 the final classification.
 That could for instance be done by running the backpropagation algorithm and see the
 gradient in each of the features of the vector and weight by them in the distance metric.
+
+\section{Statistical analysis of model predictions}
+To investigate if the model was using the rulers in its predictions, 
+we ran quite a few statistical tests (Section \ref{sec:statistical-tests}).
+In most of the tests, we weren't able to identify that the model was biased.
+In two tests, we were able to identify statistically significant correlation between
+the models prediction and the presence of rulers.
+Both of these related to the prediction strength of the model on images.
+The two points can be rougly summarized as:
+\begin{enumerate}
+    \item The model was worse at predicting the class of images that contained a ruler
+    \item The model was worse at predicting the class of images of benign lesions where a ruler was present 
+\end{enumerate}
+
+% Write about how this could have other reasons that the ruler affecting predictions
