@@ -15,6 +15,7 @@ from src.build_prediction_strength import build_prediction_strength
 from src.build_near_neigh import build_near_neigh
 from src.build_segmented_prediction_strength import build_segmented_prediction_strength
 from src.build_segmented_images_example import build_segmented_images_examlpe
+import difflib
 
 # The second argument in the tuple is weather the part is default built
 parts_and_default = [
@@ -37,6 +38,20 @@ IMAGE_FOLDER = os.path.dirname(os.path.realpath(__file__)) + "/images"
 @click.command()
 @click.option("--part", default=None, help="Part to build")
 def main(part):
+    if not part in parts:
+        print(f"Invalid part: '{part}'")
+        close_matches = difflib.get_close_matches(part, parts)
+        if len(close_matches) > 0:
+            print("Did you mean one of these?")
+            for close_match in close_matches:
+                print(f"\t{close_match}")
+        exit(1)
+
+    if part != 'all':
+        print(f"Building part: '{part}'")
+    else:
+        print("Building all parts")
+
     # Make sure the build folder exists
     if not os.path.exists(BUILD_FOLDER):
         print("No build folder found. Creating...")

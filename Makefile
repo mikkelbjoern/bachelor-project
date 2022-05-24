@@ -1,6 +1,7 @@
+#!/bin/bash
 
 dynamic_content:
-	./build_dynamic_content.py
+	./build_dynamic_content.sh
 
 all_dynamic_content:
 	./build_dynamic_content.py --part=all
