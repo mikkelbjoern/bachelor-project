@@ -59,4 +59,19 @@ Where the auther of \cite{debias-not-so-fast} showed that finding the nearest ne
 vector space would all contain rulers, we only saw roughly half of them containing ruler 
 (See their result on Figure \ref{fig:not-so-fast-artifact-query} and ours on Figure \ref{fig:my-artifact-query}).
 
-% Write about how there might be other things that make the images containing rulers similar
+Another problem, is that even if the results had contained more images with rulers,
+it might not even have been the case that the model was even aware of them.
+We have already shown, that the rulers correlate with the true diagnosis of the lesions (see Figure \ref{fig:ruler_vs_dx}).
+Since the model is trained to predict the true diagnosis, we would expect them to have similar feature vectors.
+What we see could therefore be the model finding other lesions that have similar diagnosis,
+and therefore are also most likely to have rulers.
+
+Even if images with rulers actually \textit{had} similar feature vectors \textit{because} of the rulers,
+it would still not neccessarily be the case that the model was using them.
+The architecture used in the model is pretrained on another big image dataset,
+so a lot of the features that is extracted are not relevant to the final classification. 
+The final fully connected layers of the model are in charge of extracting the relevant features.
+So to use this method, we would also need to weight the features after how relevant they are to
+the final classification.
+That could for instance be done by running the backpropagation algorithm and see the
+gradient in each of the features of the vector and weight by them in the distance metric.
