@@ -8,6 +8,7 @@
 *.bbl
 *.lof
 *.lot
+.vscode
 build/
 *__pycache__*
 _minted-main/
