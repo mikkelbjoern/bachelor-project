@@ -47,3 +47,16 @@ but using them to conclude that the model is using the rulers doesn't seem to be
 We could have used different kinds of saliency maps, if we wanted to go further into the understanding 
 the model in this way.
 Due to the risk of confirmation bias mentioned earlier, we instead used the time on other approaches.
+
+\section{Feature vector similarity}
+The authors of \cite{debias-not-so-fast} also argued that their model was using rulers
+and other confounding elements in its predictions.
+Their argument was based rougly around the idea that if the extracted features from two images
+containing rulers are more similar to each other than the rest of the dataset, then the model is using them.
+
+The first problem with using that approach in this report, is that the results didn't replicate.
+Where the auther of \cite{debias-not-so-fast} showed that finding the nearest neighbors in the feature
+vector space would all contain rulers, we only saw roughly half of them containing ruler 
+(See their result on Figure \ref{fig:not-so-fast-artifact-query} and ours on Figure \ref{fig:my-artifact-query}).
+
+% Write about how there might be other things that make the images containing rulers similar
