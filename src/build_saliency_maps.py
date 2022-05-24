@@ -159,7 +159,7 @@ def _build_saliency_maps(model):
             angle=0,
             clip=false
         ]{{{f"build/saliency_maps/overview_map_{i}.png"}}}
-        \caption{{Saliency map of {latex_safe_id}.}}
+        \caption{{Saliency map of {latex_safe_id} {"" if not model == 'only_lesion' else " made with model trained on segmented lesions"}.}}
         \end{{figure}}
         
         """

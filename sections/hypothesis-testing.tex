@@ -268,3 +268,20 @@ The most notable thing in Table \ref{tab:segmented_metrics} is that the segmente
 on its segmented images outperforms everything else on all metrics.
 This finding has already been reported previously \cite{segmenting-improves-performance}.
 The segmented model even outperforms the model trained on the full images, on the full images in Malignant recall.
+
+\subsection{Saliency maps from model trained on segmented dataset}
+Some of the saliency maps from Section \ref{sec:prediction-saliency-map},
+are quite hard to interpret.
+To have something to compare to, similar maps have been generated for the model
+trained on the segmented dataset.
+On Figure \ref{fig:segmented_prediction_saliency_map} an example of a classified lesion is shown.
+All the same examples from \ref{sec:prediction-saliency-map} can be seen in Appendix \ref{appendix:ruler_saliency_maps}.
+Interestingly, the segmented model seems to hightlight the ruler at least as much if not more than the non-segmented one.
+\begin{figure}[ht]
+    \centering
+    \includegraphics*[width=\textwidth]{
+        build/only_lesion_saliency_maps/overview_map_6.png
+    }
+    \caption{Saliency map of the model trained on the segmented dataset.}
+    \label{fig:segmented_prediction_saliency_map}
+\end{figure}
