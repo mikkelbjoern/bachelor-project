@@ -1,5 +1,4 @@
-#!/bin/bash
-
+#!/usr/bin/zsh
 # Check if the $part variable is set
 # If it is, then run without arguments
 

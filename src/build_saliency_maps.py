@@ -151,7 +151,7 @@ def _build_saliency_maps(model):
 
         # Write a figure to the appendix
         latex_safe_id = print_image_ids[i].replace("_", "\\_")
-        latex_appendix += f"""\\begin{{figure}}[h]
+        latex_appendix += f"""\\begin{{center}}
         \includegraphics[
             width=\\textwidth,
             height=\\textheight,
@@ -159,8 +159,8 @@ def _build_saliency_maps(model):
             angle=0,
             clip=false
         ]{{{f"build/saliency_maps/overview_map_{i}.png"}}}
-        \caption{{Saliency map of {latex_safe_id} {"" if not model == 'only_lesion' else " made with model trained on segmented lesions"}.}}
-        \end{{figure}}
+        \captionof{{figure}}{{Saliency map of {latex_safe_id} {"" if not model == 'only_lesion' else " made with model trained on segmented lesions"}.}}
+        \end{{center}}
         
         """
     with open("saliency_maps_appendix.tex", "w") as f:

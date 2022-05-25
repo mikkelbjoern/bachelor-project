@@ -66,11 +66,12 @@ pdfauthor = {Mikkel Bjørn Goldschmidt}
 
 \renewcommand\sectionmark[1]{\markright{\thesection.\ #1}}
 
+\renewcommand{\chaptername}{Section} 
 %-----------------------
 % Begin document
 %-----------------------
 \begin{document}
- \renewcommand{\chaptername}{Section} 
+\selectlanguage{english}
 \maketitle
 
 \tableofcontents
@@ -78,7 +79,7 @@ pdfauthor = {Mikkel Bjørn Goldschmidt}
 \input{sections/abstracts.tex}
 \pagebreak
 \input{sections/introduction.tex}
-
+\input{sections/theory.tex}
 \input{sections/model.tex}
 
 \chapter{Relevant literature}
@@ -86,11 +87,10 @@ pdfauthor = {Mikkel Bjørn Goldschmidt}
 \pagebreak
 \input{sections/interps-are-useful.tex}
 \pagebreak
+
 \input{sections/hypothesis-testing.tex}
 \input{sections/discussion.tex}
-
-\pagebreak
-\input{sections/theory.tex}
+\input{sections/conclusion.tex}
 
 \pagebreak
 \listoffigures
@@ -102,6 +102,7 @@ pdfauthor = {Mikkel Bjørn Goldschmidt}
 % Start the appendix
 \appendix
 \part{Appendix}
+\input{sections/background-theory.tex}
 \input{sections/appendix/resnet-18-mixup.tex}
 \input{sections/appendix/ruler-saliency-maps.tex}
 \end{document}
