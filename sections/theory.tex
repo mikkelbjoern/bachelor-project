@@ -1,8 +1,12 @@
 \chapter{Theory}
 This report assumes that the reader is familiar with the basics of machine learning.
 This includes basic linear algebra, data preprocessing and model selection.
-Further a basic understanding of how neural networks function is assumed,
+Further understanding of how neural networks function is assumed,
 including the basic concept of gradiant descent used for model training.
+
+The theory described in this section is what is directly relevant to the analysis.
+Where deeper elaboration has been deemed necessary, it has been moved to Appendix \ref{sec:background-theory}.
+The chosen theory is focused on the parts used for explainable AI more than the technical details of how neural networks work.
 
 \section{Saliency maps}\label{sec:saliency_maps}
 When training deep neural networks on image data,
@@ -14,6 +18,7 @@ it is very desireable to know what the model is doing to be able to critique the
 In image analysis, a tool to try to understand models are the so-called \textit{saliency maps}.
 A saliency map is supposed to be a visual representation what parts of the image are important to the model,
 when it made a given prediction.
+In Figure \ref{fig:interps-are-useful-saliency-maps} a salinency map over a skin lesion is shown.
 
 For instance, in a model supposed to classify if a picture of a bone is broken or not,
 we want the model to look at the bone and not really anything else in the image.
@@ -41,8 +46,7 @@ saliency map method is described to
 
 One should however be careful with that intepretation, as the gradient is just poiting to/away from the classification boundary.
 Recent research is pointing toward problems with the usage of saliency maps as explained in the quote before\cite{false-hope}.
-This report will not go deeper into exactly what information that can be extracted from a gradient based saliency map,
-but just note to be carefull when using them.
+In the analysis, we will also see that the interpretations of these saliency maps are not straight forward.
 
 \section{The ResNet architecture}
 The ResNet architecture is a popular architecture for deep neural networks.
