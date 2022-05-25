@@ -15,7 +15,7 @@ The saliency maps made here are gradient based as described in Section \ref{sec:
 In Figure \ref{fig:ruler_saliency_map} these can be seen.
 More similar examples can be seen in Appendix \ref{appendix:ruler_saliency_maps}.
 
-\begin{figure}[h]
+\begin{center}
     \includegraphics[
         width=\textwidth,
         height=\textheight,
@@ -23,12 +23,12 @@ More similar examples can be seen in Appendix \ref{appendix:ruler_saliency_maps}
         angle=0,
         clip=false
     ]{build/saliency_maps/overview_map_5.png}
-    \caption[Saliency maps of the model prediction on an image with a ruler.]{Saliency maps of the model prediction on an image with a ruler.
+    \captionof{figure}[Saliency maps of the model prediction on an image with a ruler.]{Saliency maps of the model prediction on an image with a ruler.
         The overlay on the right is the saliency map with a maximum filter and a uniform filter,
         stretched to the 0 to 1 range multiplied elemenwise onto the original image.
     }
     \label{fig:ruler_saliency_map}
-\end{figure}
+\end{center}
 
 \section{Feature based nearest neighbors}
 In \textit{Debiasing Skin Lesions Datasets and Model. Not so Fast}\cite{debias-not-so-fast} (described in Section \ref{sec:debias-not-so-fast}),
@@ -41,14 +41,13 @@ For a detailed description see section \ref{sec:debias-not-so-fast}.
 
 To check if this is the case for our model, we use the same approach and make a similar plot as seen in Figure \ref{fig:not-so-fast-artifact-query}.
 
-\begin{figure}
-    \centering
+\begin{center}
     \includegraphics*[width=\textwidth]{build/near_neigh/examples.png}
-    \caption{Queries like the ones in Figure \ref{fig:not-so-fast-artifact-query} made for my own model
+    \captionof{figure}{Queries like the ones in Figure \ref{fig:not-so-fast-artifact-query} made for my own model
         All queries contain a ruler, and the neighbors have noted if they contain a ruler.
     }
     \label{fig:my-artifact-query}
-\end{figure}
+\end{center}
 
 Looking at Figure \ref{fig:my-artifact-query} we can see, that the results do not
 suggest anywhere near as strong a correlation as the paper shows in Figure \ref{fig:not-so-fast-artifact-query}.
@@ -78,8 +77,7 @@ Doing a $\chi^2$ test on the data from Figure \ref{fig:prediction_strength_mel_n
 however shows that the difference is not significant ($p=\input{build/prediction_strength/p_mel.txt}$).
 
 
-\begin{figure}[h]
-    \centering
+\begin{center}
     \begin{subfigure}[h]{0.45\textwidth}
         \includegraphics[
             width=\textwidth,
@@ -98,9 +96,9 @@ however shows that the difference is not significant ($p=\input{build/prediction
         \caption{Normalized over the presence of rulers}
         \label{fig:prediction_strength_mel_normalized}
     \end{subfigure}
-    \caption{Confusion matrix of the model prediction the melanoma cases split up by presence of a ruler.}
+    \captionof{figure}{Confusion matrix of the model prediction the melanoma cases split up by presence of a ruler.}
     \label{fig:prediction_strength_mel}
-\end{figure}
+\end{center}
 
 \subsection{Different performance on images containing rulers?}
 If the rulers contributes to the model's predictions,
@@ -238,7 +236,7 @@ A widely used strategy for making a model not use confounding information, is to
 In this case, that would mean to make the entire image black except the skin lesion.
 Training another model on this data, would mean that it didn't have access to the confounding elements,
 and will therefore be unable to learn about them.
-On Figure \ref{fig:semgemted_images_example} a sample of the images that have been segmented,
+On Figure \ref{fig:segmented_images_example} a sample of the images that have been segmented,
 can be seen.
 
 \begin{figure}[h]

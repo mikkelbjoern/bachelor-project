@@ -32,23 +32,21 @@ of different images artifact, and find that these neighbors often contain the sa
 Their results are shown in Figure \ref{fig:not-so-fast-artifact-query}.
 
 
-\begin{figure}[h]
-    \centering
+\begin{center}
     \includegraphics[width=0.9\textwidth]{images/resnet-outline.png}
-    \caption{A simplified view of the RESNET-18 architecture}
+    \captionof{figure}{A simplified view of the RESNET-18 architecture}
     \label{fig:resnet-outline}
-\end{figure}
+\end{center}
 
-\begin{figure}[h]
-    \centering
+\begin{center}
     \includegraphics[width=0.4\textwidth]{images/not-so-fast-artifact-query.png}
-    \caption[Figure 4.a from \cite{debias-not-so-fast}]{
+    \captionof{figure}[Figure 4.a from \cite{debias-not-so-fast}]{
             Figure 4.a from \cite{debias-not-so-fast}, original description: \textit{Grid showing image similarity according to the features extracted by our classification model. The first column
             of each grid is the query, and the remaining columns are ranked according to euclidean distance of the images features.
             We selected queries carefully to show different artifacts.
             In sequence, dark corners, hair, gel border, ruler, ink markings and patches}}
     \label{fig:not-so-fast-artifact-query}
-\end{figure}
+\end{center}
 
 From the fact that the feature vectors of the images with the same artifacts are relatively small,
 they conclude that the model is biased towards the artifacts - since the features it extracts seem to contain information about the artifacts.

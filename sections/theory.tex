@@ -404,7 +404,7 @@ The reason for this choice, is that it explicitly considers the class imbalananc
 which is important for the multiclass problem on the HAM10000.
 
 
-\begin{figure}
+\begin{center}
     \begin{minted}{text}
     average : {'micro', 'macro', 'samples','weighted', 'binary'} or None, \
             default='binary'
@@ -431,12 +431,12 @@ which is important for the multiclass problem on the HAM10000.
             meaningful for multilabel classification where this differs from
             :func:`accuracy_score`).
 \end{minted}
-    \caption[Cutout from sklearn documentation for F1 score]{
-        The required \textit{average} parameter for the F1 score in a multiclass problem
+    \captionof{figure}[Cutout from sklearn documentation for F1 score]{
+        Documentation for the required \textit{average} parameter for the F1 score in a multiclass problem
         (Copied from \url{https://scikit-learn.org/stable/modules/generated/sklearn.metrics.f1_score.html
         })}
     \label{fig:sklearn-f1-average-docs}
-\end{figure}
+\end{center}
 
 
 
