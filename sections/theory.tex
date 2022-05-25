@@ -39,15 +39,28 @@ For instance in the book Interpretable Machine Learning (chapter 10.2)\cite{inte
 saliency map method is described to
 ''assign each pixel a value that can be interpreted as the relevance of the pixel to the prediction or classification of that image''.
 
-One should however be carefull with that intepretation, as the gradient is just poiting to/away from the classification boundary.
+One should however be careful with that intepretation, as the gradient is just poiting to/away from the classification boundary.
 Recent research is pointing toward problems with the usage of saliency maps as explained in the quote before\cite{false-hope}.
 This report will not go deeper into exactly what information that can be extracted from a gradient based saliency map,
 but just note to be carefull when using them.
 
-\section{The RESNET architecture}
-The RESNET architecture is a popular architecture for deep neural networks.
+\section{The ResNet architecture}
+The ResNet architecture is a popular architecture for deep neural networks.
 It was presented in 2015 and presented some promising results on the ImageNet dataset\cite{RESNET-paper}.
-It is implemented PyTorch and other similar libraries, making it easy to implement.
+The main idea in the architecture is to let some of the output from the internal convolutional layers
+be \textit{fed forward} to layers a few layers deeper in the network.
+The network is shown in Figure \ref{fig:resnet-18-architecture},
+and the arrows show where the feed forward is happening.
+
+\begin{center}
+    \includegraphics[width=0.9\textwidth]{images/ResNet-18-architecture.png}
+    \captionof{figure}{ResNet-18 architecture. Figure taken from \cite{paper-with-resnet-18-figure}.
+        The FC is short for Fully Connected layers, and the conv is short for convolutional layers. }
+    \label{fig:resnet-18-architecture}
+\end{center}
+
+
+The architecture is implemented PyTorch\cite{PyTorch} and other similar libraries, making it easy to use.
 
 \section{Model metrics} \label{sec:model_metrics}
 To compare the performance of different models, different kinds of metrics can be used.
