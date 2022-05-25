@@ -142,6 +142,7 @@ Even though I tried, making my models biased was difficult,
 so for someone to train a model by mistake that is seems unlikely - but of course not impossible.
 
 \subsection{How big of an impact can be expected from confounfing elements?}
+% I'm honestly not that happy with argument (this paragraph) - maybe I should just delete it
 Obviously, there are lot of other confounding elements that could introduce the Clever Hans effect on models trained 
 skin lesion images than just the rulers studied in this report.
 Figuring out if a given model was using one specific element, 
@@ -164,13 +165,20 @@ then we would expect the model to utilize that information and perform better on
 It is of course possible that there is some artifact in the imagea, like the setting of the lighting or the type of camera used,
 that the model is using but is not removed by the segmentation.
 As mentioned before, the general problem of making sure that the model is using \textit{only} the information that we as 
-the engineers deem \texit{relevant} is almost impossible.
+the engineers deem \textit{relevant} is almost impossible.
 The best way to do that in practice is to train the model on data that is collected in the same way,
 as the data that it has to be used on.
+In that way it doesn't contain any information it is not allowed to use.
 
 \subsection{Why are these results even relevant?}
-
-
+One could argue that the fact that a given model does not seem to be using a specific element of the images it was trained on, 
+is in itself not a very interesting finding.
+The results I find interesting is not as much that the model are not using the element,
+it is how difficult it was to argue.
+Deep neural networks outperforms everything else in this field,
+but we have no idea what they are doing and trying to figure it can be very difficult if not impossible.
+So these results should serve as a warning about how difficult it is to understand what deep neural networks are doing,
+and not to make fast conclusions from just a saliency map showing some small hightlighted area that fits your theory.
 
 \section{Further research}
 
