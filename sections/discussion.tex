@@ -142,8 +142,6 @@ Even though I tried, making my models biased was difficult,
 so for someone to train a model by mistake that is seems unlikely - but of course not impossible.
 
 \subsection{How big of an impact can be expected from confounfing elements?}
-% Those introduced by humans can never be better than what a human can predict
-% That of course depends largely on how the dataset is assembled.
 Obviously, there are lot of other confounding elements that could introduce the Clever Hans effect on models trained 
 skin lesion images than just the rulers studied in this report.
 Figuring out if a given model was using one specific element, 
@@ -159,9 +157,16 @@ then model must at least have learned \textit{something}, that the doctors didn'
 That argument is of course very dependent on how the data is collected,
 as the argument doesn't hold if the doctor has other external knowledge not extracted from the image.
 
-
-% Also mention the point about it can't be that big, since it performs hella well
-% on the segmented images.
+Another fact that puts an upper bound on the impact of confounding elements is that the model
+is performing better on the segmented images than on the non-segmented ones.
+If there really was a lot of information in the confounding elements around the lesion,
+then we would expect the model to utilize that information and perform better on the non-segmented images.
+It is of course possible that there is some artifact in the imagea, like the setting of the lighting or the type of camera used,
+that the model is using but is not removed by the segmentation.
+As mentioned before, the general problem of making sure that the model is using \textit{only} the information that we as 
+the engineers deem \texit{relevant} is almost impossible.
+The best way to do that in practice is to train the model on data that is collected in the same way,
+as the data that it has to be used on.
 
 \subsection{Why are these results even relevant?}
 
