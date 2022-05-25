@@ -10,13 +10,29 @@ This project focuses on the HAM10000 dataset\cite{Tschandl_2018}, which contains
 Doctors diagnose these lesions into different classes, some more dangerous than others.
 The challenge on the HAM10000 dataset is to find a model that can predict the class of a given image.
 
-\subsection{Biases in the data}
-Many different models have been trained to diagnose lesions based on medical images.
-These images are taken in a real world medical context, which can introduce unknown bias into the models.
+These images are taken in a real world medical context,
+which can introduce \textit{confounding elements} into the models,
+that is objects that can be used in the image classification,
+but are not supposed to be used.
+This could be a doctor drawing on the skin of a patient,
+or placing a ruler to help identify if the skin lesion is growing.
+
 It has even been reported that models trained on medical data where the lesions were masked out,
-% THIS IS NOT TRUE! 73% percent refers to AUC not accuracy.
-could reach an accuracy of $73\%$\cite{DeConstructing_Bias_on_Skin_Lesion_Datasets_2019}, indicating that there are other factors in the data, 
+could reach an AUC of $73\%$\cite{DeConstructing_Bias_on_Skin_Lesion_Datasets_2019},
+indicating that there is a potential for other factors in the data,
 that can be used to classify the models than the actual lesion.
 Some research has tried to introduce foreign object into the images,
 and found that they changed the classification of the lesions \cite{Towards_Explainable_Classifiers_Using_the_Counterfactual_Approach_2019}.
-These foreign objects included ruler markings, black frames and colored circles.
+
+This effect of confounding elements affecting model predictions, 
+is sometimes refered to as the \textit{Clever Hans Effect} \todo{Citation here}.
+The effect is named after the German horse Hans,
+that was supposedly able to do basic arithmetic,
+reporting his results to the owner by stomping his hoofs on the ground as many times as the result of the problem he was solving.
+It turned out he was was just able to read his owners body language and kept on stomping until the owner looked satisfied (and Hans would get his reward).
+Like Hans, a model can use part of the data we provide it that we did not intend for it to use.
+
+This makes it relevant to try to understand what impact these confounding elements have on the model.
+Especially in a field like medical image analysis,
+it very undesireable that a model is not understandable to the doctor,
+as the decisions based on the output of models in this field can have a siginificant impact on patients lives.
