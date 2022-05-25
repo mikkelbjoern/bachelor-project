@@ -38,9 +38,9 @@ IMAGE_FOLDER = os.path.dirname(os.path.realpath(__file__)) + "/images"
 @click.command()
 @click.option("--part", default=None, help="Part to build")
 def main(part):
-    if not part in parts:
+    if not part in parts and part != 'all':
         print(f"Invalid part: '{part}'")
-        close_matches = difflib.get_close_matches(part, parts)
+        close_matches = difflib.get_close_matches(part, parts.append('all'))
         if len(close_matches) > 0:
             print("Did you mean one of these?")
             for close_match in close_matches:
