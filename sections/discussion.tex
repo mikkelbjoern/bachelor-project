@@ -181,4 +181,23 @@ So these results should serve as a warning about how difficult it is to understa
 and not to make fast conclusions from just a saliency map showing some small hightlighted area that fits your theory.
 
 \section{Further research}
+\subsection{Checking through the results using a binary classifier}
+To simplify the research in this project, only a single model has been used - namely one that was trained on the multi-class problem.
+When doing analysis and metrics that is only possible with a binary classifier,
+we simply translated the $7$ classes into two classes (malignant and benign).
+It could change some of the results of the project if instead the model was trained directly on the binary problem.
+For instance it could be the case that a binary classifier is more likely to look at a ruler as a sign of malignancy,
+as it is a strong indicator of that but not weak in distinguishing between different malignant classes.
 
+\subsection{Could segmentation improve state of the art}
+In this project we trained a model that was almost state of the art.
+We saw a clear improvement in the performance of the model on the segmented images,
+so it is possible that making a model that would beat state of the art by simply adding a 
+segmentation layer to the current state of the art model.
+
+\subsection{Making a standardized test}
+The central problem in this project, was to find out if the trained model was using the rulers in the images.
+That problem was extra difficult because there was not standardized way of testing if a model was using some possibly confounding element.
+As it is a problem that can happen in many areas of machine learning,
+developing a standardized test might make it easier to test if a model is using a given element.
+Currently the researchers working in the field just find some way to test themselves and draw a conclusion from that.
