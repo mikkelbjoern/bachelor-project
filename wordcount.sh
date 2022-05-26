@@ -11,4 +11,4 @@ for file in `ls sections/*.tex`; do
 done
 
 # Print the amount of words and estimated pages of pure text.
-echo "Words: $COUNT | Pages: `expr $COUNT / 400`"
+echo "Words: $COUNT | Pages: `expr $COUNT / 550`"

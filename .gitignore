@@ -8,6 +8,7 @@
 *.bbl
 *.lof
 *.lot
+*.target
 .vscode
 build/
 *__pycache__*
