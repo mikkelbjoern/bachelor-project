@@ -125,13 +125,13 @@ def build_segmented_prediction_strength():
 
     score_table = pd.DataFrame(
         {
-            "Multiclass precision": [
+            "Multi-class precision": [
                 normal_on_normal_metrics["mc-precision"],
                 normal_on_segmented_metrics["mc-precision"],
                 segmented_on_normal_metrics["mc-precision"],
                 segmented_on_only_lesion_metrics["mc-precision"],
             ],
-            "Multiclass F1 score": [
+            "Multi-class F1 score": [
                 normal_on_normal_metrics["mc-f1"],
                 normal_on_segmented_metrics["mc-f1"],
                 segmented_on_normal_metrics["mc-f1"],

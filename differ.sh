@@ -34,7 +34,7 @@ HASH=`md5sum $FILE | cut -d ' ' -f 1`
 TEMP="/tmp/$HASH.tmp"
 # Use make-target.sh and pipe it into the output file
 
-
+./make-target.sh $FILE > $TEMP
 # If the interval is set, then start a loop
 if [ $INTERVAL -gt 0 ]; then
     # Loop until the file is not changed

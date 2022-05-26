@@ -1,5 +1,5 @@
 \chapter{Experiments and Analysis}\label{sec:testing-the-hypothesis}
-From both the background litterature and general worry about models,
+From both the background literature and general worry about models,
 there is reason to believe that a model trained on the HAM10000 dataset will be biased
 towards looking at confounding elements - hereunder the rulers in the image.
 In the following tis hypothesis will be tested using both methods that other researchers have used,
@@ -11,7 +11,7 @@ In \textit{Interpretations are useful: Penalizing Explanations to Align Neural N
 will mark out the ruler on malignant images containing one.
 With the RESNET model described in \ref{sec:model}, similar saliency maps are constructed.
 
-The saliency maps made here are gradient based as described in Section \ref{sec:gradiant_saliency_maps}.
+The saliency maps made here are gradient-based as described in Section \ref{sec:gradiant_saliency_maps}.
 In Figure \ref{fig:ruler_saliency_map} these can be seen.
 More similar examples can be seen in Appendix \ref{appendix:ruler_saliency_maps}.
 
@@ -58,7 +58,7 @@ These images don't show results nearly as clearly as the ones from the article.
 Where the paper had results showing the ruler very clearly 0 these images will often just show a half of it.
 
 \section{Statistical tests}\label{sec:statistical-tests}
-Since the tests described in the background litterature, don't show clear evidence,
+Since the tests described in the background literature, don't show clear evidence,
 that the model is biased towards looking at rulers, we will also do some basic statistical tests,
 to see if the model output is statistically significantly impacted by rulers.
 All tests will be performed under the assumption that the model is indeed impacted by ruler presence.
