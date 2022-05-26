@@ -1,6 +1,6 @@
 \chapter{Model}\label{sec:model}
 \section{ResNet18 architecture trained with MixUp}
-On the Kaggle classification competetion related to the HAM10000 dataset\cite{HAM10000-kaggle-competetion},
+On the Kaggle classification competition related to the HAM10000 dataset\cite{HAM10000-kaggle-competetion},
 another user claimed to get a $97.7\%$ Multi-class accuracy using a ResNet18 model trained with MixUp 
 (explained in Section \ref{sec:mixup})\cite{kaggle-97-model}.
 When the provided model was retrained,
@@ -14,7 +14,7 @@ Using the slight modifications to the original mode, the model reached an accura
 
 \subsection{Data augmentation}
 To compensate for the fairly small size of the dataset,
-multiple different kinds of data augmentation was used.
+multiple different kinds of data augmentation were used.
 These are explained in the following sections.
 \subsubsection{Resize}
 To standardize all the images, the images were resized to $450\times450$ pixels.
@@ -22,11 +22,11 @@ To standardize all the images, the images were resized to $450\times450$ pixels.
 \subsubsection{MixUp} \label{sec:mixup}
 MixUp is a technique to among other nice side effects minimize overfitting when training 
 an image classification model.
-The idea is to do weighted averaring of both the images and their labels.
+The idea is to do weighted averaging of both the images and their labels.
 In this case, we simply combine pairs of images and take their average.
 The same goes for their labels, that are expected to be one-hot encoded.
-For instance if two images from a $3$-class classification problem had labels $[0,0,1]$ and $[1,0,0]$,
-the resulting label would be $[0.5,0.5,0]$.
+For instance, if two images from a $3$-class classification problem had labels $[0,0,1]$ and $[1,0,0]$,
+the resulting label would be $[\frac12,0,\frac12]$.
 On Figure 
 \begin{figure}
     % Make three subfigures
@@ -49,8 +49,8 @@ On Figure
 \end{figure}
 
 MixUp as a data augmentation technique has been shown to increase the accuracy of models \cite{mixup-paper}.
-It does however come with the downside, that it is computationally expensive,
-since a lot of epocs are needed for it to work effectively.
+It does, however, come with the downside, that it is computationally expensive,
+since many epochs are needed for it to work effectively.
 
 \subsubsection{Rotation and Flip}
 The images were rotated and flipped to increase the dataset size.
@@ -86,10 +86,10 @@ which collects images of skin lesions and hosts annual competitions for skin les
 They are divided into seven classes as seen in the Table \ref{table:ham10000}.
 A \textit{severity} has also been assigned each class.
 These indicate if the lesion class benign, malignant or pre-malignant.
-Malignant tumors are those where the cells are replicationg uncontrollably,
+Malignant tumors are those where the cells are replicating uncontrollably,
 and there is a risk of these cells spreading to the rest of the body.
-Beningn tumors can still hurt the patient, but are much less of a worry,
-as they are not replicationg uncontrollably and hence do not lead to cancer.
+Benign tumors can still hurt the patient, but are much less of a worry,
+as they are not replicating uncontrollably and hence do not lead to cancer.
 
 \begin{table}[ht]
 \begin{center}
@@ -110,14 +110,14 @@ df       & Dermatofibroma                & benign        & $1.14\%$           \\
 \label{table:ham10000}
 \end{table}
 
-\subsection{State of the art models}\label{sec:state-of-the-art}
+\subsection{State-of-the-art models}\label{sec:state-of-the-art}
 Due to the public nature of the dataset, many different models have been trained on it.
 As of the time of writing, the best performing model published in a scientific paper,
 reaches an accuracy of $93.4\%$\cite{datta2021soft}.
 
 \subsection{Confounding elements in the data} \label{sec:confounding}
 The dataset contains images of skin lesions, which are taken in a real world medical context.
-In this context doctors might introduce foreign objects into the images,
+In this context, doctors might introduce foreign objects into the images,
 to help in the treatment of the patient.
 Examples of these can be seen on Figure \ref{fig:confounding_objects}.
 
@@ -133,14 +133,14 @@ Examples of these can be seen on Figure \ref{fig:confounding_objects}.
         \end{subfigure}
         \begin{subfigure}[b]{0.3\textwidth}
             \includegraphics[width=\textwidth]{./images/ISIC_0027514.jpg}
-            \caption{Image skin lesion with blue ink}
+            \caption{Image of skin lesion with blue ink}
         \end{subfigure}
     \end{center}
     \caption{Images with different confounding objects}
     \label{fig:confounding_objects}
 \end{figure}
 
-Labeling some of these confounding objects, we see that the rulers occur way more often than the others with a prevalence of roughly $17\%$ (See Table \ref{table:confounding_objects}).
+Labeling some of these confounding objects, we see that the rulers occur way more often than the others, with a prevalence of roughly $17\%$ (See Table \ref{table:confounding_objects}).
 Due to this higher prevalence, the study done in this project will focus on the ruler markings over the other confounding objects.
 
 \begin{table}
@@ -168,8 +168,8 @@ On Figure \ref{fig:ruler_vs_dx} indications of correlations between the ruler ma
 \label{fig:ruler_vs_dx}
 \end{figure}
 
-The two benign classes \textit{mel} and \textit{bkl} are both over represented on pictures with ruler markings copared to those without.
-In general almost every class except the biggest \textit{nv} class is over represented.
+The two benign classes \textit{mel} and \textit{bkl} are both overrepresented on pictures with ruler markings compared to those without.
+In general almost every class except the biggest \textit{nv} class is overrepresented.
 The hypothesis that the presence of rulers in the images is correlated with the HAM10000, can be confirmed by a $\chi^2$-contingency test.
 The null hypothesis of this test is that the presence of rulers in the images is not correlated with the HAM10000 labels.
 The test value is 
@@ -181,14 +181,12 @@ degrees of freedom, resulting in a $p$-value of
 which is obviously significant.
 
 \begin{center}
-    \includegraphics[
-        width=0.7\textwidth,
-    ]{build/prediction_strength/confusion_matrix_seaborn.png}
+    \includegraphics[width=0.7\textwidth]{build/prediction_strength/confusion_matrix_seaborn.png}
     \captionof{figure}{Confusion matrix of the model prediction on the dataset. 
         Normalization has been done over the truth.
     }
     \label{fig:prediction_strength}
-\end{figure}
+\end{center}
 
 \section{Prediction precision on different classes}
 The model is trained on $80\%$ of the data, and is tested on the remaining $20\%$.
