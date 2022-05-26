@@ -1,7 +1,7 @@
 %--------------------
 % Packages
 % -------------------
-\documentclass[11pt,a4paper]{report}
+\documentclass[11pt,a4paper,notitlepage]{report}
 %\usepackage{gentium}
 
 \usepackage[
@@ -67,6 +67,11 @@ pdfauthor = {Mikkel Bjørn Goldschmidt}
 
 \renewcommand\sectionmark[1]{\markright{\thesection.\ #1}}
 
+\usepackage[T1]{fontenc}
+\usepackage{titlesec, blindtext, color}
+\definecolor{gray75}{gray}{0.75}
+\newcommand{\hsp}{\hspace{20pt}}
+\titleformat{\chapter}[hang]{\Huge\bfseries}{\thechapter\hsp\textcolor{gray75}{|}\hsp}{0pt}{\Huge\bfseries}
 %-----------------------
 % Begin document
 %-----------------------
