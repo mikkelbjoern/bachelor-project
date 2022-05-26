@@ -15,6 +15,7 @@ from src.build_prediction_strength import build_prediction_strength
 from src.build_near_neigh import build_near_neigh
 from src.build_segmented_prediction_strength import build_segmented_prediction_strength
 from src.build_segmented_images_example import build_segmented_images_examlpe
+from src.build_data_aug_examples import build_data_aug_examples
 import difflib
 
 # The second argument in the tuple is weather the part is default built
@@ -27,7 +28,8 @@ parts_and_default = [
     ("prediction_strength", True),
     ("near_neigh", False),
     ("segmented_prediction_strength", True),
-    ("segmented_images_example", True)
+    ("segmented_images_example", True),
+    ("data_aug_examples", True)
 ]
 parts = [part for part, _ in parts_and_default]
 
@@ -117,6 +119,9 @@ def build_part(part):
     
     if part == "only_lesion_saliency_maps":
         build_only_lesion_saliency_maps()
+
+    if part == "data_aug_examples":
+        build_data_aug_examples()
 
 
 if __name__ == "__main__":

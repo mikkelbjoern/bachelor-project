@@ -1,20 +1,83 @@
 \chapter{Model}\label{sec:model}
-This project uses the same general architecture for all trained models.
-% TODO: Write more about the model
-
 \section{ResNet18 architecture trained with MixUp}
 On the Kaggle classification competetion related to the HAM10000 dataset\cite{HAM10000-kaggle-competetion},
-another user claimed to get a $97.7\%$ accuracy using a ResNet18 model trained with MixUp\cite{kaggle-97-model}.
-When the provided model was retrained, the results were not as good as claimed.
-The actual accuracy was in the range of $90\%$ to $92\%$, depending on the data split.
+another user claimed to get a $97.7\%$ Multi-class accuracy using a ResNet18 model trained with MixUp 
+(explained in Section \ref{sec:mixup})\cite{kaggle-97-model}.
+When the provided model was retrained,
+the results were not as good as claimed.
+The actual accuracy was in the range of $90\%$ to $92\%$,
+depending on the data split.
 That is however still close to the best performing model published (see \ref{sec:state-of-the-art}).
 
 The actual implementation of the model can be seen in Appendix \ref{appendix:resnet-18-mixup}.
-Using the slight modifications to the original mode, the model reached an accuracy of roughly $91\%$.
+Using the slight modifications to the original mode, the model reached an accuracy of roughly $91.5\%$.
 
-\section{Prediction precision on different classes}
-The model is trained on roughly $80\%$ of the data, and is tested on the remaining $20\%$.
-In Figure \ref{fig:prediction_strength} a confusion matrix for the trained model tested on the test set is shown.
+\subsection{Data augmentation}
+To compensate for the fairly small size of the dataset,
+multiple different kinds of data augmentation was used.
+These are explained in the following sections.
+\subsubsection{Resize}
+To standardize all the images, the images were resized to $450\times450$ pixels.
+
+\subsubsection{MixUp} \label{sec:mixup}
+MixUp is a technique to among other nice side effects minimize overfitting when training 
+an image classification model.
+The idea is to do weighted averaring of both the images and their labels.
+In this case, we simply combine pairs of images and take their average.
+The same goes for their labels, that are expected to be one-hot encoded.
+For instance if two images from a $3$-class classification problem had labels $[0,0,1]$ and $[1,0,0]$,
+the resulting label would be $[0.5,0.5,0]$.
+On Figure 
+\begin{figure}
+    % Make three subfigures
+    %\includegraphics[width=0.3\textwidth]{build/data_aug_examples/image_A.jpg}
+    \begin{subfigure}{0.3\textwidth}
+        \includegraphics[width=\textwidth]{build/data_aug_examples/image_A.jpg}
+        \caption{Image A}
+        \label{fig:image-A}
+    \end{subfigure}
+    \begin{subfigure}{0.3\textwidth}
+        \includegraphics[width=\textwidth]{build/data_aug_examples/image_B.jpg}
+        \caption{Image B}
+    \end{subfigure}
+    \begin{subfigure}{0.3\textwidth}
+        \includegraphics[width=\textwidth]{build/data_aug_examples/image_A_mixup.jpg}
+        \caption{Image A mixed with Image B}
+    \end{subfigure}
+    \captionof{figure}{Example two images of skin lesions mixed using MixUp}
+    \label{fig:mixup-example}
+\end{figure}
+
+MixUp as a data augmentation technique has been shown to increase the accuracy of models \cite{mixup-paper}.
+It does however come with the downside, that it is computationally expensive,
+since a lot of epocs are needed for it to work effectively.
+
+\subsubsection{Rotation and Flip}
+The images were rotated and flipped to increase the dataset size.
+Since it should matter which side an image is captured from, 
+the rotation shouldn't matter to a perfect model.
+For the same reason, neither should a mirrored image.
+Examples of how this works can be seen in Figure \ref{fig:dihedral-flip-examples}.
+\begin{center}
+    \includegraphics[width=0.8\textwidth]{./build/data_aug_examples/dihedral_flip_examples.png}
+    \captionof{figure}{Example of an image of a lesion flipped and rotated in all possible combinations.}
+    \label{fig:dihedral-flip-examples}
+\end{center}
+
+\subsubsection{Cropping}
+Since fills out most of the image,
+it shouldn't matter a lot if the image is cropped.
+The images are cropped such that between $75\%$ and $100\%$ of the image is visible.
+The crop is then made on a random location of the image.
+An example of this can be seen in Figure \ref{fig:cropping-example}
+
+\begin{center}
+    \includegraphics[width=0.3\textwidth]{./build/data_aug_examples/image_A_crop.jpg}
+    \captionof{figure}{Image of the lesion in Figure \ref{fig:image-A} cropped.}
+    \label{fig:cropping-example}
+\end{center}
+
+
 
 \section{The HAM10000 dataset}
 The HAM10000 dataset contains 10015 images of skin lesions.
@@ -126,3 +189,15 @@ which is obviously significant.
     }
     \label{fig:prediction_strength}
 \end{figure}
+
+\section{Prediction precision on different classes}
+The model is trained on $80\%$ of the data, and is tested on the remaining $20\%$.
+
+In Figure \ref{fig:prediction_strength} a confusion matrix for the trained model tested on the test set is shown.
+The metrics described in Section \ref{sec:model_metrics} calculated for the model can be seen in Table \ref{tab:resnet-model-metrics}.
+\begin{table}
+    \centering
+    \input{build/segmented_prediction_strength/metrics_table.tex}
+    \caption{Metrics for the model as evaluated on the $20\%$ test set.}
+    \label{tab:resnet-model-metrics}
+\end{table}

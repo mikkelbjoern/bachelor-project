@@ -165,3 +165,34 @@ def build_segmented_prediction_strength():
         multicolumn=True,
         # column_format="l|rr|rr|",
     )
+
+    # Make a table containing just the metrics from the original model
+    metrics_table = pd.DataFrame(
+        {
+            "Multi-class precision": [
+                normal_on_normal_metrics["mc-precision"],
+            ],
+            "Multi-class F1 score": [
+                normal_on_normal_metrics["mc-f1"],
+            ],
+            "Binary precision": [
+                normal_on_normal_metrics["b-precision"],
+            ],
+            "Malignant F1 score": [
+                normal_on_normal_metrics["b-f1"],
+            ],
+            "Malignant recall": [
+                normal_on_normal_metrics["b-recall"],
+            ],
+        },
+        index=pd.Index(
+            [
+                "Model metrics"
+            ],
+            name="",
+        ),
+    ).transpose()
+
+    metrics_table.to_latex("metrics_table.tex", bold_rows=True)
+
+
