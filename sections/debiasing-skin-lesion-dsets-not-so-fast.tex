@@ -3,40 +3,41 @@ In their paper
 ''Debiasing Skin Lesion Datasets and Model. Not So Fast''
 Bissoto, Alceu and Valle look into debiasing models trained on
 skin lesion images \cite{debias-not-so-fast}.
-They go through $7$ differenct artifacts in the images that could
-be confunding elements, and try state of the art methods to
+They go through $7$ different artifacts in the images that could
+be confounding elements, and try state-of-the-art methods to
 make them disregard the artifacts.
 These include the rulers, that is the focus of this report.
 The paper makes several claims about biases that occur in
-skin lesion models.
-Their focus is the removal of bias, but in that proces they
-make claims about the model actually being biased.
+their skin lesion classification models.
+Their focus is the removal of these bias, but the relevance to this project is that they
+make claims about their models actually being biased.
 
-\subsection{Arguments for the model being biased}
+\subsection{Arguments that the model is using the artifacts}
 The researchers trained multiple different models to detect if the
 images contained malignant or benign lesions.
-Note that this classification is a simlified version of the classes
-that is used in this report (see the severity column of Table \ref{table:ham10000}).
-Just as in this report, the researchers also used the RESNET-18 architecture.
-They then utilize that the architecture is setup in way where first a set of features
+Note that this classification is a simplified version of the classes
+that is used in this report, as they only focus on whether a lesion is malignant or benign.
+The researchers used the RESNET-18 architecture, as the basis for all their models.
+They then utilize that the architecture is set up in a way where first a set of features
 are extracted from the images using convolutional layers, and then fed into a fully connected layer. 
 An outline of this is shown on Figure \ref{fig:resnet-outline}.
-As shown in the figure, thwe convolutional layer exports a tensor.
-This tensor can then be converted into a vector, which can be interpreted as a feature vector for the image.
-Intuitively two images with \textit{similar} elements in the image should have a similar feature vector.
-Utilizing this idea the researchers calculate these vectors for the entire test dataset.
-The researchers then find that there is a small euclidean distance between the feature vectors of images
-that have the same artifacts.
-They show this by finding the nearest neighbors (with the distance measure between images being the euclidean distance between their feature vectors)
-of different images artifact, and find that these neighbors often contain the same artifacts.
-Their results are shown in Figure \ref{fig:not-so-fast-artifact-query}.
-
 
 \begin{center}
     \includegraphics[width=0.9\textwidth]{images/resnet-outline.png}
     \captionof{figure}{A simplified view of the RESNET-18 architecture}
     \label{fig:resnet-outline}
 \end{center}
+
+As shown in the figure, the convolutional layer outputs a tensor (for definition of tensors, see Section \ref{sec:tensor}).
+This tensor can then be converted into a vector, which can be interpreted as a feature vector for the image.
+Intuitively, two images with \textit{similar} elements in the image should have a similar feature vector.
+Utilizing this idea, the researchers calculate these vectors for the entire test dataset.
+They then find that there is a relatively small euclidean distance between the feature vectors of images
+that contain the same artifacts.
+They show this by finding the nearest neighbors (with the distance measure between images being the euclidean distance between their feature vectors)
+of different images artifact, and find that these neighbors often contain the same artifacts.
+Their results are shown in Figure \ref{fig:not-so-fast-artifact-query}.
+
 
 \begin{center}
     \includegraphics[width=0.4\textwidth]{images/not-so-fast-artifact-query.png}
@@ -50,4 +51,4 @@ Their results are shown in Figure \ref{fig:not-so-fast-artifact-query}.
 
 From the fact that the feature vectors of the images with the same artifacts are relatively small,
 they conclude that the model is biased towards the artifacts - since the features it extracts seem to contain information about the artifacts.
-The paper then goes on to examining how to mitigate these biases, but this is not relavant to this report.
+The paper then goes on to examining how to mitigate these biases, but this is not relevant to this report.
