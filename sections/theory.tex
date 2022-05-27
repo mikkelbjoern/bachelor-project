@@ -51,6 +51,7 @@ researchers tackle two different kinds of classifications.
 To enable comparison with as many other studies as possible,
 we will report different metrics
 on both problems as described in the following.
+All of the metrics are in the $\[0, 1\]$ interval with $0$ being the worst score and $1$ being the best.
 
 \subsection{Multi-class Accuracy}
 Accuracy is the percentage of predictions that are correct.
@@ -84,6 +85,9 @@ On its own, a very high malignant recall does not mean the model is excellent,
 as one can trivially, make it $1$ by just having a model that always predicts malignant, no matter the image.
 
 \subsection{Malignant F1 score}
+For the binary \textit{malignant vs. benign} problem, we would like to have a general score 
+that takes class imbalance into account.
+For this purpose, the F1 score is often used.
 In general, the F1 score is defined as
 \[
     \text{F1 score} = \frac{2 \cdot \text{Precision} \cdot \text{Recall}}{\text{Precision} + \text{Recall}}
@@ -157,7 +161,7 @@ where the classification of a model might influence if a patient is correctly di
 it is very desirable to know what the model is doing to be able to critique its predictions.
 
 In image analysis, a tool to try to understand models are the so-called \textit{saliency maps}.
-A saliency map is supposed to be a visual representation what parts of the image are influential on the model,
+A saliency map is supposed to be a visual representation of what parts of the image are influential on the model,
 when it made a given prediction.
 In Figure \ref{fig:interps-are-useful-saliency-maps} a saliency map over a skin lesion is shown. 
 
@@ -169,7 +173,7 @@ One of the most popular ones is the gradient-based method (explained below).
 This method is popular because it is computationally efficient,
 and the implementation comes almost for free if back propagation is implemented.
 
-\subsection{Gradient-based saliency maps} \label{sec:gradiant_saliency_maps}
+\subsection{Class specific gradient-based saliency maps} \label{sec:gradiant_saliency_maps}
 As described in Section \ref{sec:partial_derivatives_of_scalar_over_vector},
 if a function $f: \mathbb{R}^n \rightarrow \mathbb{R}$ is defined,
 then the gradient of $f$ in a point $x\in\mathbb{R}$ is a vector in the space $\mathbb{R}^n$.
