@@ -10,6 +10,9 @@ bibliography:
 pdf:
 	pdflatex -shell-escape -interaction=nonstopmode main.tex
 
+presentation:
+	TEXINPUTS=./external//:$$TEXINPUTS pdflatex -shell-escape presentation.tex
+
 prereqs := dynamic_content
 fullpdf: $(prereqs)
 	make -i pdf
