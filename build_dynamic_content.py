@@ -16,6 +16,7 @@ from src.build_near_neigh import build_near_neigh
 from src.build_segmented_prediction_strength import build_segmented_prediction_strength
 from src.build_segmented_images_example import build_segmented_images_examlpe
 from src.build_data_aug_examples import build_data_aug_examples
+from src.build_examples_images import build_example_images
 import difflib
 
 # The second argument in the tuple is weather the part is default built
@@ -29,7 +30,8 @@ parts_and_default = [
     ("near_neigh", False),
     ("segmented_prediction_strength", True),
     ("segmented_images_example", True),
-    ("data_aug_examples", True)
+    ("data_aug_examples", True),
+    ("example_images", True),
 ]
 parts = [part for part, _ in parts_and_default]
 
@@ -41,16 +43,16 @@ IMAGE_FOLDER = os.path.dirname(os.path.realpath(__file__)) + "/images"
 @click.option("--part", default=None, help="Part to build")
 def main(part):
     if not part is None:
-        if not part in parts and part != 'all':
+        if not part in parts and part != "all":
             print(f"Invalid part: '{part}'")
-            close_matches = difflib.get_close_matches(part, parts.append('all'))
+            close_matches = difflib.get_close_matches(part, parts.append("all"))
             if len(close_matches) > 0:
                 print("Did you mean one of these?")
                 for close_match in close_matches:
                     print(f"\t{close_match}")
             exit(1)
 
-        if part != 'all':
+        if part != "all":
             print(f"Building part: '{part}'")
         else:
             print("Building all parts")
@@ -67,7 +69,7 @@ def main(part):
         for part, default_build in parts_and_default:
             if default_build:
                 build_part(part)
-    elif part == 'all':
+    elif part == "all":
         for part, _ in parts_and_default:
             build_part(part)
     else:
@@ -85,7 +87,7 @@ def build_part(part):
             path = part_folder + "/" + file
             if os.path.isfile(path):
                 os.remove(path)
-            
+
             # Check if the path is a symlink
             if os.path.islink(path):
                 os.remove(path)
@@ -105,24 +107,27 @@ def build_part(part):
 
     if part == "saliency_maps":
         build_saliency_maps()
-    
+
     if part == "prediction_strength":
         build_prediction_strength()
-    
+
     if part == "near_neigh":
         build_near_neigh()
 
     if part == "segmented_prediction_strength":
         build_segmented_prediction_strength()
-    
+
     if part == "segmented_images_example":
         build_segmented_images_examlpe()
-    
+
     if part == "only_lesion_saliency_maps":
         build_only_lesion_saliency_maps()
 
     if part == "data_aug_examples":
         build_data_aug_examples()
+
+    if part == "example_images":
+        build_example_images()
 
 
 if __name__ == "__main__":

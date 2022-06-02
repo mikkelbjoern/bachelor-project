@@ -23,6 +23,8 @@
 %\usepackage{sourcesanspro} % sans-serif
 \usepackage{charter} % serif
 
+%\newcommand{\figurelabel}[1]{\vspace{1cm}\\\textbf{#1}}
+
 % Use DTU theme, see below for options
 \usetheme[department=compute]{DTU}
 
@@ -46,14 +48,35 @@
 \frame{
 	\frametitle{Diagnosing skin lesions}
 	% Insert some images of skin lesions here
+	\textbf{Dataset}: HAM10000 (Human Against Machine)\\
+	\vspace{1cm}
 
+	\begin{columns}
+		\begin{column}{0.4\textwidth}
+			\includegraphics[width=\textwidth]{build/example_images/example_images.png}
+		\end{column}
+		\begin{column}{0.55\textwidth}
+			\tiny
+			\begin{table}[ht]
+				\begin{center}
+					\begin{tabular}{|c|c|c|c|c|c|c|}
+						\hline
+						Label & Name                          & Severity      & Dataset prevalence \\ \hline
+						akiec & Bowens disease                & pre-malignant & $3.27\%$           \\ \hline
+						nv    & Melanocytic nevi              & benign        & $66.94\%$          \\ \hline
+						mel   & Melanoma                      & malignant     & $11.11\%$          \\ \hline
+						bkl   & Benign keratosis-like lesions & benign        & $10.97\%$          \\ \hline
+						bcc   & Basal cell carcinoma          & malignant     & $5.13\%$           \\ \hline
+						vasc  & Vascular lesions              & benign        & $1.41\%$           \\ \hline
+						df    & Dermatofibroma                & benign        & $1.14\%$           \\ \hline
+					\end{tabular}
+				\end{center}
+				\vspace{1em}
+				\textbf{Table 4.1}
+			\end{table}
+		\end{column}
+	\end{columns}
 }
 
-\frame{
-	\frametitle{The Clever Hans Effect}
-
-	<1-2>{Image of Clever Hans}
-	<2->{Images of rulers}
-}
 
 \end{document}
